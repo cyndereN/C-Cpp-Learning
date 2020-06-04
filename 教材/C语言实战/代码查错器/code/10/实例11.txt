@@ -1,0 +1,16 @@
+#include<stdio.h>						/*包含头文件*/
+void main()						/*主函数main*/
+{
+		char str1[]=”you are beautiful”,str2[30],*p1,*p2;/*定义变量，并为字符数组赋值*/
+ 		p1=str1; 					/*将字符串1第一个字符地址赋值给p1*/
+		p2=str2; 					/*将字符串2第一个字符地址赋值给p2*/
+		while(*p1!=’\0’)				/*结束标志*/
+		{
+			*p2=*p1;
+			p1++;					/*指针移动*/
+			p2++;
+		}
+		*p2=’\0’; 					/*在字符串的末尾加结束符*/
+		printf(“Now the str2 is:\n”);
+		puts(str2); 					/*输出字符串*/
+}

@@ -1,0 +1,68 @@
+bool canMove(Dir direction) { //判断是否可以进行指定方向的操作
+ int i,j;
+ switch(direction) {
+ case UP:
+ //依次检查每一列
+  for(i=0;i<4;i++){
+  //首先排除在远端的一串空位,直接将j指向第一个非零元素
+   for(j=3;j>=0;j--)
+    if(MAP[j][i])
+     break;
+  //j>0代表这一列并非全部为0
+   if(j>0)
+  //依次检查每一个剩余元素,遇见空位直接返回true
+    for(;j>=0;j--)
+     if(!MAP[j][i])
+      return true;
+  //依次检查相邻的元素是否存在相同的非零数字
+   for(j=3;j>0;j--)
+    if(MAP[j][i]&&MAP[j][i]==MAP[j-1][i])
+     return true;
+  }
+  break;
+ case DOWN://同上
+  for(i=0;i<4;i++){
+   for(j=0;j<4;j++)
+    if(MAP[j][i]) break;
+   if(j<4)
+    for(;j<4;j++)
+     if(!MAP[j][i]) return true;
+   for(j=0;j<3;j++)
+    if(MAP[j][i]&&MAP[j][i]==MAP[j+1][i])
+     return true;
+  
+  }
+  break;
+ case LEFT://同上
+  for(i=0; i<4; i++){
+   for(j=3;j>=0;j--)
+    if(MAP[i][j])
+     break;
+   if(j>=0)
+    for(;j>=0;j--)
+     if(!MAP[i][j])
+      return true;
+   for(j=0;j<3;j++)
+    if(MAP[i][j]&&MAP[i][j]==MAP[i][j+1])
+     return true;
+  }
+  break;
+ case RIGHT://同上
+  for(i=0; i<4; i++){
+   for(j=0;j<4;j++)
+    if(MAP[i][j])
+     break;
+   if(j<4)
+    for(;j<4;j++)
+     if(!MAP[i][j])
+      return true;
+   for(j=0;j<3;j++){
+    if(MAP[i][j]&&MAP[i][j]==MAP[i][j+1])
+     return true;
+   }
+  }
+  break;
+ }
+ //当允许条件都被检查过后,返回不可执行的结果
+ return false;
+}

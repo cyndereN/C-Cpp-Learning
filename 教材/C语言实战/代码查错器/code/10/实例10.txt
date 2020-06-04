@@ -1,0 +1,8 @@
+#include<stdio.h>                                        /*包含头文件*/
+int main()                                               /*主函数main*/
+{
+    char *string=”hello”;                                /*定义指针并初始化*/
+    printf(“%s”,string);                                 /*输出字符串*/
+    printf(“\n”);                                        /*换行*/
+    return 0;                                            /*程序结束*/
+}

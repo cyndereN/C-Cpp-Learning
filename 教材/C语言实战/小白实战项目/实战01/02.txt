@@ -1,0 +1,112 @@
+//将整个棋盘算出并储存到缓冲器，然后调用Display函数显示出来
+    void Print()
+    {
+    int i,j;//循环变量
+    wl=0;
+    wp=0;
+    for(j=0;j<=MAXIMUS;j++)//写入出交点左上角的字符，因为需要打印棋盘右下角，所以很以横纵各多一次循环
+    {
+    for(i=0;i<=MAXIMUS;i++)
+    {
+    write(getCurse(i,j));//写入左上角字符
+    if(j==0||j==MAXIMUS)//如果是棋上下盘边缘则没有连接的竖线，用空格填充位置
+    {
+    if(i!=MAXIMUS)
+    write("　");
+    }
+    else//如果在棋盘中间则用竖线承接上下
+    {
+    if(i==0||i==MAXIMUS-1)//左右边缘的竖线更粗
+    write("┃");
+    else if(i!=MAXIMUS)//中间的竖线
+    write("│");
+    }
+    }
+    if(j==MAXIMUS)//如果是最后一次循环，则只需要处理边侧字符，交点要少一排
+    {
+    break;
+    }
+    ln();//提行开始打印交点内容
+    write("　");//用空位补齐位置
+    for(i=0;i<MAXIMUS;i++)//按横坐标循环正常的次数
+    {
+    write(getStyle(i,j));//写入交点字符
+    if(i!=MAXIMUS-1)//如果不在最右侧则补充一个横线承接左右
+    {
+    if(j==0||j==MAXIMUS-1)
+    {
+    write("━");//上下边缘的横线更粗
+    }
+    else
+    {
+    write("—");//中间的横线
+    }
+    }
+    }
+    ln();//写完一行后提行
+    }
+    Display();//将缓冲器内容输出到屏幕
+    }
+    int Put(){//在当前光标位置走子，如果非空，则返回0表示失败
+    if(p[Cx][Cy]==0)
+    {
+    p[Cx][Cy]=Now;//改变该位置数据
+    return 1;//返回1表示成功
+    }
+    else
+    {
+    return 0;
+    }
+    }
+    //胜负检查，即判断当前走子位置有没有造成五连珠的情况
+    int Check()
+    {
+    int w=1,x=1,y=1,z=1,i;//累计横竖正斜反邪四个方向的连续相同棋子数目
+    for(i=1;i<5;i++)
+        if(Cy+i<MAXIMUS&&p[Cx][Cy+i]==Now)
+            w++;
+        else 
+            break;//向下检查
+    for(i=1;i<5;i++)
+        if(Cy-i>0&&p[Cx][Cy-i]==Now)
+            w++;
+        else 
+            break;//向上检查
+    if(w>=5)
+        return Now;//若果达到5个则判断当前走子玩家为赢家
+    for(i=1;i<5;i++)
+        if(Cx+i<MAXIMUS&&p[Cx+i][Cy]==Now)
+            x++;
+        else 
+            break;//向右检查
+    for(i=1;i<5;i++)
+        if(Cx-i>0&&p[Cx-i][Cy]==Now)
+            x++;
+        else 
+            break;//向左检查
+    if(x>=5)
+        return Now;//若果达到5个则判断当前走子玩家为赢家
+    for(i=1;i<5;i++)
+        if(Cx+i<MAXIMUS&&Cy+i<MAXIMUS&&p[Cx+i][Cy+i]==Now)
+            y++;
+        else
+            break;//向右下检查
+    for(i=1;i<5;i++)
+        if(Cx-i>0&&Cy-i>0&&p[Cx-i][Cy-i]==Now)
+            y++;
+        else 
+            break;//向左上检查
+    if(y>=5)
+        return Now;//若果达到5个则判断当前走子玩家为赢家
+    for(i=1;i<5;i++)
+        if(Cx+i<MAXIMUS&&Cy-i>0&&p[Cx+i][Cy-i]==Now)
+            z++;
+        else 
+            break;//向右上检查
+    for(i=1;i<5;i++)
+        if(Cx-i>0&&Cy+i<MAXIMUS&&p[Cx-i][Cy+i]==Now)
+            z++;
+        else
+            break;//向左下检查 if(z>=5)return Now;//若果达到5个则判断当前走子玩家为赢家
+    return 0;//若没有检查到五连珠，则返回0表示还没有玩家达成胜利
+    }

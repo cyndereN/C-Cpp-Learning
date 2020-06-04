@@ -1,0 +1,49 @@
+void move(Dir direction) { //移动数字
+ int i,j,k;
+ switch(direction) {
+ case UP:
+  //按列枚举
+  for(i=0;i<4;i++)
+  //对于每一行的每一个元素
+   for(j=0;j<4;j++)
+  //如果非零,那么应当取消当前位置,后边元素向前移动
+    if(!MAP[j][i]){
+     for(k=j;k<3;k++){
+      MAP[k][i]=MAP[k+1][i];
+     }
+   //新产生的空位置零
+     MAP[k][i]=0;
+    }
+  break;
+ case LEFT://同上
+  for(i=0;i<4;i++)
+   for(j=0;j<4;j++)
+    if(!MAP[i][j]){
+     for(k=j;k<3;k++){
+      MAP[i][k]=MAP[i][k+1];
+     }
+     MAP[i][k]=0;
+    }
+  break;
+ case DOWN://同上
+  for(i=0;i<4;i++)
+   for(j=3;j>=0;j--)
+    if(!MAP[j][i]){
+     for(k=j;k>0;k--){
+      MAP[k][i]=MAP[k-1][i];
+     }
+     MAP[k][i]=0;
+    }
+  break;
+ case RIGHT://同上
+  for(i=0;i<4;i++)
+   for(j=3;j>=0;j--)
+    if(!MAP[i][j]){
+     for(k=j;k>0;k--){
+      MAP[i][k]=MAP[i][k-1];
+     }
+     MAP[i][k]=0;
+    }
+  break;
+ }
+}

@@ -1,0 +1,8 @@
+#include<stdio.h>                 /*包含头文件*/
+int main()                        /*主函数main*/
+{
+		signed int iNumber;     /*定义一个整型变量*/
+		iNumber=1314;           /*为整型变量进行赋值*/
+		printf(“%d\n”,iNumber); /*显示整型变量，%d表示按照整型格式进行输出*/
+		return 0;               /*程序结束*/
+}

@@ -1,0 +1,82 @@
+//修改过的字符串复制函数，会忽略末端的\0
+    char* Copy(char* strDest,const char* strSrc)
+    {
+    char* strDestCopy = strDest;
+    while (*strSrc!='\0')
+    {
+    *strDest++=*strSrc++;
+    }
+    return strDestCopy;
+    }
+    //初始化一个对局函数
+    void Initialize()
+    {
+    int i,j;//循环变量
+    showText="";//重置显示信息
+    count=0;//回合数归零
+    for(i=0;i<MAXIMUS;i++)//重置对局数据
+    {
+    for(j=0;j<MAXIMUS;j++)
+    {
+    p[i][j]=0;
+    }
+    }
+    Cx=Cy=MAXIMUS/2;//重置光标到中央
+    Now=1;//重置当前为黑方
+    }
+    //获得棋盘中指定坐标交点位置的字符，通过制表符拼成棋盘
+    char* getStyle(int i,int j)
+    {
+    if(p[i][j]==1)//1为黑子
+    return "●";
+    else if(p[i][j]==2)//2为白子
+    return "○";
+    else if(i==0&&j==0)//以下为边缘棋盘样式
+    return "┏";
+    else if(i==MAXIMUS-1&&j==0)
+    return "┓";
+    else if(i==MAXIMUS-1&&j==MAXIMUS-1)
+    return "┛";
+    else if(i==0&&j==MAXIMUS-1)
+    return "┗";
+    else if(i==0)
+    return "┠";
+    else if(i==MAXIMUS-1)
+    return "┨";
+    else if(j==0)
+    return "┯";
+    else if(j==MAXIMUS-1)
+    return "┷";
+    return "┼";//中间的空位
+    }
+    //获得指定坐标交点位置左上格的样式，通过制表符来模拟光标的显示
+    char* getCurse(int i,int j)
+    {
+    if(i==Cx)
+    {
+    if(j==Cy)
+    return "┏";
+    else if (j==Cy+1)
+    return "┗";
+    }
+    else if(i==Cx+1)
+    {
+    if(j==Cy)
+    return "┓";
+    else if (j==Cy+1)
+    return "┛";
+    }
+    return "　";//如果不在光标附近则为空
+    }
+    //向缓冲器写入字符串
+    void write(char* c)
+    {
+    Copy(buff[wl]+wp,c);
+    wp+=strlen(c);
+    }
+    //缓冲器写入位置提行
+    void ln()
+    {
+    wl+=1;
+    wp=0;
+    }

@@ -1,0 +1,16 @@
+#include<stdio.h>					/*包含头文件*/
+#define NUM 50					/*定义宏，表示NUM替代50*/
+void main()					/*主函数main*/
+{
+	int i=0; 					/*定义变量*/
+·	#if NUM>50					/*判断NUM是否大于50*/
+		i++;
+ 	#endif
+ 	#if NUM==50					/*判断NUM是否等于50*/
+		i=i+50; 				/*表达式运算*/
+ 	#endif
+ 	#if NUM<50					/*判断NUM是否小于50*/
+		i--;					/*表达式运算*/
+ 	#endif
+		printf(“Now i is:%d\n”,i);     	/*输出结果*/
+}

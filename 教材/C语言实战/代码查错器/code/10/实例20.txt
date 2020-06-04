@@ -1,0 +1,17 @@
+#include<stdio.h>					/*包含头文件*/
+int per(int a,int b); 				/*声明函数*/
+void main()					/*主函数main*/
+{
+		int iWidth,iLength,iResult;	 	/*定义变量*/
+		printf(“请输入长方形的长:\n”);	 	/*提示*/
+		scanf(“%d”,&iLength); 	          	/*输入长度*/
+		printf(“请输入长方形的宽:\n”);		/*提示*/
+		scanf(“%d”,&iWidth); 			/*输入宽度*/
+		iResult=per(iWidth,iLength); 		/*调用函数*/
+		printf(“长方形的周长是:”); 		/*提示*/
+		printf(“%d\n”,iResult); 		/*输出结果*/
+}
+int per(int a,int b) 				/*自定义函数*/
+{
+		return (a+b)*2; 			/*返回计算结果*/
+}

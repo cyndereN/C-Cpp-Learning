@@ -1,0 +1,12 @@
+#include<stdio.h>                                       	/*包含头文件*/
+int main()                                              	/*主函数main*/
+{
+	long iLong=100000;
+	printf("the Long is %ld\n",iLong);
+	printf("the string is:%sKeJi\n","MingRi");
+	printf("the string is:%10sKeJi\n","MingRi");
+	printf("the string is:%-10sKeJi\n","MingRi");
+	printf("the string is:%10.3sKeJi\n","MingRi");
+	printf("the string is:%-10.3sKeJi\n","MingRi");
+	return  0;							/*程序结束*/
+}

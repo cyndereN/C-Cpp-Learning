@@ -1,0 +1,19 @@
+#include<stdio.h>					/*包含头文件*/
+int main()						/*主函数main*/
+{
+		int iNumber1,iNumber2,iNumber3,iResult=0;	/*声明整型变量*/
+		iNumber1=5;					/*为变量赋值*/
+		iNumber2=6;		
+		iNumber3=9;
+
+		iResult=iNumber1+iNumber2-iNumber3;		/*包含加法和减法的表达式*/
+		printf(“the result is : %d\n”,iResult);	/*显示结果*/
+
+		iResult=iNumber1+iNumber2*iNumber3;		/*包含加法和乘法的表达式*/
+		printf(“the result is : %d\n”,iResult);	/*显示结果*/
+
+		iResult=(iNumber1+iNumber2)*iNumber3;	/*包含括号、加法和乘法的表达式*/
+		printf(“the result is : %d\n”,iResult);	/*显示结果*/
+
+		return 0;
+}

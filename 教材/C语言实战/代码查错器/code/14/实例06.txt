@@ -1,0 +1,17 @@
+#include<stdio.h>                   /*包含头文件*/
+#define STR “Believe yourself\n”  /*定义宏常量*/
+int main()                          /*主函数main*/
+{
+    #ifdef STR                      /*被定义*/
+        printf(STR);                /*输出*/
+    #else
+        printf(“**Don’t give up**\n”);/*输出信息*/
+    #endif
+    printf(“\n”);                    /*换行*/
+    #ifndef ABC                        /*没被定义*/
+        printf(“Don’t give up\n”);  /*输出信息*/
+    #else
+        printf(STR);                   /*输出信息*/
+    #endif
+        return 0;                      /*程序结束*/
+}

@@ -1,0 +1,11 @@
+#include<stdio.h>							/*包含头文件*/
+void main()						/*主函数main*/
+{
+	int x=30,y=-30;					/*定义变量*/
+	x=x>>3; 						/*x右移三位*/
+	y=y>>3; 						/*y右移三位*/
+	printf(“the result1 is:%d,%d\n”,x,y);		/*显示结果*/
+	x=x>>2; 						/*x右移两位*/
+	y=y>>2; 						/*y右移两位*/
+	printf(“the result2 is:%d,%d\n”,x,y); 		/*显示结果*/
+}

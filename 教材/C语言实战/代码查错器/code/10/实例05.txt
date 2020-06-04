@@ -1,0 +1,12 @@
+#include<stdio.h>					/*包含头文件*/
+void main()					/*主函数main*/
+{
+		int i; 					/*定义整型变量*/
+		int *p; 					/*定义指针变量*/
+		printf(“please input the number:\n”);	/*提示信息*/
+		scanf(“%d”,&i); 				/*输入数据*/
+		p=&i; 						/*将变量i的地址赋给指针变量*/
+		printf(“the result1 is: %d\n”,p); 		/*输出p的地址*/
+		p++;						/*地址加1，这里的1并不代表一个字节*/
+		printf(“the result2 is: %d\n”,p); 		/*输出p++后的地址*/
+}

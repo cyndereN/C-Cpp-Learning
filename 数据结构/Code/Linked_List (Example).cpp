@@ -25,7 +25,19 @@ void AddNewPlayer(PlayerLinkedList *head, Player *newPlayer){
     head->next = newPlayer;
     head->num++;
 }
- 
+
+void InsertNewPlayer(PlayerLinkedList *head, Player *newPlayer, int pos){
+	Player* cur = head->next;
+	int i = 0;
+    while (i < pos && cur->next != NULL) {
+        cur = cur->next;
+        i++;
+    }
+	newPlayer->next = cur->next;
+    cur->next = newPlayer;
+    head->num++;
+}
+
 void RemovePlayer(PlayerLinkedList *head, Player *player){
     Player *p = head->next;
     if (p==player){
@@ -111,3 +123,4 @@ int main(){
         if(nCand == i)
             find = p->name;
     }
+}

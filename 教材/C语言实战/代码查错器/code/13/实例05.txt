@@ -1,9 +1,0 @@
-#include<stdio.h>						/*包含头文件*/
-void main()						/*主函数main*/
-{
-	int x=15;                                          /*定义变量*/
-	x=x<<2; 						/*x左移两位*/
-	printf(“the result1 is:%d\n”,x);
-	x=x<<3; 						/*x左移三位*/
-	printf(“the result2 is:%d\n”,x); 	        	/*显示结果*/
-}

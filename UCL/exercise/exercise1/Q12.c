@@ -1,7 +1,8 @@
-#include <graphics.h>
+#include "graphics.h"
 #include <math.h>
+#define PI 3.14159265
 
-double angle = 60*M_PI/180;
+double angle = 60*PI/180;
 void koch(int x1,int y1,int x4,int y4,int lv)
 {
     int x2=(2*x1+x4)/3;

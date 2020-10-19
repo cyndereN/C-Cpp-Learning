@@ -1,4 +1,4 @@
-//ÅĞ¶ÏËØÊı 
+//ï¿½Ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½ 
 //No.1 
 int isPrime(int i)
 {
@@ -14,8 +14,8 @@ int isPrime(int i)
 }
 
 
-//No.2 ÓÅ»¯1£ºÅÅ³ı2µÄ±¶Êı¡¢ÅĞ¶ÏÒòÊı×ßµ½Æ½·½¸ù 
- int isPrime(int i)
+//No.2 ï¿½Å»ï¿½1ï¿½ï¿½ï¿½Å³ï¿½2ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ßµï¿½Æ½ï¿½ï¿½ï¿½ï¿½ 
+int isPrime(int i)
 {
 	int ret = 1;
 	int k;
@@ -30,45 +30,37 @@ int isPrime(int i)
 	return ret;
 }
 
-//No.3 ÓÅ»¯2: ÅĞ¶ÏÄÜ·ñ±»ÒÑÖªËØÊıÕû³ı
-//ÅĞ¶Ï¼ÆËã³öÇ°100¸öËØÊı 
-
+//No.3 ï¿½Å»ï¿½2: ï¿½Ğ¶ï¿½ï¿½Ü·ï¿½ï¿½ï¿½Öªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//ï¿½Ğ¶Ï¼ï¿½ï¿½ï¿½ï¿½Ç°100ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
 #include <stdio.h>
-int isPrime(int x, int prime[],int number_of_known_primes);
 int main(void){
-	const int number = 100;
-	int prime[number]={2,3}
-	int count = 2;
-	int i=3;
-	int sum=0;
-	while(count<number){
-		if(isPrime(i,prime,count)){
-			prime[count++]=i;
+	int i,no;
+	int prime[500];  //Store prime number
+	int ptr = 0;
+
+	prime[ptr++] = 2;
+	prime[ptr++] = 3;
+
+	for ( no=5; no<=1000 ; no+=2){
+		int flag = 0;
+		for (i=1;prime[i]*prime[i]<=no;i++){
+			if(no%prime[i]==0){
+				flag = 1;
+				break;
+			}
 		}
-		i+=2;
+		if(!flag) prime[ptr++] = no;
 	}
-	
-for( i=0; i<number; i++){
-	printf("%d",prime[i]);
-	if((i+1)%5) printf("\t");
-	else printf("\n");
-	sum=sum+prime[i];
-}                               //Êä³öËØÊı±í ÒÔ¼°ºÍ 
-	printf("%d",sum);
+
+
+	for( i=0; i<ptr; i++){
+        printf("%d",prime[i]);
+        if((i+1)%5) printf("\t");
+        else printf("\n");
+    } //Print prime table
+
 	return 0;
 }
-
-int isPrime(int x, int prime[],int number_of_known_primes){
-	int ret = 1;
-	int k;
-	for ( k=0; prime[k]<sqrt(x)&&k<number_of_known_primes;k++ ){
-		if(x % prime[k]==0)  ret=0; break;
-	}
-	return ret;
-}
-
-
-
 
 
 

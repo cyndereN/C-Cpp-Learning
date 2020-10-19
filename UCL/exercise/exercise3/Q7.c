@@ -1,46 +1,15 @@
-//No.1 
-int isPrime(int i)
-{
-	int ret = 1;
-	int k;
-	for( k=2; k<i-1; k++ ){
-		if( i%k == 0){
-			ret = 0;
-			break;
-		}
-	}
-	return ret;
-}
-
-
-//No.2 
-int isPrime(int i)
-{
-	int ret = 1;
-	int k;
-	if(i==1||(i%2==0&&i!=2)) 
-		ret=0;
-	for( k=3; k<sqrt(i); k+=2 ){
-		if( i%k == 0){
-			ret = 0;
-			break;
-		}
-	}
-	return ret;
-}
-
-//No.3 
-
 #include <stdio.h>
+#define number 200 //Change range here
+
 int main(void){
 	int i,no;
-	int prime[500];  //Store prime number
+	int prime[number];  //Store prime number
 	int ptr = 0;
 
 	prime[ptr++] = 2;
 	prime[ptr++] = 3;
 
-	for ( no=5; no<=1000 ; no+=2){
+	for ( no=5; ptr<=number ; no+=2){
 		int flag = 0;
 		for (i=1;prime[i]*prime[i]<=no;i++){
 			if(no%prime[i]==0){
@@ -58,5 +27,10 @@ int main(void){
         else printf("\n");
     } //Print prime table
 
+    printf("\n");
+    
+    for( i=1; i<number; i++){
+        if(prime[i]-prime[i-1]==2) printf("%d %d\n",prime[i-1],prime[i]);
+    }
 	return 0;
 }

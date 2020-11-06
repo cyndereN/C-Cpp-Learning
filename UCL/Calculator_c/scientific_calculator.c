@@ -1,5 +1,6 @@
 /*
 Use recursion to parse and evaluate mathematical expressions.
+The order is based on precedence of operators
 */
 
 #include <stdio.h>
@@ -10,17 +11,62 @@ Use recursion to parse and evaluate mathematical expressions.
 extern double a,b,c,d;  
 
 //Textual prompts
-const char *S1 = "->To see the operators please input help\n->To start calculating please input the expression\n->To exit please input exit.\n\n";
+const char *S1 = "->To see the operators please input help.\n->To calculate please input the expression then press enter.\n->To exit please input exit.\n\n";
 
 const char *S2 = "\n--------------------------------------------\n\n->Trigonometric function (X as the angle): sin(x),cos(x),tan(x)\n\
 ->Inverse trigonometric function (X as the angle):asin(x),acos(x),atan(x)\n->Logarithm: lg(x), ln(x)\n->SQRT, e^x: sqrt(x), exp(x)\n\
-->Random number between (0,x): rand(x)\n\nNOTE: Don't input SPACE!!!\n\n";
+->Random number between (0,x): rand(x)\n\nNOTE: Don't input SPACE!!!\n\n--------------------------------------------\n\n";
 
 
-char token[N];  // Expression string
+char token[N] = {0};  // Expression string
 char str[N];	//Input String
 int n = 0, m = 0, t = 0;
-int cal = 0;  //Flag of calculated
+int err = 0; //Flag of error
+
+
+//Deal with brackets, floats, numbers
+double func_num(){
+
+	double value_p = 0;
+	char number[N]; //Array of number
+	int i = 0;
+
+	if (token[m] == '('){
+
+		token[++m] = str[t++];
+		value_p = plus_mines();
+		if (token[m] == ')')
+			token[++m] = str[t++];
+
+	}
+	
+	else if (isalpha(token[m]) && !isalpha(str[t]) ){ //Determine if it's variable
+		switch(token[m]){
+			case 'a': value_p = a; break;
+			case 'b': value_p = b; break;
+			case 'c': value_p = c; break;
+			case 'd': value_p = d; break;
+
+			default: break;
+		}
+
+		token[++m] = str[t++];
+	}
+	
+	else if (isdigit(token[m]) || token[m] == '.'){
+		while (isdigit(token[m]) || token[m] == '.'){
+			number[i++] = token[m++];    
+			token[m] = str[t++];
+		}
+
+		number[i] = '\0';
+		value_p = atof(number); //Char to double
+	}
+	
+	return value_p;
+
+}
+
 
 
 // Angle to radians
@@ -98,11 +144,11 @@ double func(){
 	if (islower(a[0]))
 		value = func_num();
 
-	if(strstr(a,"sin")&&a[0]!='a'&&a[3]!='h')
+	if(strstr(a,"sin")&&a[0]!='a')
 		value_p = sin(a_to_r(value));
-	if(strstr(a,"cos")&&a[0]!='a'&&a[3]!='h')
+	if(strstr(a,"cos")&&a[0]!='a')
 		value_p = cos(a_to_r(value));
-	if(strstr(a,"tan")&&a[0]!='a'&&a[3]!='h')
+	if(strstr(a,"tan")&&a[0]!='a')
 		value_p = tan(a_to_r(value));
 
 	//Inverse trigonometric function
@@ -149,9 +195,12 @@ double times_divides(){
 			case '/':
 			token[++m] = str[t++];
 			divisor = func();
-			if (divisor == 0)
-				printf("Divisor cannot be 0!!!\n");
+			if (divisor == 0){
+				printf("\nDivisor cannot be 0!!!\n");
+				err = 1;
+			}
 			value_p /= divisor;
+			
 			break;
 
 		}
@@ -185,47 +234,9 @@ double plus_mines(){
 
 }
 
-//Deal with brackets, floats, numbers
-double func_num(){
-
-	double value_p;
-	char number[N]; //Array of number
-	int i = 0;
-
-	if (token[m] == '('){
-
-		token[++m] = str[t++];
-		value_p = plus_mines();
-		if (token[m] == ')')
-			token[++m] = str[t++];
-
-	}
-	else if (isalpha(token[m]) && !isalpha(token[m+1])){ //Determine if it's variable
-		switch(token[m]){
-			case 'a': value_p = a; break;
-			case 'b': value_p = b; break;
-			case 'c': value_p = c; break;
-			case 'd': value_p = d; break;
-		}
-
-		token[++m] = str[t++];
-	}
-	else if (isdigit(token[m]) || token[m] == '.'){
-
-		while (isdigit(token[m]) || token[m] == '.'){
-			number[i++] = token[m++];    
-			token[m] = str[t++];
-		}
-
-		number[i] = '\0';
-		value_p = atof(number); //ASCII to float
-	}
-	return value_p;
-
-}
 
 
-int scientific_calculator(){
+void scientific_calculator(){
 
 	double result;
 	int opt;
@@ -255,14 +266,18 @@ int scientific_calculator(){
                 str[0] = '0';
             }
             
-            cal = 1;
+			
             m = t = 0;
             token[m] = str[t++];
             
             result = plus_mines();
             
-            if ( result>MAX || result<MIN || (result>0 && result<MIN_FLOAT && !strstr(str,"sin") && !strstr(str,"cos")) )
-                printf("Result = %g\n",result);
+            if ( !err && (result>MAX || result<MIN || (result>0 && result<MIN_FLOAT && !strstr(str,"sin") && !strstr(str,"cos"))) )
+                printf("Result = %g\n", result);
+
+			else if (err)
+				printf("\nSorry, there seems to be an error. Please input again.\n");
+			
             else{ //Calibration
                 if (ERROR==0)
                     printf("Result = %d\n", (int)result);
@@ -272,11 +287,10 @@ int scientific_calculator(){
 
             printf("\n--------------------------------------------\n\n");
 
-            if (cal == 1) //Clear str
-            {
-                strcpy(str,"\0");
-                cal = result = 0;
-            }
+
+            strcpy(str,"\0");  //Clear str
+            result = err = 0;
+
 		}
 	}
 }

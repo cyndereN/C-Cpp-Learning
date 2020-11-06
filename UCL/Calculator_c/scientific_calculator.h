@@ -14,6 +14,6 @@ double func_num(void);
 double func(void);
 double times_divides(void);
 double plus_mines(void);
-int scientific_calculator(void);
+void scientific_calculator(void);
 
 #endif

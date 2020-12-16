@@ -86,7 +86,7 @@ void loop()
   // next
   addr = addr + 1;
 
-  // 注意地址不要溢出
+  // Careful about overflow
   if (addr == EEPROM.length())
     addr = 0;
 

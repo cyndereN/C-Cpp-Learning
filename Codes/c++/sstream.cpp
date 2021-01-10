@@ -2,7 +2,7 @@
 #include <string>
 #include <sstream>
 using namespace std;
-
+//输入以空格隔开的整数，输出整数之和
 int main(){
     string line;
     while(getline(cin, line)){

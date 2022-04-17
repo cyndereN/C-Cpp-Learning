@@ -38,3 +38,12 @@ list.end() //O(1)，实际不存在
 list.erase(p1) //O(n), 删除
 list.push_back(1)  //O(1)
 list.pop_back()  //O(1)
+
+
+// 头部插入删除：O(N)
+
+// 尾部插入删除:O(1)
+
+// 中间插入删除：O(N)
+
+// 查找：O(N)

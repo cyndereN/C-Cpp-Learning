@@ -7,6 +7,7 @@ int main(){
     int book[1005], i, j, t, n;
     for(int i=0; i<1000; i++)  book[i] = 0;
     cin >> n;
+    
     for(int i=1; i<n; i++){
         cin >> t;
         book[t]++;

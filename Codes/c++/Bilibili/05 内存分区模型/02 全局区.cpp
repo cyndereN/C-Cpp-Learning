@@ -44,6 +44,8 @@ int main(){
     cout << "局部常量a的地址: " << (int)&c_g_a << endl;
     cout << "局部常量b的地址: " << (int)&c_g_b << endl;
 
+    char *p3="123456";   //123456\0在常量区，p3在栈上。
+
     return 0;
 
 }

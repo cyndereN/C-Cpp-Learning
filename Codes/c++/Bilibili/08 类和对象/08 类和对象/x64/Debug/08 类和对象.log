@@ -1,0 +1,139 @@
+﻿  01 封装.cpp
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\01 封装.cpp(70,13): error C2535: “int Cube::getL(void)”: 已经定义或声明成员函数
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\01 封装.cpp(58): message : 参见“Cube::getL”的声明
+  02 权限.cpp
+  03 class与struct区别.cpp
+  04 对象的初始化和清理.cpp
+  05 构造函数的分类和调用.cpp
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\05 构造函数的分类和调用.cpp(10,3): error C2065: “cout”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\05 构造函数的分类和调用.cpp(10,51): error C2065: “endl”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\05 构造函数的分类和调用.cpp(14,3): error C2065: “age”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\05 构造函数的分类和调用.cpp(15,3): error C2065: “cout”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\05 构造函数的分类和调用.cpp(15,51): error C2065: “endl”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\05 构造函数的分类和调用.cpp(20,3): error C2065: “age”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\05 构造函数的分类和调用.cpp(20,11): error C2039: "age": 不是 "Person" 的成员
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\05 构造函数的分类和调用.cpp(6): message : 参见“Person”的声明
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\05 构造函数的分类和调用.cpp(21,3): error C2065: “cout”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\05 构造函数的分类和调用.cpp(21,51): error C2065: “endl”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\05 构造函数的分类和调用.cpp(58,9): error C2374: “p2”: 重定义；多次初始化
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\05 构造函数的分类和调用.cpp(53): message : 参见“p2”的声明
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\05 构造函数的分类和调用.cpp(59,9): error C2374: “p3”: 重定义；多次初始化
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\05 构造函数的分类和调用.cpp(54): message : 参见“p3”的声明
+  06 深拷贝与浅拷贝.cpp
+  07 初始化列表.cpp
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\07 初始化列表.cpp(2,29): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\07 初始化列表.cpp(3,2): error C2065: “m_a”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\07 初始化列表.cpp(4,2): error C2065: “m_b”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\07 初始化列表.cpp(5,2): error C2065: “m_c”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\07 初始化列表.cpp(6,1): warning C4508: “Person”: 函数应返回一个值；假定“void”返回类型
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\07 初始化列表.cpp(9,29): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\07 初始化列表.cpp(9,1): error C2084: 函数“int Person(int,int,int)”已有主体
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\07 初始化列表.cpp(2): message : 参见“Person”的前一个定义
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\07 初始化列表.cpp(9,54): error C2550: “Person”: 构造函数初始值设定项列表只能在构造函数定义中使用
+  08 对象成员.cpp
+  09 静态成员.cpp
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\09 静态成员.cpp(14,3): error C2065: “cout”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\09 静态成员.cpp(14,40): error C2065: “endl”: 未声明的标识符
+  10 this.cpp
+  11 空指针调用成员函数.cpp
+  12 const修饰成员函数.cpp
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\12 const修饰成员函数.cpp(14,3): error C3490: 由于正在通过常量对象访问“m_A”，因此无法对其进行修改
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\12 const修饰成员函数.cpp(30,16): warning C4269: “p”: 用编译器生成的默认构造函数初始化的“const”自动数据产生不可靠的结果
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\12 const修饰成员函数.cpp(31,3): error C3892: “p”: 不能给常量赋值
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\12 const修饰成员函数.cpp(34,9): error C2662: “void Person::func(void)”: 不能将“this”指针从“const Person”转换为“Person &”
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\12 const修饰成员函数.cpp(34,2): message : 转换丢失限定符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\12 const修饰成员函数.cpp(20,7): message : 参见“Person::func”的声明
+  13 友元.cpp
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(16,23): error C2027: 使用了未定义类型“GoodGay”
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(13): message : 参见“GoodGay”的声明
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(20,9): error C3646: “m_sittingroom”: 未知重写说明符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(20,22): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(26,9): error C3646: “m_bedroom”: 未知重写说明符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(26,18): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(22,3): error C2065: “m_sittingroom”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(23,3): error C2065: “m_bedroom”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(32,2): error C2065: “cout”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(32,55): error C2039: "m_sittingroom": 不是 "Building" 的成员
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(8): message : 参见“Building”的声明
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(32,72): error C2065: “endl”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(33,2): error C2065: “cout”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(33,55): error C2039: "m_bedroom": 不是 "Building" 的成员
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(8): message : 参见“Building”的声明
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(33,68): error C2065: “endl”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(54,22): error C2084: 函数“Building::Building(void)”已有主体
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(21): message : 参见“{ctor}”的前一个定义
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(55,2): error C2065: “m_sittingroom”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(56,2): error C2065: “m_bedroom”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(59,20): error C2600: “GoodGay::GoodGay”: 不能定义编译器生成的特殊成员函数(必须首先在类中声明)
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(61,25): error C2264: “Building::Building”: 函数定义或声明中有错误；未调用函数
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(59,10): message : 此诊断出现在编译器生成的函数“GoodGay::GoodGay(void)”中
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(65,2): error C2065: “cout”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(65,52): error C2039: "m_sittingroom": 不是 "Building" 的成员
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(8): message : 参见“Building”的声明
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(65,69): error C2065: “endl”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(66,2): error C2065: “cout”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(66,52): error C2039: "m_bedroom": 不是 "Building" 的成员
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(8): message : 参见“Building”的声明
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(66,65): error C2065: “endl”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(76,2): error C2065: “cout”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(76,52): error C2039: "m_sittingroom": 不是 "Building" 的成员
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(8): message : 参见“Building”的声明
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(76,69): error C2065: “endl”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(77,2): error C2065: “cout”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(77,64): error C2039: "m_bedroom": 不是 "Building" 的成员
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(8): message : 参见“Building”的声明
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\13 友元.cpp(77,77): error C2065: “endl”: 未声明的标识符
+  14 运算符重载.cpp
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\14 运算符重载.cpp(2,23): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\14 运算符重载.cpp(2,8): error C2146: 语法错误: 缺少“;”(在标识符“PersonAddPerson”的前面)
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\14 运算符重载.cpp(2,35): error C2143: 语法错误: 缺少“;”(在“{”的前面)
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\14 运算符重载.cpp(2,35): error C2447: “{”: 缺少函数标题(是否是老式的形式表?)
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\14 运算符重载.cpp(10,8): error C2143: 语法错误: 缺少“;”(在“+”的前面)
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\14 运算符重载.cpp(10,17): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\14 运算符重载.cpp(10,1): error C2086: “int Person”: 重定义
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\14 运算符重载.cpp(2): message : 参见“Person”的声明
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\14 运算符重载.cpp(10,24): error C2473: “operator +”: 看起来像函数定义，但却没有参数列表。
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\14 运算符重载.cpp(10,24): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\14 运算符重载.cpp(10,26): error C2065: “p”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\14 运算符重载.cpp(10,29): error C2059: 语法错误:“{”
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\14 运算符重载.cpp(10,29): error C2143: 语法错误: 缺少“;”(在“{”的前面)
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\14 运算符重载.cpp(10,29): error C2447: “{”: 缺少函数标题(是否是老式的形式表?)
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\14 运算符重载.cpp(22,8): error C2143: 语法错误: 缺少“;”(在“+”的前面)
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\14 运算符重载.cpp(22,17): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\14 运算符重载.cpp(22,1): error C2086: “int Person”: 重定义
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\14 运算符重载.cpp(2): message : 参见“Person”的声明
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\14 运算符重载.cpp(22,24): error C2473: “operator +”: 看起来像函数定义，但却没有参数列表。
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\14 运算符重载.cpp(22,24): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\14 运算符重载.cpp(22,8): error C2374: “+”: 重定义；多次初始化
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\14 运算符重载.cpp(10): message : 参见“+”的声明
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\14 运算符重载.cpp(22,26): error C2065: “p1”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\14 运算符重载.cpp(22,38): error C2065: “p2”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\14 运算符重载.cpp(22,42): error C2059: 语法错误:“{”
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\14 运算符重载.cpp(22,42): error C2143: 语法错误: 缺少“;”(在“{”的前面)
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\14 运算符重载.cpp(22,42): error C2447: “{”: 缺少函数标题(是否是老式的形式表?)
+  15 左移运算符重载.cpp
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\15 左移运算符重载.cpp(3,16): error C2143: 语法错误: 缺少“;”(在“&”的前面)
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\15 左移运算符重载.cpp(3,16): error C2433: “ostream”: 不允许在数据声明中使用“friend”
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\15 左移运算符重载.cpp(3,16): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\15 左移运算符重载.cpp(3,53): error C2238: 意外的标记位于“;”之前
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\15 左移运算符重载.cpp(20,8): error C2143: 语法错误: 缺少“;”(在“&”的前面)
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\15 左移运算符重载.cpp(20,8): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\15 左移运算符重载.cpp(20,1): error C2086: “int ostream”: 重定义
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\15 左移运算符重载.cpp(3): message : 参见“ostream”的声明
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\15 左移运算符重载.cpp(20,28): error C2473: “operator <<”: 看起来像函数定义，但却没有参数列表。
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\15 左移运算符重载.cpp(20,28): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\15 左移运算符重载.cpp(20,30): error C2065: “out”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\15 左移运算符重载.cpp(20,43): error C2065: “p”: 未声明的标识符
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\15 左移运算符重载.cpp(20,35): error C2275: “Person”: 将此类型用作表达式非法
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\15 左移运算符重载.cpp(2): message : 参见“Person”的声明
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\15 左移运算符重载.cpp(20,44): error C2440: “初始化”: 无法从“initializer list”转换为“int &”
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\15 左移运算符重载.cpp(20,20): message : 无法对引用类型进行值初始化
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\15 左移运算符重载.cpp(20,46): error C2059: 语法错误:“{”
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\15 左移运算符重载.cpp(20,46): error C2143: 语法错误: 缺少“;”(在“{”的前面)
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\15 左移运算符重载.cpp(20,46): error C2447: “{”: 缺少函数标题(是否是老式的形式表?)
+  16 递增运算符重载.cpp
+  circle.cpp
+  point.cpp
+  point_and_circle.cpp
+D:\Dreamer\GitHub\C-Cpp-Learning\Codes\c++\Bilibili\08 类和对象\08 类和对象\point_and_circle.cpp(9,8): warning C4101: “center”: 未引用的局部变量
+  正在生成代码...

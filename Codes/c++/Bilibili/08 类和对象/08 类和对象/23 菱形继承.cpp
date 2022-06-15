@@ -7,7 +7,7 @@ public:
 class Sheep : virtual public Animal {
 	
 };
-class Tuo : virtualW public Animal {
+class Tuo : virtual public Animal {
 
 };
 

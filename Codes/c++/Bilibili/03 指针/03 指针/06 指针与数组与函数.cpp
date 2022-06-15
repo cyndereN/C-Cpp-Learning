@@ -1,7 +1,7 @@
-#include <iostream>
+﻿#include <iostream>
 using namespace std;
 
-void bubbleSort(int *arr, int len) {  // int arr[]
+void bubbleSort(int* arr, int len) {  // int arr[]
 	for (int i = 0; i < len - 1; i++) {
 		for (int j = 0; j < len - 1 - i; j++) {
 			int temp = arr[j];

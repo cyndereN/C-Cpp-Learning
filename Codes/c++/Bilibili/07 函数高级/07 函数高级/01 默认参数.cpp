@@ -1,10 +1,10 @@
-int func(int a, int b = 20, int c = 30) {
+ï»¿int func(int a, int b = 20, int c = 30) {
 	return a + b + c;
 }
 
-// Èç¹ûÄ³¸öÎ»ÖÃÓÐÁËÄ¬ÈÏ²ÎÊý£¬ÄÇÃ´´ÓÕâ¸öÎ»ÖÃÍùºó´Ó×óµ½ÓÒ¶¼µÃÓÐÄ¬ÈÏÖµ
+// å¦‚æžœæŸä¸ªä½ç½®æœ‰äº†é»˜è®¤å‚æ•°ï¼Œé‚£ä¹ˆä»Žè¿™ä¸ªä½ç½®å¾€åŽä»Žå·¦åˆ°å³éƒ½å¾—æœ‰é»˜è®¤å€¼
 
-// Èç¹ûº¯ÊýÉùÃ÷ÓÐÄ¬ÈÏ²ÎÊý£¬º¯ÊýÊµÏÖ¾Í²»ÄÜÓÐÄ¬ÈÏ²ÎÊý£¨·´Ö®ÒàÈ»£¬ÉùÃ÷ºÍÊµÏÖÖ»ÄÜÓÐÒ»¸öÓÐÄ¬ÈÏ²ÎÊý£©
+// å¦‚æžœå‡½æ•°å£°æ˜Žæœ‰é»˜è®¤å‚æ•°ï¼Œå‡½æ•°å®žçŽ°å°±ä¸èƒ½æœ‰é»˜è®¤å‚æ•°ï¼ˆåä¹‹äº¦ç„¶ï¼Œå£°æ˜Žå’Œå®žçŽ°åªèƒ½æœ‰ä¸€ä¸ªæœ‰é»˜è®¤å‚æ•°ï¼‰
 int func2(int a, int b = 10);
 
 func2(int a, int b) {

@@ -1,25 +1,25 @@
-// ¾²Ì¬³ÉÔ±±äÁ¿
-// ¡¤ ËùÓÐ¶ÔÏó¹²ÏíÍ¬Ò»·ÝÊý¾Ý
-// ¡¤ ÔÚ±àÒë½×¶Î·ÖÅäÄÚ´æ £¨È«¾ÖÇø£©
-// ¡¤ ÀàÄÚÉùÃ÷£¬ÀàÍâ³õÊ¼»¯
+ï»¿// é™æ€æˆå‘˜å˜é‡	
+// Â· æ‰€æœ‰å¯¹è±¡å…±äº«åŒä¸€ä»½æ•°æ®
+// Â· åœ¨ç¼–è¯‘é˜¶æ®µåˆ†é…å†…å­˜ ï¼ˆå…¨å±€åŒºï¼‰
+// Â· ç±»å†…å£°æ˜Žï¼Œç±»å¤–åˆå§‹åŒ–
 
 class Person {
-// public:
+	// public:
 private:
-	static int m_a;  // ÓÐ·ÃÎÊÈ¨ÏÞ
+	static int m_a;  // æœ‰è®¿é—®æƒé™
 
 public:
-	static void func() {  // ÓÐ·ÃÎÊÈ¨ÏÞ
+	static void func() {  // æœ‰è®¿é—®æƒé™
 		m_a = 0;
-		cout << "static void func µ÷ÓÃ" << endl;
+		cout << "static void func è°ƒç”¨" << endl;
 	}
 };
 
 int Person::m_a = 100;
 
-// ·ÃÎÊ·½Ê½£º¶ÔÏó£¬ÀàÃû
+// è®¿é—®æ–¹å¼ï¼šå¯¹è±¡ï¼Œç±»å
 
 
-// ¾²Ì¬³ÉÔ±º¯Êý
-// ËùÓÐ¶ÔÏó¹²ÏíÍ¬Ò»¸öº¯Êý
-// ¾²Ì¬³ÉÔ±º¯ÊýÖ»ÄÜ·ÃÎÊ¾²Ì¬³ÉÔ±±äÁ¿
+// é™æ€æˆå‘˜å‡½æ•°
+// æ‰€æœ‰å¯¹è±¡å…±äº«åŒä¸€ä¸ªå‡½æ•°
+// é™æ€æˆå‘˜å‡½æ•°åªèƒ½è®¿é—®é™æ€æˆå‘˜å˜é‡

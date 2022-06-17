@@ -1,13 +1,13 @@
-#include <iostream>
+ï»¿#include <iostream>
 using namespace std;
 
-int main() {
+int main3() {
 	int a, b, c, d;
-	cout << "ÇëÊäÈëÈý¸öÊýa, b, cµÄÖµ£º " << endl;
+	cout << "è¯·è¾“å…¥ä¸‰ä¸ªæ•°a, b, cçš„å€¼ï¼š " << endl;
 	cin >> a >> b >> c;
 	d = a > b ? a : b;
 	d = d > c ? d : c;
-	cout << "Èý¸öÊýÖÐ×î´óµÄÊýÊÇ£º " << d << endl;
+	cout << "ä¸‰ä¸ªæ•°ä¸­æœ€å¤§çš„æ•°æ˜¯ï¼š " << d << endl;
 	system("pause");
 	return 0;
 }

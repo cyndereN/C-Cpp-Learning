@@ -1,11 +1,11 @@
-// Á´Ê½´æ´¢£¬ÔÚÎïÀí´æ´¢µ¥ÔªÉÏ·ÇÁ¬Ğø
-// ÓÉÒ»ÏµÁĞ½áµã×é³É£¬½áµãÓÉÊı¾İÓò£¬Ö¸ÕëÓò×é³É£¨stlÖĞÊÇË«ÏòÑ­»·µÄ£©
+ï»¿// é“¾å¼å­˜å‚¨ï¼Œåœ¨ç‰©ç†å­˜å‚¨å•å…ƒä¸Šéè¿ç»­
+// ç”±ä¸€ç³»åˆ—ç»“ç‚¹ç»„æˆï¼Œç»“ç‚¹ç”±æ•°æ®åŸŸï¼ŒæŒ‡é’ˆåŸŸç»„æˆï¼ˆstlä¸­æ˜¯åŒå‘å¾ªç¯çš„ï¼‰
 
-// ¿ÉÒÔ¶ÔÈÎÒâÎ»ÖÃ½øĞĞ¿ìËÙ²åÈëÉ¾³ı
-// ±éÀúËÙ¶ÈÃ»ÓĞÊı×é¿ì
-// Õ¼ÓÃ¿Õ¼ä´ó
+// å¯ä»¥å¯¹ä»»æ„ä½ç½®è¿›è¡Œå¿«é€Ÿæ’å…¥åˆ é™¤
+// éå†é€Ÿåº¦æ²¡æœ‰æ•°ç»„å¿«
+// å ç”¨ç©ºé—´å¤§
 
-// µü´úÆ÷Ö»Ö§³ÖÇ°ÒÆºóÒÆ£¬ÊôÓÚË«Ïòµü´úÆ÷
+// è¿­ä»£å™¨åªæ”¯æŒå‰ç§»åç§»ï¼Œå±äºåŒå‘è¿­ä»£å™¨
 
 list<int> L1(10, 100);
 list<int> L2(L1);
@@ -14,109 +14,109 @@ L1.swap(L2);
 
 oid showTheContent(list<int> l)
 {
-    list<int>::iterator it;
-    for (it = l.begin(); it != l.end(); it++)
-    {
-        cout << *it << " ";
-    }
-    cout << "\n";
+	list<int>::iterator it;
+	for (it = l.begin(); it != l.end(); it++)
+	{
+		cout << *it << " ";
+	}
+	cout << "\n";
 }
 int main()
 {
-    // Sample Code to show List and its functions
+	// Sample Code to show List and its functions
 
-    list<int> list1, list2;
-    int i;
-    // inserting at the back
-    for (i = 0; i < 10; i++)
-        list1.push_back(i + 1);
+	list<int> list1, list2;
+	int i;
+	// inserting at the back
+	for (i = 0; i < 10; i++)
+		list1.push_back(i + 1);
 
-    //inserting at the front
-    for (i = 0; i < 10; i++)
-        list2.push_front(i + 1);
+	//inserting at the front
+	for (i = 0; i < 10; i++)
+		list2.push_front(i + 1);
 
-    cout << "Content of List 1: ";
-    showTheContent(list1);
-    cout << "Content of list 2: ";
-    showTheContent(list2);
+	cout << "Content of List 1: ";
+	showTheContent(list1);
+	cout << "Content of list 2: ";
+	showTheContent(list2);
 
-    // sorting the second list from low to high
-    list2.sort();
-    cout << "Sorted List2 : ";
-    showTheContent(list2);
-
-   
-    list2.sort(myCompare);  // from high to low
-
-    bool myCompare(int val1, int val2) {
-        return val1 > val2; 
-    }
-
-    //Removing five elements from front in list1.
-    int times = 5;
-    while (times--)
-    {
-        list1.pop_front();
-    }
-    cout << "Content of List 1: ";
-    showTheContent(list1);
-    //Removing five elements from the back in list2.
-    times = 5;
-    while (times--)
-    {
-        list2.pop_back();
-    }
-    cout << "Content of List 2: ";
-    showTheContent(list2);
-
-    //seek the first element of list 1
-    cout << list1.front() << " is now at the front in list 1\n";
-    // seek the last element in list 2
-    cout << list2.back() << " is now the last element in list 2\n";
-
-    //Inserting elements in list 1.
-    list1.insert(++list1.begin(), 5, 10);
-    cout << "After Insertion list 1: ";
-    showTheContent(list1);
-
-    //remove() to remove all the elements with value 10.
-    list1.remove(10);
-    cout << "After Removal list 1: ";
-    showTheContent(list1);
-
-    // size() to know the number of elements
-    cout << "No. of elements in list 1: ";
-    cout << list1.size() << "\n";
-
-    //Reversing the content of list 2
-    list2.reverse();
-    cout << "Reversed list 2: ";
-    showTheContent(list2);
-
-    //erasing first element of list 2
-    list2.erase(list2.begin());
-    cout << "After erasing from list 2: ";
-    showTheContent(list2);
-
-    //Removing all elements from list 1.
-    list1.clear();
-    // Use of empty() function
-    if (list1.empty()) cout << "List 1 is now empty\n";
-    else cout << "Not Empty\n";
-
-    // use of assign function
-    list1.assign(5, 2); // 2 2 2 2 2
-    cout << "List 1: ";
-    showTheContent(list1);
-
-    list1.clear();
+	// sorting the second list from low to high
+	list2.sort();
+	cout << "Sorted List2 : ";
+	showTheContent(list2);
 
 
-    return 0;
+	list2.sort(myCompare);  // from high to low
+
+	bool myCompare(int val1, int val2) {
+		return val1 > val2;
+	}
+
+	//Removing five elements from front in list1.
+	int times = 5;
+	while (times--)
+	{
+		list1.pop_front();
+	}
+	cout << "Content of List 1: ";
+	showTheContent(list1);
+	//Removing five elements from the back in list2.
+	times = 5;
+	while (times--)
+	{
+		list2.pop_back();
+	}
+	cout << "Content of List 2: ";
+	showTheContent(list2);
+
+	//seek the first element of list 1
+	cout << list1.front() << " is now at the front in list 1\n";
+	// seek the last element in list 2
+	cout << list2.back() << " is now the last element in list 2\n";
+
+	//Inserting elements in list 1.
+	list1.insert(++list1.begin(), 5, 10);
+	cout << "After Insertion list 1: ";
+	showTheContent(list1);
+
+	//remove() to remove all the elements with value 10.
+	list1.remove(10);
+	cout << "After Removal list 1: ";
+	showTheContent(list1);
+
+	// size() to know the number of elements
+	cout << "No. of elements in list 1: ";
+	cout << list1.size() << "\n";
+
+	//Reversing the content of list 2
+	list2.reverse();
+	cout << "Reversed list 2: ";
+	showTheContent(list2);
+
+	//erasing first element of list 2
+	list2.erase(list2.begin());
+	cout << "After erasing from list 2: ";
+	showTheContent(list2);
+
+	//Removing all elements from list 1.
+	list1.clear();
+	// Use of empty() function
+	if (list1.empty()) cout << "List 1 is now empty\n";
+	else cout << "Not Empty\n";
+
+	// use of assign function
+	list1.assign(5, 2); // 2 2 2 2 2
+	cout << "List 1: ";
+	showTheContent(list1);
+
+	list1.clear();
+
+
+	return 0;
 }
 
-// ÈÎºÎÎ»ÖÃµÄ²åÈëÉ¾³ı£ºO(1)(¼ÙÉè¸æËßÁËÄã²åÈëÉ¾³ıµÄÎ»ÖÃ£¬²»ĞèÒªÄãÏß²éÕÒÔÙÉ¾³ı)
+// ä»»ä½•ä½ç½®çš„æ’å…¥åˆ é™¤ï¼šO(1)(å‡è®¾å‘Šè¯‰äº†ä½ æ’å…¥åˆ é™¤çš„ä½ç½®ï¼Œä¸éœ€è¦ä½ çº¿æŸ¥æ‰¾å†åˆ é™¤)
 
-// Í·Î²²éÑ¯£ºO(1)
+// å¤´å°¾æŸ¥è¯¢ï¼šO(1)
 
-// ÆäËûÎ»ÖÃ²éÑ¯/±éÀú£ºO£¨N£©
+// å…¶ä»–ä½ç½®æŸ¥è¯¢/éå†ï¼šOï¼ˆNï¼‰

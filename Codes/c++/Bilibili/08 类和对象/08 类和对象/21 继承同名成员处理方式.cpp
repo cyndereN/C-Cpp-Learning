@@ -1,16 +1,16 @@
-class Base {
+ï»¿class Base {
 public:
 	Base() {
 		m_A = 100;
 	}
 	int m_A;
 
-	void func(){}
+	void func() {}
 
 	static int s_A;
 };
 
-int Base::s_A = 100;  //ÀàÍâ³õÊ¼»¯
+int Base::s_A = 100;  //ç±»å¤–åˆå§‹åŒ–
 
 class Son :public Base {
 public:
@@ -24,15 +24,15 @@ int Son::s_A = 200;
 
 void test01() {
 	Son s;
-	cout << "SonÏÂ m_A = " << s.m_A << endl; // 200
-	cout << "BaseÏÂ m_A = " << s.Base::m_A << endl; // 100
+	cout << "Sonä¸‹ m_A = " << s.m_A << endl; // 200
+	cout << "Baseä¸‹ m_A = " << s.Base::m_A << endl; // 100
 	s.func();
-	s.Base::func();    // ×ÓÀà·ÃÎÊ¸¸ÀàĞèÒª¼Ó×÷ÓÃÓò
+	s.Base::func();    // å­ç±»è®¿é—®çˆ¶ç±»éœ€è¦åŠ ä½œç”¨åŸŸ
 
-	cout << "SonÏÂ s_A = " << s.s_A << endl; // 200
-	cout << "BaseÏÂ s_A = " << s.Base::s_A << endl; // 200
+	cout << "Sonä¸‹ s_A = " << s.s_A << endl; // 200
+	cout << "Baseä¸‹ s_A = " << s.Base::s_A << endl; // 200
 
-	// Í¨¹ıÀàÃû·ÃÎÊ
-	cout << "SonÏÂ s_A = " << Son::s_A << endl; // 200
-	cout << "BaseÏÂ s_A = " << Son::Base::s_A << endl; // 200
+	// é€šè¿‡ç±»åè®¿é—®
+	cout << "Sonä¸‹ s_A = " << Son::s_A << endl; // 200
+	cout << "Baseä¸‹ s_A = " << Son::Base::s_A << endl; // 200
 }

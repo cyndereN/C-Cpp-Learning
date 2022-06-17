@@ -1,4 +1,4 @@
-// ½á¹¹ÌåÊôÓÚÓÃ»§×Ô¶¨ÒåµÄÊı¾İÀàĞÍ£¬ÔÊĞíÓÃ»§´æ´¢²»Í¬µÄÊı¾İÀàĞÍ
+ï»¿// ç»“æ„ä½“å±äºç”¨æˆ·è‡ªå®šä¹‰çš„æ•°æ®ç±»å‹ï¼Œå…è®¸ç”¨æˆ·å­˜å‚¨ä¸åŒçš„æ•°æ®ç±»å‹
 
 struct student {
 	string name;
@@ -6,19 +6,19 @@ struct student {
 	int score;
 };
 
-// µÚÒ»ÖÖ
+// ç¬¬ä¸€ç§
 struct Student s1;
 s1.name = ....
 .....
 
-// µÚ¶şÖÖ
-struct Student S2 = {...}
+// ç¬¬äºŒç§
+struct Student S2 = { ... }
 
-// µÚÈıÖÖ
-struct student {
+	// ç¬¬ä¸‰ç§
+	struct student {
 	string name;
 	int age;
 	int score;
 } s3;
 
-// ¶¨ÒåÊ±¹Ø¼ü×Östruct²»¿ÉÊ¡ÂÔ£¬´´½¨Ê±¿ÉÊ¡
+// å®šä¹‰æ—¶å…³é”®å­—structä¸å¯çœç•¥ï¼Œåˆ›å»ºæ—¶å¯çœ

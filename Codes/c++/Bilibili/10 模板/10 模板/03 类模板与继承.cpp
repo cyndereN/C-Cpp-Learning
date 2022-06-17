@@ -1,6 +1,6 @@
-// µ±×ÓÀà¼Ì³ÐµÄ¸¸ÀàÊÇÒ»¸öÀàÄ£°åÊ±£¬×ÓÀàÔÚÉùÃ÷Ê±ÒªÖ¸¶¨³ö¸¸ÀàÖÐTµÄÀàÐÍ
-// Èô²»Ö¸¶¨ ±àÒëÆ÷ÎÞ·¨¸ø×ÓÀà·ÖÅäÄÚ´æ
-// Èç¹ûÏëÁé»îÖ¸¶¨³ö¸¸ÀàTµÄÀàÐÍ£¬×ÓÀàÒ²Ðè±ä³ÉÀàÄ£°å
+ï»¿// å½“å­ç±»ç»§æ‰¿çš„çˆ¶ç±»æ˜¯ä¸€ä¸ªç±»æ¨¡æ¿æ—¶ï¼Œå­ç±»åœ¨å£°æ˜Žæ—¶è¦æŒ‡å®šå‡ºçˆ¶ç±»ä¸­Tçš„ç±»åž‹
+// è‹¥ä¸æŒ‡å®š ç¼–è¯‘å™¨æ— æ³•ç»™å­ç±»åˆ†é…å†…å­˜
+// å¦‚æžœæƒ³çµæ´»æŒ‡å®šå‡ºçˆ¶ç±»Tçš„ç±»åž‹ï¼Œå­ç±»ä¹Ÿéœ€å˜æˆç±»æ¨¡æ¿
 
 template<class T>
 class Base {
@@ -9,18 +9,22 @@ class Base {
 class Son :public Base<int> {
 
 };
-// classic Son:public Base // ´íÎó
+// classic Son:public Base // é”™è¯¯
 template<class T1, class T2>
 class Son2 :public Base<T2> {
+public:
+	Son2() {
+		cout << "T1ç±»åž‹ä¸º:" << typeid(T1).name() << endl;
+	}
 	T1 obj;
 };
 
 void test02() {
-	
+	Son2<int, char>S2;
 }
 
 
-// ¹¹Ôìº¯ÊýµÄÀàÍâÊµÏÖ
+// æž„é€ å‡½æ•°çš„ç±»å¤–å®žçŽ°
 
 template<class T1, class T2>
 class Person {

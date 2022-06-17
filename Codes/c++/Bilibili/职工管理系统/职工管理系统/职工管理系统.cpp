@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 using namespace std;
 #include "workerManager.h"
 #include "worker.h"
@@ -12,37 +12,37 @@ int main() {
 	int choice = 0;
 	while (true) {
 		wm.Show_Menu();
-		cout << "ÇëÊäÈëÄúµÄÑ¡Ôñ£º" << endl;
+		cout << "è¯·è¾“å…¥æ‚¨çš„é€‰æ‹©ï¼š" << endl;
 		cin >> choice;
 
 		switch (choice) {
-			case 0: // ÍË³ö
-				wm.Exit();
-				break;
-			case 1: // Ìí¼Ó
-				wm.Add_Emp();
-				break;
-			case 2: // ÏÔÊ¾
-				wm.show_Emp();
-				break;
-			case 3: // É¾³ı
-				wm.Del_Emp();
-				break;
-			case 4: // ĞŞ¸Ä
-				wm.Mod_Emp();
-				break;
-			case 5: // ²éÕÒ
-				wm.Find_Emp();
-				break;
-			case 6: // ÅÅĞò
-				wm.Sort_Emp();
-				break;
-			case 7: // Çå¿Õ
-				wm.Clean_File();
-				break;
-			default:
-				system("cls");
-				break;
+		case 0: // é€€å‡º
+			wm.Exit();
+			break;
+		case 1: // æ·»åŠ 
+			wm.Add_Emp();
+			break;
+		case 2: // æ˜¾ç¤º
+			wm.show_Emp();
+			break;
+		case 3: // åˆ é™¤
+			wm.Del_Emp();
+			break;
+		case 4: // ä¿®æ”¹
+			wm.Mod_Emp();
+			break;
+		case 5: // æŸ¥æ‰¾
+			wm.Find_Emp();
+			break;
+		case 6: // æ’åº
+			wm.Sort_Emp();
+			break;
+		case 7: // æ¸…ç©º
+			wm.Clean_File();
+			break;
+		default:
+			system("cls");
+			break;
 		}
 	}
 

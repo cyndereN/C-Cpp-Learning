@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 using namespace std;
 
 class Person {
@@ -8,7 +8,7 @@ public:
 	}
 
 	void showPersonAge() {
-		// ½â¾ö£º
+		// è§£å†³ï¼š
 		if (this == NULL)  return;
 		cout << "age = " << m_age << endl;
 	}
@@ -18,6 +18,6 @@ public:
 
 void test01() {
 	Person* p = NULL;
-	p->showClassName(); // Ã»±À
-	p->showPersonAge(); // !±ÀÁË£¬ÒòÎª±àÒëÆ÷Ä¬ÈÏ¼ÓÁËthis->ÔÚÊôĞÔÇ°Ãæ£¬¶ø´«ÈëµÄÖ¸ÕëÊÇNULL
+	p->showClassName(); // æ²¡å´©
+	p->showPersonAge(); // !å´©äº†ï¼Œå› ä¸ºç¼–è¯‘å™¨é»˜è®¤åŠ äº†this->åœ¨å±æ€§å‰é¢ï¼Œè€Œä¼ å…¥çš„æŒ‡é’ˆæ˜¯NULL
 }

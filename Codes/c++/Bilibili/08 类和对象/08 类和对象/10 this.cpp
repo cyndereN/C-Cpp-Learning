@@ -1,16 +1,16 @@
-// thisÖ¸ÕëÖ¸Ïò±»µ÷ÓÃµÄ³ÉÔ±º¯ÊıËùº¬µÄ¶ÔÏó
+ï»¿// thisæŒ‡é’ˆæŒ‡å‘è¢«è°ƒç”¨çš„æˆå‘˜å‡½æ•°æ‰€å«çš„å¯¹è±¡ 
 
 class Person {
 public:
 	Person(int age) {
 
-		// ½â¾öÃüÃû³åÍ»
+		// è§£å†³å‘½åå†²çª
 		this->age = age;
 	}
 
 	Person& PersonAddPerson(Person p) {
 		this->age += p.age;
-		// ·µ»Ø¶ÔÏó±¾Éí
+		// è¿”å›å¯¹è±¡æœ¬èº«
 		return *this;
 	}
 
@@ -21,6 +21,6 @@ void test01() {
 	Person p1(10);
 	Person p2(10);
 
-	// Á´Ê½±à³Ì
+	// é“¾å¼ç¼–ç¨‹
 	p2.PersonAddPerson(p1).PersonAddPerson(p1).PersonAddPerson(p1);
 }

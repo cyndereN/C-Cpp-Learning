@@ -1,12 +1,12 @@
-#include <iostream>
+ï»¿#include <iostream>
 using namespace std;
 
-// sizeof Çó³öÊı¾İÀàĞÍÕ¼ÓÃÄÚ´æµÄ´óĞ¡
-// sizeof(Êı¾İÀàĞÍ or ±äÁ¿)
+// sizeof æ±‚å‡ºæ•°æ®ç±»å‹å ç”¨å†…å­˜çš„å¤§å°
+// sizeof(æ•°æ®ç±»å‹ or å˜é‡)
 
 int main() {
 	short num1 = 10;
-	cout << "short Õ¼ÓÃÄÚ´æ¿Õ¼äÎª " << sizeof(short) << endl;
+	cout << "short å ç”¨å†…å­˜ç©ºé—´ä¸º " << sizeof(short) << endl;
 
 	system("pause");
 	return 0;

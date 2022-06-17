@@ -1,7 +1,7 @@
-#include <iostream>
+ï»¿#include <iostream>
 using namespace std;
 
-// ÖØÔØµİÔöÔËËã·û ·ÖÁ½ÖÖ Ç°ÖÃ++ºÍºóÖÃ++
+// é‡è½½é€’å¢è¿ç®—ç¬¦ åˆ†ä¸¤ç§ å‰ç½®++å’Œåç½®++
 class MyInteger {
 	friend ostream& operator<<(ostream& cout, MyInteger myint);
 public:
@@ -9,28 +9,28 @@ public:
 		m_num = 0;
 	}
 
-	// ÖØÔØÇ°ÖÃ++
-	MyInteger& operator++() {//·µ»ØÒıÓÃÎªÁËÒ»Ö±¶ÔÒ»¸öÊı¾İ½øĞĞµİÔö²Ù×÷, e.g.++(++a)
+	// é‡è½½å‰ç½®++
+	MyInteger& operator++() {//è¿”å›å¼•ç”¨ä¸ºäº†ä¸€ç›´å¯¹ä¸€ä¸ªæ•°æ®è¿›è¡Œé€’å¢æ“ä½œ, e.g.++(++a)
 		m_num++;
 		return *this;
 	}
 
-	// ÖØÔØºóÖÃ++
-	// int ´ú±íÕ¼Î»²ÎÊı£¬¿ÉÒÔÓÃÓÚÇø·ÖÇ°ÖÃºÍºóÖÃµİÔö
+	// é‡è½½åç½®++
+	// int ä»£è¡¨å ä½å‚æ•°ï¼Œå¯ä»¥ç”¨äºåŒºåˆ†å‰ç½®å’Œåç½®é€’å¢
 	MyInteger operator++(int) {
-		// ÏÈ¼ÇÂ¼µ±Ê±½á¹û
+		// å…ˆè®°å½•å½“æ—¶ç»“æœ
 		MyInteger temp = *this;
-		// ºóµİÔö
+		// åé€’å¢
 		m_num++;
-		// ×îºó½«¼ÇÂ¼½á¹û·µ»Ø
-		return temp;  // Ò»¶¨·µ»ØÖµ£¬Ô­Éúc++Ò²Ã»ÓĞ (a++)++²Ù×÷
+		// æœ€åå°†è®°å½•ç»“æœè¿”å›
+		return temp;  // ä¸€å®šè¿”å›å€¼ï¼ŒåŸç”Ÿc++ä¹Ÿæ²¡æœ‰ (a++)++æ“ä½œ
 	}
 
 private:
 	int m_num;
 };
 
-// ÖØÔØ×óÒÆ
+// é‡è½½å·¦ç§»
 ostream& operator<<(ostream& cout, MyInteger myint) {
 	cout << myint.m_num;
 	return cout;

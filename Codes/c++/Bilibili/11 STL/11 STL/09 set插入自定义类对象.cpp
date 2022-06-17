@@ -1,43 +1,43 @@
-ĞèÒªÖØÔØĞ¡ÓÚºÅ
+ï»¿éœ€è¦é‡è½½å°äºå·
 
-ÖØÔØÒªµã£º
+é‡è½½è¦ç‚¹ï¼š
 
-1 Á½¸öconst
+1 ä¸¤ä¸ªconst
 
-2 Á½¸ö²»Í¬µÄÀà±ØĞëÄÜ±È½Ï³ö´óĞ¡À´
+2 ä¸¤ä¸ªä¸åŒçš„ç±»å¿…é¡»èƒ½æ¯”è¾ƒå‡ºå¤§å°æ¥
 
-ÎªÊ²Ã´²»ÓÃÖØÔØµÈºÅsetÒ²ÄÜÈ¥ÖØ£¿
+ä¸ºä»€ä¹ˆä¸ç”¨é‡è½½ç­‰å·setä¹Ÿèƒ½å»é‡ï¼Ÿ
 
-ÒòÎªÓÉA < B false  £¬B < A false  ¿ÉÍÆ³öA == B
+å› ä¸ºç”±A < B false  ï¼ŒB < A false  å¯æ¨å‡ºA == B
 
 
 #include <iostream>
 #include <set>
-class Point {
-public:
-    double x;
-    double y;
-    Point() = default;
-    Point(double x, double y) {
-        this->x = x;
-        this->y = y;
-    }
-    bool operator<(const Point& p) const {
-        if (this->x < p.x)return true;
-        if (this->x > p.x)return false;
-        if (this->y < p.y)return true;
-        return false;
-    }
+	class Point {
+	public:
+		double x;
+		double y;
+		Point() = default;
+		Point(double x, double y) {
+			this->x = x;
+			this->y = y;
+		}
+		bool operator<(const Point& p) const {
+			if (this->x < p.x)return true;
+			if (this->x > p.x)return false;
+			if (this->y < p.y)return true;
+			return false;
+		}
 };
 int main()
 {
-    std::set<Point> setData;
-    setData.insert(Point(1, 1));
-    setData.insert(Point(1, 2));
-    setData.insert(Point(2, 1));
-    setData.insert(Point(2, 2));
-    setData.insert(Point(2, 2));
-    //Êä³ö4ÊÇÕıÈ·µÄ
-    std::cout << setData.size() << std::endl;
-    return 0;
+	std::set<Point> setData;
+	setData.insert(Point(1, 1));
+	setData.insert(Point(1, 2));
+	setData.insert(Point(2, 1));
+	setData.insert(Point(2, 2));
+	setData.insert(Point(2, 2));
+	//è¾“å‡º4æ˜¯æ­£ç¡®çš„
+	std::cout << setData.size() << std::endl;
+	return 0;
 }

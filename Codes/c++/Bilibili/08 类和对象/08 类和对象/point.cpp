@@ -1,4 +1,4 @@
-#include "point.h"
+﻿#include "point.h"
 
 void Point::setX(int x) {
 	m_x = x;

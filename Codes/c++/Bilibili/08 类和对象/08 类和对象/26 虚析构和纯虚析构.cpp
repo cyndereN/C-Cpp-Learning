@@ -1,42 +1,42 @@
-// ¿ÉÒÔ½â¾ö¸¸ÀàÖ¸ÕëÊÍ·Å×ÓÀà¶ÔÏó
-// ÐèÒªÓÐ¾ßÌåº¯ÊýÊµÏÖ
-// Èç¹ûÊÇ´¿ÐéÎö¹¹£¬¸ÃÀàÊôÓÚ³éÏóÀà£¬ÎÞ·¨ÊµÀý»¯
+ï»¿// å¯ä»¥è§£å†³çˆ¶ç±»æŒ‡é’ˆé‡Šæ”¾å­ç±»å¯¹è±¡
+// éœ€è¦æœ‰å…·ä½“å‡½æ•°å®žçŽ°
+// å¦‚æžœæ˜¯çº¯è™šæžæž„ï¼Œè¯¥ç±»å±žäºŽæŠ½è±¡ç±»ï¼Œæ— æ³•å®žä¾‹åŒ–
 
 class Animal {
 public:
 	Animal() {
-		cout << "Animal¹¹Ôìº¯Êýµ÷ÓÃ" << endl;
+		cout << "Animalæž„é€ å‡½æ•°è°ƒç”¨" << endl;
 	}
 
 	//virtual ~Animal() {
-	//	// ÐéÎö¹¹ ¿ÉÒÔ½â¾ö¸¸ÀàÖ¸ÕëÊÍ·Å×ÓÀà¶ÔÏóÊ±²»¸É¾»µÄÎÊÌâ
-	//	cout << "AnimalÐéÎö¹¹º¯Êýµ÷ÓÃ" << endl;
+	//	// è™šæžæž„ å¯ä»¥è§£å†³çˆ¶ç±»æŒ‡é’ˆé‡Šæ”¾å­ç±»å¯¹è±¡æ—¶ä¸å¹²å‡€çš„é—®é¢˜
+	//	cout << "Animalè™šæžæž„å‡½æ•°è°ƒç”¨" << endl;
 	//}
 
-	// ´¿ÐéÎö¹¹£¬ÐèÒª´úÂëÊµÏÖ
-	// ÓÐÁË´¿ÐéÎö¹¹Ö®ºó£¬Õâ¸öÀàÒ²ÊôÓÚ³éÏóÀà£¬ÎÞ·¨ÊµÀý»¯¶ÔÏó
+	// çº¯è™šæžæž„ï¼Œéœ€è¦ä»£ç å®žçŽ°
+	// æœ‰äº†çº¯è™šæžæž„ä¹‹åŽï¼Œè¿™ä¸ªç±»ä¹Ÿå±žäºŽæŠ½è±¡ç±»ï¼Œæ— æ³•å®žä¾‹åŒ–å¯¹è±¡
 	virtual ~Animal() = 0;
 
-	// ´¿Ðéº¯Êý
+	// çº¯è™šå‡½æ•°
 	virtual void speak() = 0;
 };
 Animal::~Animal() {
-	cout << "Animal´¿ÐéÎö¹¹º¯Êýµ÷ÓÃ" << endl;
+	cout << "Animalçº¯è™šæžæž„å‡½æ•°è°ƒç”¨" << endl;
 }
 
 class Cat : public Animal {
 public:
 	Cat(string name) {
-		cout << "Cat ¹¹Ôìº¯Êýµ÷ÓÃ" << endl;
-		m_name = new string(name); // ¿ª±Ùµ½¶ÑÇø£¬ÐèÒªÓÃµ½×ÓÀàÖÐµÄÎö¹¹
+		cout << "Cat æž„é€ å‡½æ•°è°ƒç”¨" << endl;
+		m_name = new string(name); // å¼€è¾Ÿåˆ°å †åŒºï¼Œéœ€è¦ç”¨åˆ°å­ç±»ä¸­çš„æžæž„
 	}
 	void speak() {
-		cout << *m_name << "Ã¨ÔÚËµ»°" << endl;
+		cout << *m_name << "çŒ«åœ¨è¯´è¯" << endl;
 	}
 
 	~Cat() {
 		if (m_name != NULL) {
-			cout << "Cat Îö¹¹º¯Êýµ÷ÓÃ" << endl;
+			cout << "Cat æžæž„å‡½æ•°è°ƒç”¨" << endl;
 			delete m_name;
 			m_name = NULL;
 		}
@@ -47,7 +47,7 @@ public:
 void test01() {
 	Animal* animal = new Cat('Tom');
 	animal->speak();
-	// ¸¸ÀàÖ¸ÕëÔÚÎö¹¹Ê±ºò²»»áµ÷ÓÃ×ÓÀàÖÐÎö¹¹º¯Êý
-	// µ¼ÖÂ×ÓÀàÈç¹ûÓÐ¶ÑÇøÊôÐÔ£¬³öÏÖÄÚ´æÐ¹Â©
+	// çˆ¶ç±»æŒ‡é’ˆåœ¨æžæž„æ—¶å€™ä¸ä¼šè°ƒç”¨å­ç±»ä¸­æžæž„å‡½æ•°
+	// å¯¼è‡´å­ç±»å¦‚æžœæœ‰å †åŒºå±žæ€§ï¼Œå‡ºçŽ°å†…å­˜æ³„æ¼
 	delete animal;
 }

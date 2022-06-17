@@ -1,36 +1,36 @@
-// ³ÉÔ±º¯Êý¼Óconstºó³ÉÕâ¸öº¯ÊýÎª³£º¯Êý
-// ³£º¯ÊýÄÚ²»¿ÉÒÔÐÞ¸Ä³ÉÔ±ÊôÐÔ
-// ¼ÓÁË¹Ø¼ü×ÖmutableÒÀÈ»¿ÉÒÔÐÞ¸Ä
+ï»¿// æˆå‘˜å‡½æ•°åŠ conståŽæˆè¿™ä¸ªå‡½æ•°ä¸ºå¸¸å‡½æ•°
+// å¸¸å‡½æ•°å†…ä¸å¯ä»¥ä¿®æ”¹æˆå‘˜å±žæ€§
+// åŠ äº†å…³é”®å­—mutableä¾ç„¶å¯ä»¥ä¿®æ”¹
 
-// 2.³£¶ÔÏó
-// ÉùÃ÷¶ÔÏóÇ°¼Óconst³Æ¸Ã¶ÔÏóÎª³£¶ÔÏó
-// ³£¶ÔÏóÖ»ÄÜµ÷ÓÃ³£º¯Êý
-// ³£¶ÔÏó¿ÉÒÔÐÞ¸Ä¾²Ì¬±äÁ¿µÄÖµ
+// 2.å¸¸å¯¹è±¡
+// å£°æ˜Žå¯¹è±¡å‰åŠ constç§°è¯¥å¯¹è±¡ä¸ºå¸¸å¯¹è±¡
+// å¸¸å¯¹è±¡åªèƒ½è®¿é—®è¢«constä¿®é¥°çš„æˆå‘˜ï¼ˆåŒ…æ‹¬const æˆå‘˜å˜é‡å’Œconst æˆå‘˜å‡½æ•°ï¼‰
+// å¸¸å¯¹è±¡å¯ä»¥ä¿®æ”¹é™æ€å˜é‡çš„å€¼
 
 class Person {
 public:
 	void showPerson() const
 	{
-		m_A = 100; // !´ËÊ±²»¿ÉÒÔÐÞ¸ÄÁË
-		// this Ö¸ÕëµÄ±¾ÖÊÊÇÖ¸Õë³£Á¿ Ö¸ÕëÖ¸Ïò²»¿ÉÐÞ¸Ä
-		// ¶ø¼ÓÁËconst£¬±ä³Éconst Person* const this Ö¸ÏòºÍÖ¸ÏòµÄÖµ¶¼²»ÄÜ¸Ä
+		m_A = 100; // !æ­¤æ—¶ä¸å¯ä»¥ä¿®æ”¹äº†
+		// this æŒ‡é’ˆçš„æœ¬è´¨æ˜¯æŒ‡é’ˆå¸¸é‡ æŒ‡é’ˆæŒ‡å‘ä¸å¯ä¿®æ”¹
+		// è€ŒåŠ äº†constï¼Œå˜æˆconst Person* const this æŒ‡å‘å’ŒæŒ‡å‘çš„å€¼éƒ½ä¸èƒ½æ”¹
 		this->m_B = 100;
 	}
 
 	void func() {
-		
+
 	}
 
 	int m_A;
-	mutable int m_B; // ÌØÊâ±äÁ¿£¬¼´Ê¹ÔÚ³£º¯ÊýÖÐ£¬Ò²¿ÉÐÞ¸Ä
+	mutable int m_B; // ç‰¹æ®Šå˜é‡ï¼Œå³ä½¿åœ¨å¸¸å‡½æ•°ä¸­ï¼Œä¹Ÿå¯ä¿®æ”¹
 };
 
 
 void test02() {
-	const Person p;  // ³£¶ÔÏó
-	p.m_A = 100; // !´íÎó£¬²»ÄÜ¸Ä
-	p.m_B = 100; // ³£¶ÔÏóÏÂÒ²¿ÉÒÔÐÞ¸Ä
+	const Person p;  // å¸¸å¯¹è±¡
+	p.m_A = 100; // !é”™è¯¯ï¼Œä¸èƒ½æ”¹
+	p.m_B = 100; // å¸¸å¯¹è±¡ä¸‹ä¹Ÿå¯ä»¥ä¿®æ”¹
 
-	p.func(); //!²»ÔÊÐí
-	p.showPerson(); // ÔÊÐí£¬³£¶ÔÏóÖ»ÄÜµ÷ÓÃ³£º¯Êý
+	p.func(); //!ä¸å…è®¸
+	p.showPerson(); // å…è®¸ï¼Œå¸¸å¯¹è±¡åªèƒ½è°ƒç”¨å¸¸å‡½æ•°
 }

@@ -30,5 +30,8 @@
     <ClCompile Include="05 常量引用.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="06 引用和指针的区别.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,6 +1,6 @@
-// ³£ÓÃ±éÀúËã·¨:
-// for_each // ±éÀúÈİÆ÷
-// transform // °áÔË
+ï»¿// å¸¸ç”¨éå†ç®—æ³•:
+// for_each // éå†å®¹å™¨
+// transform // æ¬è¿
 
 
 // for_each
@@ -19,21 +19,21 @@ public:
 for_each(v.begin(), v.end(), print02());
 
 // transform
-// Ä¿±êÈİÆ÷ĞèÒªÌáÇ°¿ª±Ù¿Õ¼ä
-transform(iterator beg1, iterator end1, iterator beg2, _func); // _funcÀàËÆ»Øµ÷º¯Êı
+// ç›®æ ‡å®¹å™¨éœ€è¦æå‰å¼€è¾Ÿç©ºé—´
+transform(iterator beg1, iterator end1, iterator beg2, _func); // _funcç±»ä¼¼å›è°ƒå‡½æ•°
 
 /*********************************************/
-// ³£ÓÃ²éÕÒËã·¨£º
-// find			 // ²éÕÒÔªËØ
-// find_if		 // °´Ìõ¼ş²éÕÒ
-// adjacent_find // ²éÕÒÏàÁÚÖØ¸´ÔªËØ
-// binary_search // ¶ş·Ö²éÕÒ·¨
-// count         // Í³¼ÆÔªËØ¸öÊı
-// count_if      // °´Ìõ¼şÍ³¼ÆÔªËØ¸öÊı
+// å¸¸ç”¨æŸ¥æ‰¾ç®—æ³•ï¼š
+// find			 // æŸ¥æ‰¾å…ƒç´ 
+// find_if		 // æŒ‰æ¡ä»¶æŸ¥æ‰¾
+// adjacent_find // æŸ¥æ‰¾ç›¸é‚»é‡å¤å…ƒç´ 
+// binary_search // äºŒåˆ†æŸ¥æ‰¾æ³•
+// count         // ç»Ÿè®¡å…ƒç´ ä¸ªæ•°
+// count_if      // æŒ‰æ¡ä»¶ç»Ÿè®¡å…ƒç´ ä¸ªæ•°
 
 
 // find(iterator beg, iterator end, elem);
-// ÕÒµ½·µ»ØÖ¸¶¨Î»ÖÃµü´úÆ÷£¬ÕÒ²»µ½·µ»Ø½áÊøµü´úÆ÷
+// æ‰¾åˆ°è¿”å›æŒ‡å®šä½ç½®è¿­ä»£å™¨ï¼Œæ‰¾ä¸åˆ°è¿”å›ç»“æŸè¿­ä»£å™¨
 class Person {
 public:
 	Person(string name, int age) {
@@ -41,7 +41,7 @@ public:
 		this->m_age = age;
 	}
 
-	// ÖØÔØ== µ×²ãfindÖªµÀÈçºÎ¶Ô±ÈpersonÊı¾İÀàĞÍ
+	// é‡è½½== åº•å±‚findçŸ¥é“å¦‚ä½•å¯¹æ¯”personæ•°æ®ç±»å‹
 	bool operator==(const Person& p) {
 		if (this->m_name == p.mname && this->m_age == p.m_age) {
 			return true;
@@ -55,10 +55,10 @@ public:
 Person pp("cc", 20);
 vector<Person>::iterator it = find(v.gebin(), v.end(), pp);
 if (it == v.end()) {
-	cout << "Ã»ÓĞÕÒµ½" << endl;
+	cout << "æ²¡æœ‰æ‰¾åˆ°" << endl;
 }
 else {
-	cout << "ÕÒµ½ÔªËØ" << it->m_age << endl;
+	cout << "æ‰¾åˆ°å…ƒç´ " << it->m_age << endl;
 }
 
 // find_if(iterator beg, iterator end, _Pred);
@@ -73,36 +73,36 @@ vector<Person>::iterator it = find_if(v.begin(), v.end(), Greater20());
 
 
 
-// adjacent_find(iterator beg, iterator end) ÕÒÏàÁÚÖØ¸´ÔªËØ£¬ ·µ»ØµÚÒ»¸öÏàÁÚÖØ¸´µÄÔªËØµÄµü´úÆ÷
+// adjacent_find(iterator beg, iterator end) æ‰¾ç›¸é‚»é‡å¤å…ƒç´ ï¼Œ è¿”å›ç¬¬ä¸€ä¸ªç›¸é‚»é‡å¤çš„å…ƒç´ çš„è¿­ä»£å™¨
 
-// binary_search(iterator beg, iterator end, elem) // ·µ»ØboolÀàĞÍ£¬ÔÚÎŞĞèĞòÁĞÖĞ²»¿ÉÓÃ
+// binary_search(iterator beg, iterator end, elem) // è¿”å›boolç±»å‹ï¼Œåœ¨æ— éœ€åºåˆ—ä¸­ä¸å¯ç”¨
 
-// count(iterator beg, iterator end, elem)  // Í³¼ÆÔªËØ³öÏÖ´ÎÊı
+// count(iterator beg, iterator end, elem)  // ç»Ÿè®¡å…ƒç´ å‡ºç°æ¬¡æ•°
 
 // count_if(iterator beg, iterator end, _Pred);
 
 /*********************************************/
-// ³£ÓÃÅÅĞòËã·¨£º
+// å¸¸ç”¨æ’åºç®—æ³•ï¼š
 // sort
 
-// random_shuffle(iterator beg, iterator end); // ´òÂÒË³Ğò
+// random_shuffle(iterator beg, iterator end); // æ‰“ä¹±é¡ºåº
 
 // merge(iterator beg1, iterator end1, iterator beg2, iterator end2, iterator dest);
-// ÈİÆ÷ÔªËØºÏ²¢£¬²¢´æ´¢µ½ÁíÒ»ÈİÆ÷ÖĞ
-// Á½¸öÈİÆ÷±ØĞëÊÇÓĞĞòµÄ
-// dest, Ä¿±êÈİÆ÷¿ªÊ¼µü´úÆ÷
-// ÌáÇ°¸øÄ¿±êÈİÆ÷·ÖÅä¿Õ¼ä
+// å®¹å™¨å…ƒç´ åˆå¹¶ï¼Œå¹¶å­˜å‚¨åˆ°å¦ä¸€å®¹å™¨ä¸­
+// ä¸¤ä¸ªå®¹å™¨å¿…é¡»æ˜¯æœ‰åºçš„
+// dest, ç›®æ ‡å®¹å™¨å¼€å§‹è¿­ä»£å™¨
+// æå‰ç»™ç›®æ ‡å®¹å™¨åˆ†é…ç©ºé—´
 
 // reverse(iterator beg, iterator end);
 
 /*********************************************/
-// ³£ÓÃ¿½±´ºÍÌæ»»Ëã·¨£º
+// å¸¸ç”¨æ‹·è´å’Œæ›¿æ¢ç®—æ³•ï¼š
 // copy(iterator beg, iterator end, iterator dest);
-// ÈİÆ÷ÄÚÖ¸¶¨·¶Î§µÄÔªËØ¿½±´µ½ÁíÒ»ÈİÆ÷ÖĞ
-// ÌáÇ°¸øÄ¿±êÈİÆ÷·ÖÅä¿Õ¼ä
+// å®¹å™¨å†…æŒ‡å®šèŒƒå›´çš„å…ƒç´ æ‹·è´åˆ°å¦ä¸€å®¹å™¨ä¸­
+// æå‰ç»™ç›®æ ‡å®¹å™¨åˆ†é…ç©ºé—´
 
 // replace(iterator beg, iterator end, oldvalue, newvalue);
-// ½«ÇøÓòÄÚ¾ÉÔªËØÌæ»»³ÉĞÂÔªËØ
+// å°†åŒºåŸŸå†…æ—§å…ƒç´ æ›¿æ¢æˆæ–°å…ƒç´ 
 
 // replace_if(iterator beg, iterator end, _Pred, newvalue);
 
@@ -112,18 +112,18 @@ vector<Person>::iterator it = find_if(v.begin(), v.end(), Greater20());
 
 
 /*********************************************/
-// ³£ÓÃËãÊıÉú³ÉËã·¨£º
+// å¸¸ç”¨ç®—æ•°ç”Ÿæˆç®—æ³•ï¼š
 // accumulate(v.begin(), v.end(), value);
-// ¼ÆËãÈİÆ÷ÔªËØÀÛ¼Æ×ÜºÍ, valueÊÇÆğÊ¼Öµ
+// è®¡ç®—å®¹å™¨å…ƒç´ ç´¯è®¡æ€»å’Œ, valueæ˜¯èµ·å§‹å€¼
 
 // fill(v.begin(), v.end(), value);
-// Ìî³ä½øÈİÆ÷
+// å¡«å……è¿›å®¹å™¨
 
 /*********************************************/
-// ³£ÓÃ¼¯ºÏËã·¨
+// å¸¸ç”¨é›†åˆç®—æ³•
 // set_intersection 
-// ·µ»ØÖµÊÇ½»¼¯ÖĞ×îºóÒ»¸öÔªËØµÄÎ»ÖÃ
-vTarget.resize(min(v1.size(), v2.size())); // ×îÌØÊâÇé¿ö£¬´óÈİÆ÷°üº¬Ğ¡ÈİÆ÷
+// è¿”å›å€¼æ˜¯äº¤é›†ä¸­æœ€åä¸€ä¸ªå…ƒç´ çš„ä½ç½®
+vTarget.resize(min(v1.size(), v2.size())); // æœ€ç‰¹æ®Šæƒ…å†µï¼Œå¤§å®¹å™¨åŒ…å«å°å®¹å™¨
 vector<int>::iterator itEnd = set_intersection(v1.begin(), v1.end(), v2.begin(), v2.begin(), vTarget.begin());
 for_each(vTarget.begin(), itEnd, myPrint);
 

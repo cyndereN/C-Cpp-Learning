@@ -1,6 +1,10 @@
 #include <iostream>
 using namespace std;
 
+// 除了const修饰的局部变量，局部变量不在全局区
+// 全局变量、静态变量、字符串常量和全局常量都是存储在全局区的
+
+
 // 全局变量
 int g_a = 10;
 int g_b = 10;
@@ -41,8 +45,8 @@ int main(){
     // const修饰的局部变量
     const int c_l_a = 10;
     const int c_l_b = 10;
-    cout << "局部常量a的地址: " << (int)&c_g_a << endl;
-    cout << "局部常量b的地址: " << (int)&c_g_b << endl;
+    cout << "局部常量a的地址: " << (int)&c_l_a << endl;
+    cout << "局部常量b的地址: " << (int)&c_l_b << endl;
 
     char *p3="123456";   //123456\0在常量区，p3在栈上。
 

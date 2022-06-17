@@ -1,4 +1,4 @@
-#pragma once // ·ÀÖ¹Í·ÎÄ¼şÖØ¸´°üº¬
+ï»¿#pragma once // é˜²æ­¢å¤´æ–‡ä»¶é‡å¤åŒ…å«
 #include <iostream>
 using namespace std;
 
@@ -10,31 +10,31 @@ using namespace std;
 #include <fstream>
 #define FILENAME "empFile.txt"
 
-// ÓëÓÃ»§µÄ¹µÍ¨²Ëµ¥½çÃæ
-// ¶ÔÖ°¹¤ÔöÉ¾¸Ä²éµÄ²Ù×÷
-// ÓëÎÄ¼şµÄ¶ÁĞ´½»»¥
+// ä¸ç”¨æˆ·çš„æ²Ÿé€šèœå•ç•Œé¢
+// å¯¹èŒå·¥å¢åˆ æ”¹æŸ¥çš„æ“ä½œ
+// ä¸æ–‡ä»¶çš„è¯»å†™äº¤äº’
 
 class WorkerManager {
 public:
 	WorkerManager();
-	
+
 	void Show_Menu();
 
 	void Exit();
-	
-	//¼ÇÂ¼Ö°¹¤ÈËÊı
+
+	//è®°å½•èŒå·¥äººæ•°
 	int m_EmpNum;
-	//Ö°¹¤Êı×éÖ¸Õë
+	//èŒå·¥æ•°ç»„æŒ‡é’ˆ
 	Worker** m_EmpArray;
 
 	void Add_Emp();
 
 	void save();
 
-	// ÅĞ¶ÏÎÄ¼şÊÇ·ñÎª¿Õ
+	// åˆ¤æ–­æ–‡ä»¶æ˜¯å¦ä¸ºç©º
 	bool m_FileIsEmpty;
 
-	//Í³¼ÆÎÄ¼şÖĞÈËÊı
+	//ç»Ÿè®¡æ–‡ä»¶ä¸­äººæ•°
 	int get_EmpNum();
 
 	void init_Emp();

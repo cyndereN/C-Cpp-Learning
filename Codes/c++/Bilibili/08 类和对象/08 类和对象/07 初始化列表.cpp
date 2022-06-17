@@ -1,9 +1,9 @@
-//´«Í³µÄ³õÊ¼»¯
+ï»¿//ä¼ ç»Ÿçš„åˆå§‹åŒ– 
 Person(int a, int b, int c) {
 	m_a = a;
 	m_b = b;
 	m_c = c;
 }
 
-//³õÊ¼»¯ÁĞ±í
+//åˆå§‹åŒ–åˆ—è¡¨
 Person(int a, int b, int c) : m_a(a), m_b(b), m_c(c) {}

@@ -1,5 +1,5 @@
-class Person {
-public: 
+ï»¿class Person {
+public:
 	Person(string name, int age) {
 		m_Name = name;
 		m_Age = age;
@@ -21,6 +21,6 @@ void test01() {
 	Person p2("Tom", 18);
 
 	if (p1 == p2) {
-		cout << "p1 ºÍ p2ÊÇÏàµÈµÄ" << endl;
+		cout << "p1 å’Œ p2æ˜¯ç›¸ç­‰çš„" << endl;
 	}
 }

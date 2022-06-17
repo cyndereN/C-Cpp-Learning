@@ -1,12 +1,12 @@
-// Í¨¹ý×Ô¼ºÐ´³ÉÔ±º¯Êý£¬ÊµÏÖÁ½¸ö¶ÔÏóÏà¼ÓÊôÐÔºó·µ»ØÐÂµÄ¶ÔÏó
+ï»¿// é€šè¿‡è‡ªå·±å†™æˆå‘˜å‡½æ•°ï¼Œå®žçŽ°ä¸¤ä¸ªå¯¹è±¡ç›¸åŠ å±žæ€§åŽè¿”å›žæ–°çš„å¯¹è±¡
 Person PersonAddPerson(Person& p) {
 	Person temp;
 	temp.m_A = this->m_A + p.m_A;
 	temp.m_B = this->m_B + p.m_B;
 	return temp;
 }
-// ±àÒëÆ÷¸øÆðÁË¸öÍ¨ÓÃÃû³Æ
-// Í¨¹ý³ÉÔ±º¯ÊýÖØÔØ+ºÅ
+// ç¼–è¯‘å™¨ç»™èµ·äº†ä¸ªé€šç”¨åç§°
+// é€šè¿‡æˆå‘˜å‡½æ•°é‡è½½+å·
 Person operator+(Person& p) {
 	Person temp;
 	temp.m_A = this->m_A + p.m_A;
@@ -15,10 +15,10 @@ Person operator+(Person& p) {
 }
 
 //Person p3 = p1.PersonAddPerson(p2);
-//¼ò»¯Îª
+//ç®€åŒ–ä¸º
 //Person p3 = p1 + p2;
 
-// Í¨¹ýÈ«¾Öº¯ÊýÖØÔØ+
+// é€šè¿‡å…¨å±€å‡½æ•°é‡è½½+
 Person operator+(Person& p1, Person& p2) {
 	Person temp;
 	temp.m_A = this->m_A + p.m_A;
@@ -27,5 +27,5 @@ Person operator+(Person& p1, Person& p2) {
 }
 
 //Person p3 = operator+(p1, p2);
-//¼ò»¯Îª
+//ç®€åŒ–ä¸º
 //Person p3 = p1 + p2;

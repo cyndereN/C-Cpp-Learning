@@ -1,5 +1,5 @@
-
-// µØÖ·´«µİ
+ï»¿
+// åœ°å€ä¼ é€’
 void swap(int* a, int* b) {
 	int temp = *a;
 	*a = *b;
@@ -9,7 +9,7 @@ void swap(int* a, int* b) {
 swap(&a, &b);
 
 
-// ÒıÓÃ´«µİ
+// å¼•ç”¨ä¼ é€’
 void swap(int& a, int& b) {
 	int temp = a;
 	a = b;

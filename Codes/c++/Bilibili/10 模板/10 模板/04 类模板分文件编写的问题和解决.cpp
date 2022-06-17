@@ -1,12 +1,12 @@
-#include <iostream>
+ï»¿#include <iostream>
 using namespace std;
 #include <string>
 
-// µÚÒ»ÖÖ½â¾ö·½Ê½Ö±½Ó°üº¬Í·ÎÄ¼ş
+// ç¬¬ä¸€ç§è§£å†³æ–¹å¼ç›´æ¥åŒ…å«å¤´æ–‡ä»¶
 // #include "person.h"
 #include "person.cpp"
 
-// µÚ¶şÖÖ£¬½«.hºÍ.cppĞ´µ½Ò»Æğ£¬½«ºó×ºÃû¸ÄÎª.hppÎÄ¼ş
+// ç¬¬äºŒç§ï¼Œå°†.hå’Œ.cppå†™åˆ°ä¸€èµ·ï¼Œå°†åç¼€åæ”¹ä¸º.hppæ–‡ä»¶
 #include "person.hpp"
 
 template<class T1, class T2>
@@ -27,7 +27,7 @@ Person<T1, T2>::Person(T1 name, T2 age) {
 
 template<class T1, class T2>
 void Person<T1, T2>::showPerson() {
-	cout << "ĞÕÃû£º " << this->m_Name << " ÄêÁä: " << this->m_Age << endl;
+	cout << "å§“åï¼š " << this->m_Name << " å¹´é¾„: " << this->m_Age << endl;
 }
 
 void test01() {

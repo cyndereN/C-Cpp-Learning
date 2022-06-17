@@ -144,6 +144,7 @@
     <ClCompile Include="03 引用作函数返回值.cpp" />
     <ClCompile Include="04 引用的本质.cpp" />
     <ClCompile Include="05 常量引用.cpp" />
+    <ClCompile Include="06 引用和指针的区别.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

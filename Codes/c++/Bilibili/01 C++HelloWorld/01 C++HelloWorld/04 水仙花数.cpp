@@ -1,11 +1,11 @@
-#include <iostream>
+﻿#include <iostream>
 using namespace std;
 
 int main() {
 	int num = 100;
 	do
 	{
-		int a = 0; 
+		int a = 0;
 		int b = 0;
 		int c = 0;
 

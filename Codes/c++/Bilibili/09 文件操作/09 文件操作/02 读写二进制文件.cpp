@@ -1,8 +1,8 @@
-#include <fstream>
+ï»¿#include <fstream>
 #include <string>
 #include <iostream>
 using namespace std;
-// ¶þ½øÖÆÐ´ÎÄ¼þ
+// äºŒè¿›åˆ¶å†™æ–‡ä»¶
 class Person {
 public:
 	char m_Nmae[64];
@@ -14,24 +14,24 @@ void test01() {
 	ofstream ofs;
 	ofs.open("Person.txt", ios::out | ios::binary);
 
-	// »òÕßÖ±½Ó ofstream ofs("Person.txt", ios::out | ios::binary);
-	
-	// Ð´ÎÄ¼þ
-	Person p = { "ÕÅÈý", 18 };
+	// æˆ–è€…ç›´æŽ¥ ofstream ofs("Person.txt", ios::out | ios::binary);
+
+	// å†™æ–‡ä»¶
+	Person p = { "å¼ ä¸‰", 18 };
 	ofs.write((const char*)&p, sizeof(Person));
 
 	ofs.close();
-	
+
 
 
 	ifstream ifs;
 	ifs.open("Person.txt", ios::in | ios::binary);
 
 	if (!ifs.is_open()) {
-		cout << "´ò¿ªÊ§°Ü" << endl;
+		cout << "æ‰“å¼€å¤±è´¥" << endl;
 		return;
 	}
-	// ¶ÁÎÄ¼þ
+	// è¯»æ–‡ä»¶
 	Person p;
 	ifs.read((char*)&p, sizeof(Person));
 

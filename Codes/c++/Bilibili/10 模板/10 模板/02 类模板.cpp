@@ -1,5 +1,5 @@
-// ÀàÄ£°åÃ»ÓĞ×Ô¶¯ÀàĞÍÍÆµ¼
-// ÀàÄ£°å¿ÉÒÔÓĞÄ¬ÈÏ²ÎÊı
+ï»¿// ç±»æ¨¡æ¿æ²¡æœ‰è‡ªåŠ¨ç±»å‹æ¨å¯¼
+// ç±»æ¨¡æ¿å¯ä»¥æœ‰é»˜è®¤å‚æ•°
 template<class NameType, class AgeType = int>
 class Person {
 	Person(NameType name, AgeType age) {
@@ -12,8 +12,8 @@ public:
 	AgeType m_Age;
 };
 
-void test01(){
+void test01() {
 
-	// ÀàÄ£°åÖĞ³ÉÔ±º¯Êıµ÷ÓÃÊ±²Å´´½¨
-	Person<string> p1("ËïÎò¿Õ", 999);
+	// ç±»æ¨¡æ¿ä¸­æˆå‘˜å‡½æ•°è°ƒç”¨æ—¶æ‰åˆ›å»º
+	Person<string> p1("å­™æ‚Ÿç©º", 999);
 }

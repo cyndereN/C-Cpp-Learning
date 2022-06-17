@@ -1,4 +1,4 @@
-#include "manager.h"
+ï»¿#include "manager.h"
 
 Manager::Manager(int ID, string name, int dID)
 {
@@ -9,10 +9,10 @@ Manager::Manager(int ID, string name, int dID)
 
 void Manager::showInfo()
 {
-	cout << "Ö°¹¤±àºÅ: " << this->m_ID
-		<< "\tÖ°¹¤ÐÕÃû: " << this->m_Name
-		<< "\t¸ÚÎ»" << this->getDeptName()
-		<< "\t¸ÚÎ»Ö°Ôð£ºÍê³ÉÀÏ°å½»¸øµÄÈÎÎñ£¬²¢ÏÂ·¢ÈÎÎñ" << endl;
+	cout << "èŒå·¥ç¼–å·: " << this->m_ID
+		<< "\tèŒå·¥å§“å: " << this->m_Name
+		<< "\tå²—ä½" << this->getDeptName()
+		<< "\tå²—ä½èŒè´£ï¼šå®Œæˆè€æ¿äº¤ç»™çš„ä»»åŠ¡ï¼Œå¹¶ä¸‹å‘ä»»åŠ¡" << endl;
 }
 
 int Manager::getID() {
@@ -27,5 +27,5 @@ int Manager::getDeptID() {
 
 string Manager::getDeptName()
 {
-	return string("¾­Àí");
+	return string("ç»ç†");
 }

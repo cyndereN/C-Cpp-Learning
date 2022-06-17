@@ -1,4 +1,4 @@
-#include "employee.h"
+ï»¿#include "employee.h"
 
 Employee::Employee(int ID, string name, int dID)
 {
@@ -9,10 +9,10 @@ Employee::Employee(int ID, string name, int dID)
 
 void Employee::showInfo()
 {
-	cout << "Ö°¹¤±àºÅ: " << this->m_ID
-		<< "\tÖ°¹¤ÐÕÃû: " << this->m_Name
-		<< "\t¸ÚÎ»" << this->getDeptName()
-		<< "\t¸ÚÎ»Ö°Ôð£ºÍê³É¾­Àí½»¸øµÄÈÎÎñ" << endl;
+	cout << "èŒå·¥ç¼–å·: " << this->m_ID
+		<< "\tèŒå·¥å§“å: " << this->m_Name
+		<< "\tå²—ä½" << this->getDeptName()
+		<< "\tå²—ä½èŒè´£ï¼šå®Œæˆç»ç†äº¤ç»™çš„ä»»åŠ¡" << endl;
 }
 
 int Employee::getID() {
@@ -27,5 +27,5 @@ int Employee::getDeptID() {
 
 string Employee::getDeptName()
 {
-	return string("Ô±¹¤");
+	return string("å‘˜å·¥");
 }

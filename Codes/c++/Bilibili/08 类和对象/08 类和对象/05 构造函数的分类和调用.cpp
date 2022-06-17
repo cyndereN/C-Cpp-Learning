@@ -1,36 +1,36 @@
-// Á½ÖÖ·ÖÀà£º
-// °´²ÎÊý£ºÓÐ²ÎÎÞ²Î
-// °´ÀàÐÍ£ºÆÕÍ¨¹¹ÔìºÍ¿½±´¹¹Ôì
+ï»¿// ä¸¤ç§åˆ†ç±»ï¼š
+// æŒ‰å‚æ•°ï¼šæœ‰å‚æ— å‚
+// æŒ‰ç±»åž‹ï¼šæ™®é€šæž„é€ å’Œæ‹·è´æž„é€ 
 
 
 class Person {
 public:
 
 	Person() {
-		cout << "Person ÎÞ²Î¹¹Ôìº¯ÊýµÄµ÷ÓÃ" << endl;
+		cout << "Person æ— å‚æž„é€ å‡½æ•°çš„è°ƒç”¨" << endl;
 	}
 
 	Person(int a) {
 		age = a;
-		cout << "Person ÓÐ²Î¹¹Ôìº¯ÊýµÄµ÷ÓÃ" << endl;
+		cout << "Person æœ‰å‚æž„é€ å‡½æ•°çš„è°ƒç”¨" << endl;
 	}
 
 	Person(const Person& p) {
-		// ½«´«ÈëµÄÈËÉíÉÏËùÓÐµÄÊôÐÔ£¬¿½±´µ½ÎÒÉíÉÏ
+		// å°†ä¼ å…¥çš„äººèº«ä¸Šæ‰€æœ‰çš„å±žæ€§ï¼Œæ‹·è´åˆ°æˆ‘èº«ä¸Š
 		age = p.age;
-		cout << "Person ¿½±´¹¹Ôìº¯ÊýµÄµ÷ÓÃ" << endl;
+		cout << "Person æ‹·è´æž„é€ å‡½æ•°çš„è°ƒç”¨" << endl;
 	}
-	// ¿½±´¹¹Ôìº¯ÊýµÄµ÷ÓÃÊ±»ú
-	// ¡¤ Ê¹ÓÃÒ»¸öÒÑ¾­´´½¨Íê±ÏµÄ¶ÔÏóÀ´³õÊ¼»¯Ò»¸öÐÂ¶ÔÏó
-	// ¡¤ Öµ´«µÝµÄ·½Ê½¸øº¯Êý²ÎÊý´«Öµ
+	// æ‹·è´æž„é€ å‡½æ•°çš„è°ƒç”¨æ—¶æœº
+	// Â· ä½¿ç”¨ä¸€ä¸ªå·²ç»åˆ›å»ºå®Œæ¯•çš„å¯¹è±¡æ¥åˆå§‹åŒ–ä¸€ä¸ªæ–°å¯¹è±¡
+	// Â· å€¼ä¼ é€’çš„æ–¹å¼ç»™å‡½æ•°å‚æ•°ä¼ å€¼
 	//  void test02(){ 
 	//     Person p; 
 	//     doWork1(p); 
 	//  }
 	//  void doWork1(Person p){ 
-	//      // ÔÚÕâÀï¸Ä¶¯p²»»áÓ°ÏìÍâÃæµÄp
+	//      // åœ¨è¿™é‡Œæ”¹åŠ¨pä¸ä¼šå½±å“å¤–é¢çš„p
 	//  }
-	// ¡¤ ÒÔÖµ·½Ê½·µ»Ø¾Ö²¿¶ÔÏó
+	// Â· ä»¥å€¼æ–¹å¼è¿”å›žå±€éƒ¨å¯¹è±¡
 	// void test03(){ 
 	//     Person p = doWork2();
 	//	   cout << (int*)&p << endl; 
@@ -41,24 +41,24 @@ public:
 	// 	    return p1;
 	//  }
 
-	// Ä¬ÈÏÇé¿ö£¬c++±àÒëÆ÷ÖÁÉÙ¸øÒ»¸öÀàÌí¼ÓÈý¸öº¯Êý£º Ä¬ÈÏ¹¹Ôì£¨ÎÞ²Î£©£¬Ä¬ÈÏÎö¹¹£¬Ä¬ÈÏ¿½±´¹¹Ôì
-	// Èç¹ûÓÃ»§¶¨ÒåÓÐ²Î¹¹Ôì£¬c++²»ÔÙÌá¹©ÎÞ²Î¹¹Ôì£¬µ«ÊÇ»áÌá¹©Ä¬ÈÏ¿½±´¹¹Ôì
-	// Èç¹ûÓÃ»§¶¨Òå¿½±´¹¹Ôì£¬c++²»»áÔÙÌá¹©ÆäËû¹¹Ôìº¯Êý
+	// é»˜è®¤æƒ…å†µï¼Œc++ç¼–è¯‘å™¨è‡³å°‘ç»™ä¸€ä¸ªç±»æ·»åŠ ä¸‰ä¸ªå‡½æ•°ï¼š é»˜è®¤æž„é€ ï¼ˆæ— å‚ï¼‰ï¼Œé»˜è®¤æžæž„ï¼Œé»˜è®¤æ‹·è´æž„é€ 
+	// å¦‚æžœç”¨æˆ·å®šä¹‰æœ‰å‚æž„é€ ï¼Œc++ä¸å†æä¾›æ— å‚æž„é€ ï¼Œä½†æ˜¯ä¼šæä¾›é»˜è®¤æ‹·è´æž„é€ 
+	// å¦‚æžœç”¨æˆ·å®šä¹‰æ‹·è´æž„é€ ï¼Œc++ä¸ä¼šå†æä¾›å…¶ä»–æž„é€ å‡½æ•°
 };
 
-// 2. µ÷ÓÃ
+// 2. è°ƒç”¨
 void test01() {
-	// À¨ºÅ·¨
-	Person p;   // Ä¬ÈÏ¹¹Ôìº¯Êýµ÷ÓÃ£¬²»¼Ó()£¬Èç¹û¼ÓÁË±àÒëÆ÷»áÈÏÎªÊÇÒ»¸öº¯ÊýÉùÃ÷
-	Person p2(10);  // ÓÐ²Î
-	Person p3(p2); // ¿½±´¹¹Ôìº¯Êý
+	// æ‹¬å·æ³•
+	Person p;   // é»˜è®¤æž„é€ å‡½æ•°è°ƒç”¨ï¼Œä¸åŠ ()ï¼Œå¦‚æžœåŠ äº†ç¼–è¯‘å™¨ä¼šè®¤ä¸ºæ˜¯ä¸€ä¸ªå‡½æ•°å£°æ˜Ž
+	Person p2(10);  // æœ‰å‚
+	Person p3(p2); // æ‹·è´æž„é€ å‡½æ•°
 
-	// ÏÔÊ¾·¨
+	// æ˜¾ç¤ºæ³•
 	Person p1;
-	Person p2 = Person(10); // ÓÐ²Î¹¹Ôì  Person(10) ½ÐÄäÃû¶ÔÏó(ÌØµã£ºµ±Ç°ÐÐÖ´ÐÐ½áÊøºó£¬ÏµÍ³»áÁ¢¼´»ØÊÕµô£©
-	Person p3 = Person(p2); // ¿½±´¹¹Ôì ²»ÒªÀûÓÃ¿½±´¹¹Ôìº¯Êý³õÊ¼»¯ÄäÃû¶ÔÏó
-	 
-	// ÒþÊ½×ª»»·¨
-	Person p4 = 10; // Ïàµ±ÓÚÐ´ÁËPerson p4 = Person(10) ÓÐ²Î¹¹Ôì
-	Person p5 = p4; // ¿½±´¹¹Ôì
+	Person p2 = Person(10); // æœ‰å‚æž„é€   Person(10) å«åŒ¿åå¯¹è±¡(ç‰¹ç‚¹ï¼šå½“å‰è¡Œæ‰§è¡Œç»“æŸåŽï¼Œç³»ç»Ÿä¼šç«‹å³å›žæ”¶æŽ‰ï¼‰
+	Person p3 = Person(p2); // æ‹·è´æž„é€  ä¸è¦åˆ©ç”¨æ‹·è´æž„é€ å‡½æ•°åˆå§‹åŒ–åŒ¿åå¯¹è±¡
+
+	// éšå¼è½¬æ¢æ³•
+	Person p4 = 10; // ç›¸å½“äºŽå†™äº†Person p4 = Person(10) æœ‰å‚æž„é€ 
+	Person p5 = p4; // æ‹·è´æž„é€ 
 }

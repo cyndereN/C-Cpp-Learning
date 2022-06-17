@@ -1,24 +1,24 @@
-class Person {
+ï»¿class Person {
 public:
 	Person(int age) {
-		// ÄêÁäÊı¾İ¿ª±Ùµ½¶ÑÇø
+		// å¹´é¾„æ•°æ®å¼€è¾Ÿåˆ°å †åŒº
 		m_Age = new int(age);
 	}
 
-	// ÖØÔØ¸³ÖµÔËËã·û
+	// é‡è½½èµ‹å€¼è¿ç®—ç¬¦
 	Person& operator=(Person& p) {
 		if (m_Age != NULL) {
 			delete m_Age;
 			m_Age = NULL;
 		}
 
-		// ±àÒëÆ÷Ìá¹©µÄ´úÂëÊÇÇ³¿½±´
+		// ç¼–è¯‘å™¨æä¾›çš„ä»£ç æ˜¯æµ…æ‹·è´
 		// m_Age = p.m_Age;
 
-		// Éî¿½±´½â¾öÇ³¿½±´µÄÎÊÌâ
+		// æ·±æ‹·è´è§£å†³æµ…æ‹·è´çš„é—®é¢˜
 		m_Age = new int(*p.m_Age);
 
-		// ·µ»Ø×ÔÉí
+		// è¿”å›è‡ªèº«
 		return *this;
 	}
 
@@ -39,7 +39,7 @@ void test01() {
 
 	p3 = p2 = p1;
 
-	cout << "p1µÄÄêÁäÎª£º" << *p1.m_Age << endl;
-	cout << "p2µÄÄêÁäÎª£º" << *p2.m_Age << endl;
-	cout << "p3µÄÄêÁäÎª£º" << *p3.m_Age << endl;
+	cout << "p1çš„å¹´é¾„ä¸ºï¼š" << *p1.m_Age << endl;
+	cout << "p2çš„å¹´é¾„ä¸ºï¼š" << *p2.m_Age << endl;
+	cout << "p3çš„å¹´é¾„ä¸ºï¼š" << *p3.m_Age << endl;
 }

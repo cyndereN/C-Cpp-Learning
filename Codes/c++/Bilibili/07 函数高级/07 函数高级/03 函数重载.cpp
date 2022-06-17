@@ -1,10 +1,10 @@
-// ×÷ÓÃ£ºº¯ÊýÃû¿ÉÒÔÏàÍ¬£¬Ìá¸ß¸´ÓÃÐÔ
+ï»¿// ä½œç”¨ï¼šå‡½æ•°åå¯ä»¥ç›¸åŒï¼Œæé«˜å¤ç”¨æ€§
 
-// Âú×ãÌõ¼þ£º
-// ¡¤ Í¬Ò»¸ö×÷ÓÃÓòÏÂ
-// ¡¤ º¯ÊýÃû³ÆÏàÍ¬
-// ¡¤ º¯Êý²ÎÊýÀàÐÍ²»Í¬£¬»òÕß¸öÊý²»Í¬»òÕßË³Ðò²»Í¬
-// ·µ»ØÖµ²»ÄÜ×÷ÎªÖØÔØµÄÌõ¼þ
+// æ»¡è¶³æ¡ä»¶ï¼š
+// Â· åŒä¸€ä¸ªä½œç”¨åŸŸä¸‹
+// Â· å‡½æ•°åç§°ç›¸åŒ
+// Â· å‡½æ•°å‚æ•°ç±»åž‹ä¸åŒï¼Œæˆ–è€…ä¸ªæ•°ä¸åŒæˆ–è€…é¡ºåºä¸åŒ
+// è¿”å›žå€¼ä¸èƒ½ä½œä¸ºé‡è½½çš„æ¡ä»¶
 
 //int func() {
 //	cout << "this is func" << endl;
@@ -27,20 +27,20 @@ func(3.14)
 void func(double a, int b) {
 	cout << "this is func (double a int b)" << endl;
 }
-func(3.14,10)
+func(3.14, 10)
 
-// ×¢ÒâÊÂÏî
+// æ³¨æ„äº‹é¡¹
 
-// 1. ÒýÓÃ×÷ÎªÖØÔØÌõ¼þ
+// 1. å¼•ç”¨ä½œä¸ºé‡è½½æ¡ä»¶
 void func(int& a) {
-	cout << "func(int &a)µ÷ÓÃ" << endl;
+	cout << "func(int &a)è°ƒç”¨" << endl;
 }
 int a = 10;
 func(a);
 
 void func(const int& a) {
-	cout << "func(cosnt int &a)µ÷ÓÃ" << endl;
+	cout << "func(cosnt int &a)è°ƒç”¨" << endl;
 }
 func(10);
 
-// 2.º¯ÊýÖØÔØÓöµ½Ä¬ÈÏ²ÎÊý£¬³öÏÖ¶þÒåÐÔ£¬±¨´í£¬¾¡Á¿±ÜÃâ
+// 2.å‡½æ•°é‡è½½é‡åˆ°é»˜è®¤å‚æ•°ï¼Œå‡ºçŽ°äºŒä¹‰æ€§ï¼ŒæŠ¥é”™ï¼Œå°½é‡é¿å… 

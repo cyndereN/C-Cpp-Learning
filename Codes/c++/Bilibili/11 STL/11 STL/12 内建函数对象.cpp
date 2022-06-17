@@ -1,8 +1,8 @@
-// ËãÊõ·Âº¯Êý£¬¹ØÏµ·Âº¯Êý£¬Âß¼­·Âº¯Êý
+ï»¿// ç®—æœ¯ä»¿å‡½æ•°ï¼Œå…³ç³»ä»¿å‡½æ•°ï¼Œé€»è¾‘ä»¿å‡½æ•°
 #include <functional>
 
 negate<int> n;
-cout << n(50) << ensl; //-50
+cout << n(50) << endl; //-50
 
 sort(v.begin(), v.end(), greater<int>());
 

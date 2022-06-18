@@ -26,7 +26,3 @@ m.count(key);
 
 // 适用场景：适用于需要储存一个字典，并要求方便的根据key找value的场景
 
-// hash_map, hash_set, hash_multimap, and hash_multiset采用哈希表实现，不同操作的时间复杂度为：
-// 插入:O(1)，最坏情况O(N)。
-// 查看:O(1)，最坏情况O(N)。
-// 删除:O(1)，最坏情况O(N)。

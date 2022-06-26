@@ -5,7 +5,7 @@ int* p = &a;
 
 // 常量指针
 // 指针的指向可以修改，但是指针指向的值不能改
-const int* p = &a; // int const* p = &a;
+const int* p = &a; 
 *p = 20; //是错的
 p = &b; // 正确
 // 此时const限定（修饰）的是int* 所以*p不能改

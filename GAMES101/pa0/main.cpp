@@ -59,7 +59,7 @@ int main(){
     Eigen::Vector3f p(2.0f, 1.0f, 1.0f);
     Eigen::Matrix3f rot;
     Eigen::Matrix3f tran;
-    double theta = 45.0/190.0*M_PI;
+    double theta = 45.0/180.0*M_PI;
     rota << cos(theta), -1.0*sin(theta), 0,
             sin(theta), cos(theta), 0,
             0, 0, 1;

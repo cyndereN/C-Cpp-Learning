@@ -79,9 +79,13 @@ vector<int> get_path(int t) {
 }
 
 // 堆优化
-struct edge{int from, to, cost;};
+struct edge{int to, cost;};
 
 typedef pair<int, int> P; // first 是最短距离，second是顶点的编号
+
+int V;
+vector<edge> G[MAX_V];
+int d[MAX_V];
 
 void dijkistra(int s) {
     // 通过指定greater<P>参数，堆按照first从小到大的顺序取出值

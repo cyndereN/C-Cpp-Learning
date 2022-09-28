@@ -22,3 +22,33 @@ int main() {
 	system("pause");
 	return 0;
 }
+
+
+// 创建数组并初始化
+
+int **Array = (int**)malloc(ArrayRow * sizeof(int *));		// 先行
+for (int i = 0; i < ArrayRow; i++)
+{
+    Array[i] = (int*)malloc(ArrayCol * sizeof(int));		// 后列
+    memset(Array[i], 0, ArrayCol * sizeof(int));			// 初始化 0
+}
+
+for (int i = 0; i < 3; i++)									// 释放内存
+{
+	free(Array[i]);
+}
+free(Array);									
+
+// ---
+
+int **Array = new int *[ArrayRow];
+for (int i = 0; i < ArrayRow; i++)
+{
+	Array[i] = new int[ArrayCol]();							// 初始化 0
+}
+
+for(i = 0; i < ArrayRow; i++)  								// 释放内存
+{  
+    delete[] Array[i];  
+}   
+delete[] Array;  

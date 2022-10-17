@@ -19,10 +19,16 @@ int main() {
     // counts the number of times a number under limit appears
 }
 
-
+// ###################################################################
 auto lambda = [capture-values(capture-clause)](arguments) -> return-value {
     // body
 }
+
+// [=]	以值的形式捕获所有外部变量
+// [&]	以引用形式捕获所有外部变量
+// [=, &x]	变量x以引用形式捕获，其余变量以传值形式捕获
+// [&, x]	变量x以值的形式捕获，其余变量以引用形式捕获
+// ###################################################################
 
 
 set<string> teas {"black", "green", "oolong"};

@@ -24,22 +24,23 @@ public:
 	// · 使用一个已经创建完毕的对象来初始化一个新对象
 	// · 值传递的方式给函数参数传值
 	//  void test02(){ 
-	//     Person p; 
+	//     Person p; 	
 	//     doWork1(p); 
 	//  }
 	//  void doWork1(Person p){ 
 	//      // 在这里改动p不会影响外面的p
 	//  }
 	// · 以值方式返回局部对象
-	// void test03(){ 
-	//     Person p = doWork2();
-	//	   cout << (int*)&p << endl; 
-	//  }
 	//  Person doWork2(){ 
 	//      Person p1;
 	// 	   cout << (int*)&p1 << endl; 
 	// 	    return p1;
 	//  }
+	//  void test03(){ 
+	//     Person p = doWork2();
+	//	   cout << (int*)&p << endl; 
+	//  }
+
 
 	// 默认情况，c++编译器至少给一个类添加三个函数： 默认构造（无参），默认析构，默认拷贝构造
 	// 如果用户定义有参构造，c++不再提供无参构造，但是会提供默认拷贝构造

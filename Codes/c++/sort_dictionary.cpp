@@ -113,7 +113,7 @@ void DoSingleThreaded(vector<string> _fileList, ESortType _sortType, string _out
 		}
 
 		masterStringList = BubbleSort(masterStringList, _sortType);
-		_fileList.erase(_fileList.begin() + i);
+		// _fileList.erase(_fileList.begin() + i);
 	}
 	clock_t endTime = clock();
 
@@ -176,7 +176,7 @@ bool AlphabeticalAscendingStringComparer::IsFirstAboveSecond(string _first, stri
 			return false;
 		++i;
 	}
-	return (i == _second.length());
+	return (i == _first.length());
 }
 
 vector<string> BubbleSort(vector<string> _listToSort, ESortType _sortType) {

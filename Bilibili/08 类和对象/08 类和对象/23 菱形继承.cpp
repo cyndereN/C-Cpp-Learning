@@ -7,16 +7,16 @@ public:
 class Sheep : virtual public Animal {
 
 };
-class Tuo : virtual public Animal {
+class Alpaca : virtual public Animal {
 
 };
 
-class SheepTuo :public Sheep, public Tuo {
+class Sheep Alpaca :public Sheep, public Alpaca {
 
 };
 
 void test01() {
-	SheepTuo st;
+	SheepAlpaca st;
 	// 当菱形继承，两个父类拥有相同数据，需要加以作用域区分
 	st.Sheep::m_Age = 18;
 	st.Tuo::m_Age = 28;

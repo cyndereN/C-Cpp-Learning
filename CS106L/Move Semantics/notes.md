@@ -39,3 +39,9 @@ void swap(T& a, T&b){
 # Rule of Five
 
 If explicitly define(or delete) a copy constructor, copy assignment, move constructor, move assignment, or destructor then you should define(or delete) all 5.
+# Rule of Zero
+“The Rule of Zero” basically states: You should never implement a destructor, copy constructor, move constructor or move assignment operators in your code
+
+# Rule of Three
+If a class defines any of the following then it should probably explicitly define all three: destructor. copy constructor. copy assignment operator
+

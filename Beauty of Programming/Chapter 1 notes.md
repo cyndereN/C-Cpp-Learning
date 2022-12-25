@@ -1,0 +1,391 @@
+# 编程之美
+
+## 第1章 游戏之乐 ———— 游戏中碰到的题目
+
+### 1.1 让CPU占有率听你指挥
+
+写一个程序，让用户来决定Windows任务管理器的CPU占用率
+1. 50%，一条直线
+2. 命令行参数，一条直线
+3. 一个正弦曲线
+
+```c
+
+int main() {
+    for (; ; )
+    {
+        for (int i = 0; i <9600000; i++) // 根据CPU产生差异
+            ;
+        Sleep(10);   // 接近windows的调度时间片
+    }
+    return 0;
+}
+```
+
+```c
+// 解放n值
+
+const DWORD busyTIme = 10;            // 10ms
+const DWORD int idleTime = busyTime;  // Same ratio will lead to 50% cpu usage
+
+Int64 startTime = 0;
+
+while(true){
+    DWORD startTime = GetTickCount();
+    // busy loop
+    while ((GetTickCount() - startTime) <= busyTime>)
+        ;
+    
+    // idle loop
+    Sleep(idelTime);
+}
+```
+
+```Cs
+// 动态适应
+static void MakeUsage(float level) {
+    PerformanceCounter p = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+
+    while(true){
+        if(p.NextValue() > level)
+            System.Threading.Thread.Sleep(10);
+    }
+}
+```
+
+
+// 正弦曲线：把一条正弦曲线0-2π之间的弧度等分成200份进行抽样，计算每个抽样点的振幅
+// 每隔300ms取下一个抽样点并让CPU工作对应振幅的时间
+
+
+### 1.2 中国象棋将帅问题
+
+3*3 格子，只用一个字节存储变量，输出所有A, B合法位置
+
+1个8位字节可以表示2^8=256个值，所以用它前4个bit表示A、后4个表示B，4个bit能表示16个数字，已经足够了
+
+```
+BYTE i = 81;
+while (i--){
+    if(i/9 % 3 == i%9%3)    continue;
+    printf("A=%d, B=%d\n", i/9+1, i%9+1);
+}
+```
+
+
+```
+struct{
+    unsigned char a:4;
+    unsigned char b:4;
+} i;
+
+for (i.a=1; i.a <= 9; i.a++)
+    for (i.b =1; i.a <= b; i.b++)
+        if(i.a%3 != i.b%3)
+            printf("..");
+```
+
+
+### 1.3 烙饼排序
+
+优化？
+两次翻转即可把最大的翻到最下面，那么至多需要2(n-1)次————上界，m_nMaxSwap
+如果操作+预计操作大于上界，则剪枝
+nEstimate越大，剪枝条件越容易被满足
+告诉“神仙”当前状态，他就能告诉你最少需要多少次翻转————下界，当前n个烙饼中，有m对相邻的烙饼半径不相邻，则至少需要m次（目前找到的最大下界是[15n/14]，也就是说如果有100个烙饼，那么我们至少需要15*100/14 = 108次才能翻好）
+
+
+尽可能减小UpperBound, 增加LowerBound
+
+```cpp
+/****************************************************************/
+//
+// 烙饼排序实现
+//
+/****************************************************************/
+class CPrefixSorting
+{
+public:
+
+     CPrefixSorting()    
+     {
+          m_nCakeCnt = 0;
+          m_nMaxSwap = 0;
+     }
+
+    ~CPrefixSorting()
+    {
+          if( m_CakeArray != NULL )
+          {
+               delete m_CakeArray;  
+          }
+          if( m_SwapArray != NULL )
+          {
+               delete m_SwapArray;  
+          }
+          if( m_ReverseCakeArray != NULL )
+          {
+               delete m_ReverseCakeArray;  
+          }
+          if( m_ReverseCakeArraySwap != NULL )
+          {
+               delete m_ReverseCakeArraySwap;  
+          }
+     }
+
+     //
+     // 计算烙饼翻转信息
+     // @param
+     // pCakeArray	存储烙饼索引数组
+     // nCakeCnt	烙饼个数
+     //
+     void Run(int* pCakeArray, int nCakeCnt)
+     {
+          Init(pCakeArray, nCakeCnt);
+
+          m_nSearch = 0;
+          Search(0);
+     }
+
+     //
+     // 输出烙饼具体翻转的次数
+     //
+     void Output()
+     {
+          for(int i = 0; i < m_nMaxSwap; i++)
+          {
+               printf("%d ", m_arrSwap[i]);
+          }
+		
+          printf("\n |Search Times| : %d\n", m_nSearch);
+          printf("Total Swap times = %d\n", m_nMaxSwap);
+     }
+
+private:
+
+     //
+     // 初始化数组信息
+     // @param
+     // pCakeArray	存储烙饼索引数组
+     // nCakeCnt	烙饼个数
+     //
+     void Init(int* pCakeArray, int nCakeCnt)
+     {
+          Assert(pCakeArray != NULL);
+          Assert(nCakeCnt > 0);
+
+          m_nCakeCnt = nCakeCnt;
+
+          // 初始化烙饼数组
+          m_CakeArray = new int[m_nCakeCnt]; 
+          Assert(m_CakeArray != NULL);
+          for(int i = 0; i < m_nCakeCnt; i++)
+          {
+               m_CakeArray[i] = pCakeArray[i];
+          }
+
+          // 设置最多交换次数信息
+          m_nMaxSwap = UpBound(m_nCakeCnt);
+
+          // 初始化交换结果数组 
+          m_SwapArray = new int[m_nMaxSwap + 1];
+          Assert(m_SwapArray != NULL);
+
+          // 初始化中间交换结果信息
+          m_ReverseCakeArray = new int[m_nCakeCnt];
+          for(i = 0; i < m_nCakeCnt; i++)
+          {
+               m_ReverseCakeArray[i] = m_CakeArray[i];
+          }
+          m_ReverseCakeArraySwap = new int[m_nMaxSwap];
+     }
+    
+    
+     //
+     // 寻找当前翻转的上界
+     //
+     //
+     int UpBound(int nCakeCnt)
+     {
+          return nCakeCnt*2;
+     }
+
+     //
+     // 寻找当前翻转的下界
+     //
+     //
+     int LowerBound(int* pCakeArray, int nCakeCnt)
+     {
+          int t, ret = 0;
+
+          // 根据当前数组的排序信息情况来判断最少需要交换多少次
+          for(int i = 1; i < nCakeCnt; i++)
+          {
+               // 判断位置相邻的两个烙饼，是否为尺寸排序上相邻的
+               t = pCakeArray[i] - pCakeArray[i-1];
+               if((t == 1) || (t == -1))
+               {
+               } 
+               else
+               {
+                    ret++;
+               }
+          }
+          return ret;
+     }
+
+     // 排序的主函数
+     void Search(int step)
+     {
+          int i, nEstimate;
+
+          m_nSearch++;
+
+          // 估算这次搜索所需要的最小交换次数
+          nEstimate = LowerBound(m_ReverseCakeArray, m_nCakeCnt);
+          if(step + nEstimate > m_nMaxSwap)
+               return;
+
+          // 如果已经排好序，即翻转完成，输出结果
+          if(IsSorted(m_ReverseCakeArray, m_nCakeCnt))
+          {
+               if(step < m_nMaxSwap)
+               { 
+                    m_nMaxSwap = step;
+                    for(i = 0; i < m_nMaxSwap; i++)
+                         m_arrSwap[i] = m_ReverseCakeArraySwap[i];
+               }
+               return;
+          }
+
+          // 递归进行翻转
+          for(i = 1; i < m_nCakeCnt; i++)
+          {
+               Revert(0, i);
+               m_ReverseCakeArraySwap[step] = i;
+               Search(step + 1);
+               Revert(0, i);
+          }
+     }
+     //
+     // true : 已经排好序
+     // false : 未排序
+     //
+     bool IsSorted(int* pCakeArray, int nCakeCnt)
+     {
+          for(int i = 1; i < nCakeCnt; i++)
+          {
+               if(pCakeArray[i-1] > pCakeArray[i])
+               {
+                    return false;
+               }
+          }
+          return true;
+     }
+
+     //
+     // 翻转烙饼信息
+     //    
+     void Revert(int nBegin, int nEnd)
+     {
+          Assert(nEnd > nBegin);
+          int i, j, t;
+
+          // 翻转烙饼信息
+          for(i = nBegin, j = nEnd; i < j; i++, j--)
+          {
+               t = m_ReverseCakeArray[i]; 
+               m_ReverseCakeArray[i] = m_ReverseCakeArray[j];
+               m_ReverseCakeArray[j] = t;
+          }
+     }
+
+private:
+
+     int* m_CakeArray;	// 烙饼信息数组
+     int m_nCakeCnt;	// 烙饼个数
+     int m_nMaxSwap;	// 最多交换次数。根据前面的推断，这里最多为
+                          	// m_nCakeCnt * 2 
+     int* m_SwapArray;	// 交换结果数组
+
+     int* m_ReverseCakeArray;	// 当前翻转烙饼信息数组
+     int* m_ReverseCakeArraySwap;	// 当前翻转烙饼交换结果数组
+     int m_nSearch;	// 当前搜索次数信息
+};
+```
+
+### 1.4 买书问题
+
+### 1.5 快速找出故障机器
+
+　有很多服务器存储数据，假设一个机器仅存储一个标号为ID的记录，假设机器总量在10亿以下且ID是小于10亿的整数，假设每份数据保存两个备份，这样就有两个机器存储了同样的数据。
+
+问题是：1.假设在某个时间得到一个数据文件ID的列表，是否能快速地找出表中仅出现一次的ID？即快速找出出现故障的机器存储的数据ID。
+
+　　　　2.如果有两台机器出现故障呢？（假设存储同一份数据的两台机器不会同时出现故障，即列表中缺少的是两个不等的ID）
+
+ 
+
+给出了4种解法思路
+
+解法一：
+
+　　最传统的比较列表，需要遍历整个列表，记录每个ID出现的次数，最后输出只出现一次的ID，时间复杂度O(n)，空间复杂度也为O(n)，如果数据量太大，实际运算效率会很低下。
+
+解法二：
+
+　　优化存储空间，在很多数据中，大部分出现次数都是2，出现故障的机器为少数，通过Hash Table，Key值为机器ID，Value值为出现次数。遍历列表，遇到ID，就将ID的Value值加1。Value值为2的话，删除这个Key。最后Hash表中剩下的就是出故障的机器ID。
+
+　　最好情况下空间复杂度为O(1)，最坏仍为O(n)。
+
+解法三：
+
+　　前两种方法已经将空间复杂度降到了O(n)，如果在想降到常数级，就需要换一种思路，不用遍历列表的这种方法。
+
+如果能只用一个变量记录遍历列表的结果，那么空间复杂度可将为O(1)。
+
+　　x(N)=ID_Lost。考虑到列表中，只有一个ID出现了1次，其他都是2次，可以用到计算机语言里面的异或(XOR、⊕)。
+
+A⊕A=0
+
+A⊕0=A
+
+　　最终x(n)=List[0]⊕List[1]⊕List[2]⊕……⊕List[n]  的运算结果即为只出现一次的ID号，空间复杂度为1。
+
+　　但如果有2个ID只出现了一次，假设出现一次的ID为A,B，x(n)的为A⊕B，仍无法确定AB的值。
+
+　　异或之后的二进制值，某一位为1的话，可以推断出，AB2个数中，这个位置，一个是0，一个是1。我们将所有ID，分为2类，一类这位上为1，一类这位上为0。这2类个包含了AB中的一个，使用2个变量，遍历列表做异或处理，即可找出A和B的值。
+
+解法四：
+
+　　将问题进行扩展，现在故障机器的ID相同，既2台存储相同数据的机器同时嗝屁了。运用一些数学上的知识，数学中有不变量，在这里，事先预订的整数ID集合中，所有的ID相加可以得到一个不变量。将现在的ID集合相加，用不变量减去现在的ID集合的和，即可得到丢失数据ID的。时间复杂度为O(n)，空间复杂度O(1)。
+
+　　如果这2台机器ID不同，我们只是得到了他们的ID之和，x+y=a，并不能知道他们到底是多少。可以再构建一个等式，构成一个方程，解方程组，得出x和y的值。同样使用不变量的概念，比如所有ID的乘积，最后得出来xy=b，解出x，y的值。
+
+ 
+
+ 
+
+总结：
+
+　　在算法设计是一个慢慢发展过程中，开始的时候可能只是想出了最普通的一个解法，效率不高，但能解决问题。做到这一步之后，想要更进一步，就需要在时间复杂度或者空间复杂度方面做一些优化。还可以根据题中的一些条件，想一些可以用计算机方式解决的方法，如异或、与、正则表达。还可以用数学的思想来看看问题有没有解决的办法。
+
+```c
+#include "stdio.h"
+
+int main(){
+    int List[]={1,2,3,5,6,7,8,9,0,1,2,3,4,5,6,8,9};//ȱ0,7,4 
+    int t;
+    int length=sizeof(List)/sizeof(List[0]);
+    printf("%d\n",length);
+
+    for(int i=0;i<length;i++){
+    t=0;
+        for(int j=0;j<length;j++)
+            if(List[i]==List[j])
+                t=t+1;
+    if(t!=2)
+        printf("%d\n",List[i]);
+    }
+}
+```

@@ -389,3 +389,67 @@ int main(){
     }
 }
 ```
+
+
+### 1.6 饮料供货
+
+空间复杂度O(N*V)(可降为O(V)) 时间复杂度O(V*N*Max(Ci))
+```cpp
+int Cal(int V, int T){
+     opt[0][T] = 0;     // T为饮料种类
+     for (int i = 1; i <= V ; i++){ // 边界条件
+          opt[i][T] = -INF;
+     }
+
+     for(int j = T-1; j >= 0; j--){
+          for(int i = 0; i<=V; i++){   
+               opt[i][j] = -INF;
+
+               for(int k=0; k<= C[j]; k++){  // 遍历第j种饮料选取数量k
+                    if(i <= k*V[j])     break;
+                    int x = opt[i -k*V[j]][j+1];
+               }
+
+               if( x!= -INF){
+                    x += H[j]*k;
+                    if(x>opt[i][j])     opt[i][j] = x;
+               }
+          }
+     }
+
+     return opt[V][0];
+}
+```
+
+```cpp
+int opt_num[MAXV + 1][MAXT + 1];
+// 备忘录法
+int Cal1(int V, int type) {
+    if (type == T) {
+        if (V == 0)
+            return 0;
+        else
+            return -INF;
+    }
+    if (V < 0)
+        return -INF;
+    else if (V == 0)
+        return 0;
+    else if (opt[V][type] == -1)
+        return opt[V][type];
+
+    int ret = -INF;
+    for (int i = 0; i <= c[type]; ++i) {
+        int temp = Cal1(V - i * v[type], type + 1);
+        if (temp != -INF) {
+            temp += i * h[type];
+            if (temp > ret) {
+                opt_num[V][type] = i;
+                ret = temp;
+            }
+        }
+    }
+    return opt[V][type] = ret;
+}
+
+```

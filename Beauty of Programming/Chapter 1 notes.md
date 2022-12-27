@@ -453,3 +453,164 @@ int Cal1(int V, int type) {
 }
 
 ```
+
+### 1.7 光影切割问题 
+假设N条直线，M个交点，分成的区域数目 = N+M+1
+只需查询每条直线是否与其他N-1条直线有交点。初始化的复杂度为O(N^2)，每次查询的时间复杂度为O(|Intersect|)。
+如果在初始化之后对所有交点按x轴进行排序，则复杂度为O(N^2+|Intersect|\*log|Intersect|)，后面为排序时间，之后可以用二分查找，每次查询的时间复杂度将为O(log|Intersect|)
+如果查询比较少，可以求逆序数，O(N^2)，可以用分治法将时间复杂度降为O(N\*logN)
+
+### 1.8 小飞的电梯调度算法
+本质是一个优化问题。
+最简单解法O(N^2) 1-N层枚举x循环，分别计算每个x楼层的总数
+
+从第一层开始考察，N1为目的楼层在第i层楼以下的乘客数，N2为在第i层楼的乘客数，N3为之上的乘客数。
+在第i-1层停，需多爬N2+N3-N1层，在i+1层停，需多爬N1+N2-N3层。所以，当N1>N2+N3，在i-1，N1+N2<N3，在i+1层最好，反之i
+```cpp
+int nPerson[]; // nPerson[i]表示到第i层的乘客数目
+int nMinFloor, nTargetFloor;
+int N1, N2, N3;
+
+nTargetFloor = 1;
+mMinFloor = 0;
+
+for (N1 = 0, N2 = nPerson[1], N3 = 0, i = 2; i <= N; i++){
+  N3 += nPerson[i];
+  nMinFloor += nPerson[i]*(i-1);
+}
+
+for (i=2 ; i<=N ; i++){
+  if(N1+N2<N3){
+    nTargetFloor = i;
+    nMinFloor += (N1+N2-N3);
+    N1+=N2;
+    N2 = nPerson[i];
+    N3 -= nPerson[i];
+  }
+  else
+    break;
+}
+
+return (nTargetFloor, nMinFloor)
+```
+### 1.9 高效安排见面会
+不同的k个见面小组如果有一个人同时感兴趣，那么就给他们连起来，最小着色问题。G(E,V)
+解法1，对顶点1分配颜色1，然后枚举其他所有颜色可能O((n-1)^n)，验证一种颜色的时间复杂度是O(n^2)，共O((n-1)^n\*n^2)
+解法2，对图尝试k种着色，首先设为1，看看有没有合适方案，在逐渐提高K
+
+### 1.10 双线程下载
+下载的同时写入磁盘
+```cpp
+//---------------------API------------------------------
+
+
+//downloads a block from Internet sequentially in each call
+//return true, if the entire file is downloaded, otherwise false.
+bool GetBlockFromNet(Block* out_block);
+
+//writes a block to hard disk
+bool WriteBlockToDisk(Block* in_block);
+  
+class Thread
+{
+public:
+    Thread(void (*work_func)());
+    ~Thread();
+    void Start();
+    void Abort();
+};
+ 
+class Semaphore
+{
+public:
+    Semaphore(int count,int max_count);
+    ~Semaphore(); 
+    // consume a signal(count--), block current thread if count == 0
+    void Unsignal();
+    // raise a signal(count++)
+    void Signal();
+};
+ 
+class Mutex
+{
+public:
+    // block thread until other threads realease the mutex
+    WaitMutex();
+    // rlease mutex to let other thread wait for it
+    ReleaseMutex();
+};
+//----------------------------------------------------
+```
+分析与解法：
+
+1.什么时候才算完成任务？
+
+下载完毕并且完全存储到硬盘上，两个线程才能正常终止。
+
+2.希望两个线程能同时工作，又不发生冲突，用什么方法？
+
+使用Mutex（互斥量），下载时不能存储所以弃用。
+
+使用Semaphore（信号量）是更好的选择。
+
+3.下载与存储的必要条件
+
+buffer满的时候和所有内容下载完毕，应该停止下载。
+
+buffer为空时，没必要运行存储线程。 
+```cpp
+#define BUFFER_COUNT 100  //定义数据队列中数据块的数目。
+//每一个数据块将是下载线程和存储线程操作的基本的单元
+BLOCK g_buffer[BUFFER_COUNT];//数据缓冲区队列
+ 
+Thread g_ThreadA(ProcA);//下载线程
+Thread g_ThreadB(ProcB);//存储线程
+//信号量，表示现在在数据队列中已经存放满数据的数据块的数量
+Semaphore g_seFull(0,BUFFER_COUNT);
+//信号量，表示现在在数据队列中空数据块的数量
+Semaphore g_seEmpty(BUFFER_COUNT,BUFFER_COUNT);
+bool g_downloadComplete = false;
+int in_index = 0;//表示当前下载线程正在处理的数据块的编号
+int out_index = 0;//表示当前存储线程正在处理的数据块的编号
+ 
+void main()
+{
+     g_ThreadA.start();//启动下载线程
+     g_ThreadB.start();//启动存储线程
+     Wait();
+}
+ 
+//下载线程的工作函数
+void ProcA()
+{
+     while(true)
+     {
+           //申请一个空的数据块的资源
+          g_seEmpty.Unsignal();  
+          //申请到空的数据块，向in_index指向的BLOCK下载数据
+          g_downloadComplete = GetBlockFromNet(g_buffer + in_index);
+          //in_index更新
+          in_index = (in_index + 1) % BUFFER_CONUT;  
+          g_seFull.Signal();//报告又有一个新的数据块已经下载完毕，可以指向写入操作...
+         if(g_downloadComplete)
+                break;
+     }
+}
+ 
+//存储线程的工作函数
+void ProcB()
+{
+     while(true)
+     {
+           //申请一个满的数据块的资源
+          g_seFull.Unsignal();  
+          //申请到满的数据块，从out_index指向的BLOCK获取数据，写入Disk。
+          WriteBlockToDisk(g_buffer + out_index);
+          //out_index更新
+          out_index = (out_index + 1) % BUFFER_CONUT;  
+          g_seEmpty.Signal();//报告又有一个新的数据块已经写入完毕，可以下载覆盖其数据...
+         if(g_downloadComplete && out_index == in_index)
+               break;
+     }
+}
+```

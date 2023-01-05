@@ -646,3 +646,196 @@ b = (3+sqrt(5))/2
 
 
 还有一种，随机将{1, ..., 9}映射到{a, ..., i}，把棋盘分9大块，每大块9小块，中间那块按a,b,c第一行，d,e,f第二行, g,h,i第三行排列，之后通过置换行的办法横向拓展，即abc一行被移到了另外两个矩阵中不相同的行上，def，ghi两行也一样。接着置换列作纵向扩展，即可得到合法解。
+
+### 1.16 24点游戏
+
+1. 穷举法：不包括括号，4! x 4^3 = 1536；包括括号4! x 4^3 x 5 = 7680种；递归，将给定的4个数放入数组array中，将其作为参数传入函数f中
+
+```c
+f(Array){
+     if (Array.Length < 2){
+          if (得到的结果为24)   输出表达式
+          else 输出无法构造符合要求的表达式
+     }
+
+     foreach(从数组中任取两个数)
+     {
+          foreach(运算符(+, -, x, /))
+          {
+               1. 计算该组合在此运算符下的结果
+               2. 将该组合中的两个数从原数组中移除，并将步骤1的计算结果放入数组
+               3. 对新数组递归调用f，如果找到一个表达式则返回
+               4. 将步骤1的计算结果移除，并将该组合中的两个数重新放回数组中对应的位置
+          }
+     }
+}
+```
+使用动态规划实现，给定4个数：A={a0，a1，a2，a3}。采用4位二进制表示集合，当且仅当ai在某一个子集中时，该子集所代表的二进制数对应的第i位为1，否则为0，比如A1={a1，a2，a3}，则1110代表A1，总共需要1到2^n-1表示所有的子集，包括A自身。所以不妨设S表示所有子集所有的运算结果。比如：s[3]表示A3={a0，a1}的运算，s[3]中存储{a0+a1、a0-a1、a1-a0、a0*a1、a0/a1、a1/a0}。s[1]={a0}、s[2]={a1}、s[4]={a2}、s[8]={a3}。对于{a0,a1,a2}—>{a0}+{a1，a2}、{a1}+{a0，a2}、{a2}+{a0，a1}，即：s[1]中元素与s[6]中元素进行加、减、乘、除六种的运算，结果存储在s[7]中，同样s[2]与s[5]，s[3]与s[4]，这样就完成了{a0,a1,a2}所有的可能组合表达式的运算。其它的依次类推。自底向上计算，s[15]中存储{a0，a1，a2，a3}所有可能的组合表达式的结果，只要遍历s[15]中结果为24的表达式将其输出，就可以找到所有满足结果为24的表达式。具体过程详见编程之美，这里只是讲解程序是如何实现的。
+
+game24.h
+```cpp
+#pragma once
+#include<iostream>
+#include<vector>
+#include<string>
+using namespace std;
+
+class Game
+{
+public:
+	void insert(int x);
+	void start();
+	void Find(int k);
+	void Fork(int a,int b);
+	void show();
+private:
+	vector<int> c;
+	vector<vector<double> > s;
+	vector<vector<string> > result;
+};
+```
+
+game24.cpp
+```
+#include"stdafx.h"
+#include"game24.h"
+#include<iostream>
+#include<vector>
+#include<stdlib.h>
+#include<math.h>
+using namespace std;
+
+void Game::insert(int x)
+{
+	c.push_back(x);
+}
+void Game::start()
+{
+	int n=c.size();
+	int m=pow(2,(double)n);
+	s.resize(m);//其中s[0]不使用
+	result.resize(m);
+	for(int i=0;i<n;i++)
+	{
+		char buffer[20];
+		s[pow(2,(double)i)].push_back(c[i]);
+		_itoa_s(c[i],buffer,10);
+		result[pow(2,(double)i)].push_back(buffer);
+	}
+	for(int i=1;i<m;i++)
+		Find(i);
+}
+void Game::Find(int k)
+{
+	if(!s[k].empty())
+		return ;
+	for(int i=1;i<k;i++)
+	{
+		int t=i&k;
+		if((t==i)&&(i<k-i))//i&k=i时,i才为k的子集，比如，k=0101，只有i=0001、0100才是其子集k=0101
+			Fork(i,k-i);   //代表A5={a2，a0}其子集只有{a2}、{a0}，其它不满足
+	}
+}
+void Game::Fork(int a,int b)
+{
+	string str;
+	int n1=s[a].size();
+	int n2=s[b].size();
+	for(int i=0;i<n1;i++)
+		for(int j=0;j<n2;j++)
+		{
+			s[a+b].push_back(s[a][i]+s[b][j]);
+			str='('+result[a][i]+'+'+result[b][j]+')';
+			result[a+b].push_back(str);
+
+
+			s[a+b].push_back(s[a][i]-s[b][j]);
+			s[a+b].push_back(s[b][j]-s[a][i]);
+			str='('+result[a][i]+'-'+result[b][j]+')';
+			result[a+b].push_back(str);
+			str='('+result[b][j]+'-'+result[a][i]+')';
+			result[a+b].push_back(str);
+
+
+
+			s[a+b].push_back(s[a][i]*s[b][j]);
+			str='('+result[a][i]+'*'+result[b][j]+')';
+			result[a+b].push_back(str);
+
+
+			if(s[b][j]!=0)
+			{
+				s[a+b].push_back(s[a][i]/s[b][j]);
+				str='('+result[a][i]+'/'+result[b][j]+')';
+			    result[a+b].push_back(str);
+			}
+			if(s[a][i]!=0)
+			{
+				s[a+b].push_back(s[b][j]/s[a][i]);
+				str='('+result[b][j]+'/'+result[a][i]+')';
+			    result[a+b].push_back(str);
+			}
+		}
+}
+void Game::show()
+{
+	start();
+	int m=c.size();
+	int k=pow(2,(double)m)-1;
+	int n=s[k].size();
+	vector<string> s1;
+	for(int i=0;i<n;i++)
+		if(fabs(s[k][i]-24)<1E-6)
+		{
+			if(s1.empty())
+			{
+            cout<<result[k][i]<<"=24"<<endl;
+			s1.push_back(result[k][i]);
+			cout<<endl;
+			}
+			int n1=s1.size();
+			for(int j=0;j<n1;j++)
+			{
+				if(result[k][i]!=s1[j])
+				{
+				cout<<result[k][i]<<"=24"<<endl;
+				cout<<endl;
+				}
+			}
+		}
+}
+```
+
+Beauty-24dynamic.cpp
+```cpp
+// Beauty-24dynamic.cpp : 定义控制台应用程序的入口点。
+//
+//编程之美：24点游戏，分治算法和动态规划思想
+#include "stdafx.h"
+#include"game24.h"
+#include<iostream>
+#include<vector>
+using namespace std;
+int _tmain(int argc, _TCHAR* argv[])
+{
+
+	Game g;
+	cout<<"Input numbers:"<<endl;
+	for(int i=0;i<4;i++)
+	{
+		int x;
+		cin>>x;
+		g.insert(x);
+	}
+	g.show();
+	return 0;
+}
+
+```
+
+
+### 1.17 俄罗斯方块
+
+
+### 1.18 扫雷游戏
+

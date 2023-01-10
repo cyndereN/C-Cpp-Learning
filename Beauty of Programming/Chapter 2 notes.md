@@ -204,3 +204,25 @@ return v;
 解法6：用O(4N)的方法对原数组建最大堆，然后pop出k次即可。时间复杂度为O(4N + KlogN)。
 https://www.cnblogs.com/ZeroTensor/p/10559876.html
 
+### 2.6 精确表达浮点数
+
+### 2.7 最大公约数问题
+
+```cpp
+int gcd(int x, int y){
+    return (!y)? x : gcd(y, x%y);
+}
+```
+
+取模运算（用到除法）是非常大的开销
+因为f(x, y) = f(x-y, y)可得以下解法
+
+```cpp
+BigInt gcd(BigInt x, BigInt y){
+    if (x<y)  return gcd(y,x);
+    if (y==0)  return x;
+    else  return gcd(x-y, y);
+}
+```
+
+注意如果x = p x1, y%p!=0, f(x,y) = f(px1, y) = f(x1,y) 还可以优化

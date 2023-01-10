@@ -152,3 +152,55 @@ LONGLONG Sum1s(ULONGLONG n){
     return iCount;
 }
 ```
+
+###  2.5 寻找最大的k个数
+
+解法1：假设元素数量不大，排序吧。用快排或者堆排序，O(n x logn) + O(k) = O(nlogn)。
+用选择和交换排序，把前K个数排序出来O(N x K) 
+
+解法2：快排，随机找的X，把数组分为两部分Sa (>= X), Sb (< X)。
+
+1. Sa中元素个数小于K，Sa中所有的数和Sb中最大的K-|Sa|个元素就是最大的K个数
+2. Sa中元素的个数大于等于K，则返回Sa中的K个数。
+
+递归下去，分解成更小的问题。O(N logK)，平均复杂度是线性的
+
+```
+Kbig(S,K):
+    if(K <= 0)  return []  // 返回空数组
+
+    if(length S <= k):  return S
+
+    (Sa, Sb) = Partition(S)
+    return Kbig(Sa, K).Append(Kbig(Sb, K-Sa.length))
+
+Partition(S):
+    Sa = []
+    Sb = []
+    Swap(S[1], S[Random()%S.length])  // 或者洗牌预处理Shuffle, 防止特殊值带来影响
+    P = S[1]
+    for i in [2: S.length]:
+        S[i] > p? Sa.Append(S[i]):Sb.Append(S[i]) 
+
+    Sa.Length < Sb.Length ? Sa.Append(p) : Sb.Append(p)   // p加入较小的，可避免分组失败，也使分组更均匀
+
+    return (Sa, Sb)
+```
+
+解法3：维护一个k大小的最小堆，对于数组中的每一个元素判断与堆顶的大小，若堆顶较大，则不管，否则，弹出堆顶，将当前值插入到堆中。时间复杂度O(N logK)。只需要一个K大小的堆，节省内存
+
+解法4：桶排序，完全线性。需要count[MaxN]来记录出现个数，然后扫描一遍。O(N)
+```cpp
+for(counts = 0, v=MaxN-1; v>=0; v--){
+    counts += count[v];
+    if (counts >= K)    break;
+}
+
+return v;
+```
+
+解法5：二分[Smin,Smax]查找结果X，统计X在数组中出现，且整个数组中比X大的数目为k-1的数即为第k大数。时间复杂度平均情况为O(N logN)
+
+解法6：用O(4N)的方法对原数组建最大堆，然后pop出k次即可。时间复杂度为O(4N + KlogN)。
+https://www.cnblogs.com/ZeroTensor/p/10559876.html
+

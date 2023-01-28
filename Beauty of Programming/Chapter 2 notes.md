@@ -226,3 +226,6 @@ BigInt gcd(BigInt x, BigInt y){
 ```
 
 注意如果x = p x1, y%p!=0, f(x,y) = f(px1, y) = f(x1,y) 还可以优化
+
+
+### 2.8 

@@ -1,0 +1,45 @@
+,size = 0, capacity 0
+vec[0] = 1,size = 1, capacity 1
+vec[0] = 1,size = 2, capacity 2
+vec[0] = 1,size = 3, capacity 4
+vec[0] = 1,size = 4, capacity 4
+vec[0] = 1,size = 6, capacity 8
+vec[10] = 60641
+1 60641
+0xed0300
+1
+Z4mainE3$_0
+St6vectorIiSaIiEE
+i
+1 2 3 4 5 6 
+0xed0300
+size = 6, capacity 8
+
+---------test remove----------
+2 3 4 5 6 6 
+0xed0300
+size = 6, capacity 8
+new end iter index = 5
+
+---------test clear----------
+vec[0] = 2,size = 0, capacity 8
+size = 0, capacity 0
+
+---------test remove----------
+20 10 30 20 40 20 10 
+size = 7, capacity 8
+10 30 40 10 40 20 10 
+size = 7, capacity 8
+new end iter index = 4
+
+---------test remove+erase----------
+10 30 40 10 
+size = 4, capacity 8
+
+---------test erase----------
+100 300 300 300 300 500 
+size = 6, capacity 8
+100 300 300 500 
+size = 4, capacity 8
+100 500 
+size = 2, capacity 8

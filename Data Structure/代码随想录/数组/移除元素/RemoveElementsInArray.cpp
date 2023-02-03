@@ -59,3 +59,12 @@ public:
 };
 
 
+// 查找第一个不出现的最小正整数
+
+int solution(vector<int> &A) {
+    // Implement your solution here
+    for (int i = 1; i <= 100000; i++){
+        if(find(A.begin(), A.end(), i) == A.end())
+            return i;
+    }
+}

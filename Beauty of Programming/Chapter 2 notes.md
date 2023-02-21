@@ -247,3 +247,60 @@ https://github.com/cyndereN/C-Cpp-Learning/blob/master/Data%20Structure/%E4%BB%A
 比较同一组中奇数位数字和偶数位数字，较大的放到偶数位上，较小的放到奇数位上，再分别求出最大最小。有点像卷积，用一个含有两个数的（一个max，一个min的标尺走一遍） 1.5N次比较
 
 解法3：分治思想，分别求出前后n/2个数最大最小，再取较小的min，较大的max即可。 1.5N次比较
+
+### 2.11 寻找最近点对
+
+解法1：暴力法，两两比较，O(N^2)
+
+解法2：排序，一维情况下，先排序，然后比较相邻的两个点，O(NlogN)
+
+```cpp
+double MinDifference(double arr[], int n){
+    if(n < 2)   return 0;
+    sort(arr, arr+n);
+
+    double fMinDiff = arr[1] - arr[0];
+
+    for(int i=2; i<n; i++){
+        if(arr[i] - arr[i-1] < fMinDiff)
+            fMinDiff = arr[i] - arr[i-1];
+    }
+    return fMinDiff;
+}
+```
+
+扩展到二维情况，先按x排序，然后分治，分别求出左右两边的最小距离，然后求出中间的最小距离，最后取三者的最小值。O(NlogN)
+
+### 2.12 快速寻找满足条件的两个数
+
+解法1：穷举 O(N^2)
+
+解法2：排序，对每个元素arr[i]，花二分查找的时间找到满足条件的arr[j] = sum-arr[i]，O(NlogN) 
+
+解法3：哈希表，O(N)时间 + O(N)空间
+
+```cpp
+vector<int> twoSum(vector<int>& nums, int target) {
+        unordered_map<int, int> indices;
+        for (int i = 0; i < nums.size(); i++) {
+            if (indices.find(target - nums[i]) != indices.end()) { // contains
+                return {indices[target - nums[i]], i};
+            }
+            indices[nums[i]] = i;
+        }
+        return {};
+    }
+```
+
+解法4：如果有了数组任意两个元素之和的有序数组（长度为N^2），则可以用二分查找的方法，O(logN)。当然不太可能去计算，因为需要O(N^2)时间。但是可以对两个数字的和做一个有序的遍历，O(NlogN)，在遍历就可以
+
+```cpp
+for (i=0; j = n-1; i<j){
+    if (arr[i] + arr[j] == sum)  return true;
+    else if (arr[i] + arr[j] < sum)  i++;
+    else  j--;
+}
+
+return false;
+
+```

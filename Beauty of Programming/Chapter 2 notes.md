@@ -302,5 +302,192 @@ for (i=0; j = n-1; i<j){
 }
 
 return false;
+    
+```
 
+### 2.13 子数组的最大乘积
+计算N-1个元素的乘积，然后找出最大的乘积
+
+解法1：记s[i]为前i个元素的乘积，s[i] = s[i-1] * arr[i-1]，s[0]=1（边界条件）
+t[i]表示后N-i个元素的乘积，t[i] = t[i+1] * arr[i]，t[N+1]=1（边界条件）
+p[i]为数组除第i个元素外，其他N-1个元素的乘积，即：p[i] = s[i-1] * t[i+1]，p[0] = t[1],p[N] = s[N-1]（边界条件）
+
+只需要从头至尾和从尾至头扫描一遍，就可以得到s和t，然后再扫描一遍，就可以得到p，最后找出最大的p即可
+
+O(N)
+
+解法2：分类讨论
+假设N个数乘积为p，讨论p正负性
+
+- P=0，说明数组至少1个0，假设去除一个0，其他N-1个数乘积为Q，接着讨论：
+    - Q=0, 只能为0
+    - Q为正数，返回Q
+    - Q为负数，返回0 (用0替换任意一个数，乘积为0，大于负数)
+
+- P为负数
+    - 扫描一遍数组，去除最小的负数
+
+- P为正数
+    - 扫描一遍数组，如果存在正数，去除最小的正整数，否则去掉绝对值最大的负数
+
+
+### 2.14 数组的子数组之和的最大值
+
+解法1：O(N^2)
+
+```cpp
+int MaxSum(int* A, int n)
+{
+    int max = -INF;
+    int sum;
+
+    for (int i=0; i<n; i++){
+        sum = 0;
+        for (int j=i; j<n; j++){
+            sum += A[j];
+            if (sum > max)
+                max = sum;
+        }
+    }
+
+    return max;
+}
+
+```
+
+
+解法2：分治法，O(NlogN)
+
+解法3：动态规划，O(N)
+
+考虑A[0]和{A[i]...A[j]}
+- 当0=i=j，A[0]构成最大一段
+- 当0=i<j， 和最大的一段以A[0]开始
+- 当0<i，元素A[0]不在最大一段中
+
+假设已经知道{A[1]...A[n-1]}的最大一段和为All[1]，并且已经知道(A[1],...A[n-1])中包含A[1]的和最大的一段数组为Start[1]，则有{A[0],...A[n-1]}中问题的解All[0] = max {A[0], A[0]+Start[1], A[1]}
+
+```cpp
+int max(int x, int y)
+{
+    return x > y ? x : y;
+}
+
+int MaxSum(int* A, int n)
+{
+    nStart = A[n-1];
+    nAll = A[n-1];
+
+    for (i = n-2; i>=0; i--){
+        nStart = max(A[i], A[i]+nStart);
+        nAll = max(nAll, nStart);
+    }
+
+    return nAll;
+}
+```
+
+
+换一种写法
+```cpp
+int MaxSum(int* A, int n)
+{
+    nStart = A[n-1];
+    nAll = A[n-1];
+
+    for(i=n-2; i>=0; i--){
+        if (nStart < 0)
+            nStart = 0;
+        nStart += A[i];
+        if (nStart > nAll)
+            nAll = nStart;
+    }
+
+    return nAll;
+}
+```
+
+
+### 2.15 数组的子数组之和的最大值（二维）
+
+### 2.16 求数组中的最长递增子序列
+
+解法1：O(N^2)
+
+分析1,-1,2,-3,4,-5,6,-7
+使用i表示当前遍历的位置
+当i=1时，最长递增子序列为1
+当i=2时，-1<1，因此必须丢弃第一个值然后重新建立串，当前递增序列为(-1)，长度为1
+当i=3时，2>1,2>-1，因此可以在当前递增序列的基础上增加一个2，当前递增序列为(-1,2)，长度为2，之前时1还是-1对后面没影响
+
+```csharp
+int LIS(int[] array)
+{
+    int[] LIS = new int[array.Length];
+    for(int i=0; i<array.length; i++){
+        LIS[i] = 1;
+
+        for(int j = 0; j<i; j++){
+            if(array[j]<array[i] && LIS[j]+1>LIS[i])
+                LIS[i] = LIS[j] + 1;
+        }
+    }
+    return Max(LIS);
+}
+```
+
+解法2：之前不考虑前i个元素，这次考虑。如果之前任意一个子序列的最大的元素比array[i+1]小，那么就可以将array[i+1]加载这个字序列的后面，构成一个新的递增子序列
+可以假设：长度为1的递增子序列最大元素最小值为MaxV[1];
+长度为2的递增子序列最大元素的最小值为MaxV[2];
+长度为LIS[i]的递增子序列最大元素的最小值为MaxV[LIS[i]]
+O(N^2)
+```csharp
+int LIS(int[] array){
+    // 记录数组中的递增序列信息
+    int[] MaxV = new int[array.Length+1];
+
+    MaxV[1] = array[0];
+    MaxV[0] = Min(array)-1;  // 数组中的最小值，边界值
+
+    int[] LIS = new int[array.Length];
+
+    // 初始化最长递增序列的信息
+    for(int i=0; i<array.Length; i++){
+        LIS[i] = 1;
+    }
+
+    int nMaxLIS = 1; // 数组最长递增子序列长度
+    for(int i=1; i<array.Length; i++){
+        // 遍历历史最长递增序列信息
+        int j;
+        for (j=nMaxLIS; j>=0; j--){
+            if (MaxV[j] < array[i]){
+                LIS[i] = j+1;
+                break;
+            }
+        }
+
+        // 如果当前最长序列大于最长递增序列长度，更新最长信息
+        if(LIS[i] > nMaxLIS){
+            nMaxLIS = LIS[i];
+            MaxV[nMaxLIS] = array[i];
+        }
+        else if (MaxV[j] < array[i] && array[i] < MaxV[j+1]){
+            MaxV[j+1] = array[i];
+        }
+    }
+
+    return nMaxLIS;
+}
+
+```
+
+根据单调递增关系，可以将上面方法中的穷举部分进行如下修改O(NlogN)
+```
+for(j = LIS[i-1]; j>= 1;j--){
+    if(array[i]>MaxV[j]){
+        LIS[i] = j+1;
+        break;
+    }
+}
 ```

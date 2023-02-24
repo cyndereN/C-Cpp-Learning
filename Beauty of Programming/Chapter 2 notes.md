@@ -491,3 +491,120 @@ for(j = LIS[i-1]; j>= 1;j--){
     }
 }
 ```
+
+
+### 2.17 O(N)的数组循环移位
+
+移动的时候，会有两个部分顺序是不变的
+
+```cpp
+Reverse(int* arr, int b, int e){
+    for(; b<e; b++, e--){
+        int tmp = arr[e];
+        arr[e] = arr[b];
+        arr[e] = tmp;
+    }
+}
+
+
+RightShift(int* arr, int n, int k){
+    k = k%n;
+    Reverse(arr, 0, n-k-1);
+    Reverse(arr, n-k, n-1);
+    Reverse(arr, 0, n-1);
+}
+```
+
+
+
+### 2.18 数组分割
+
+无序，元素个数为2n的正整数数组，如何分割为元素个数为n的两个数组，使得两个数组的和的差最小
+
+考虑n个元素和小于等于sum/2的情况
+
+```cpp
+// 定义Heap[i]表示从arr中取出i个数所能产生的和之集合的堆
+// 初始化：Heap[0]只有一个元素0，Heap[i]，i>0没有元素
+// O(2^n)
+for(k=1; k<=2*n; k++){
+    i_max = min(k-1,n-1);
+    for(i=i_max; i>=0; i--){
+        for each v in Heap[i]
+            insert(v+arr[k], Heap[i+1]);
+    }
+}
+```
+
+```cpp
+// 动态规划算法与k无关
+// 定义：isOK[i][v]表示是否可以找到i个数使他们和等于v
+// 初始化：isOK[0][0] = true; isOK[i][v] = false; 
+// O(sum*N^2)
+for(k=1; k<=2*n; k++){
+    i_max = min(k-1,n-1);
+    for(i=i_max; i>=1; i--){
+        for (v=1; v<=sum/2;v++){
+            if(v>=arr[k] && isOK[i-1][v-arr[k]])
+                isOK[i][v] = true;
+        }
+    }
+}
+```
+
+### 2.19 区间重合判断
+
+先将无序数组按照x坐标从小到大排序，接着合并若干区间，在使用二分查找
+O(NlogN) (N为区间个数)          O(N)             O(logN)
+
+
+
+### 2.20 程序理解和时间分析
+
+### 2.21 只考加法的面试题
+
+能用连续自然数之和表示的整数，称为完美数，如6=1+2+3，28=1+2+3+4+5+6+7
+
+思路是 如果sum = a + (a+1) + (a+2)...+(a+n-1)
+
+对于给定的n, a=(sum-n(n-1)/2)/n 若a为整数就成立，输出
+
+n的范围，最小是2, 最大是a=0时  n(n-1)/2=sum  n<sqrt(2sum)+1
+
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+void getAllContinuousNum()
+{
+    int sum;
+    scanf("%ul\n", &sum);
+
+    int maxlength = sqrt(double(sum) * 2) + 1;
+    int firstnum = 0;
+    for(int length = 2; length < maxlength; length++) //对数字的个数循环
+    {
+        if((sum - length * (length - 1) / 2)% length == 0) //可以得到解
+        {
+            firstnum = (sum - length * (length - 1) / 2) / length;
+            printf("%d=%d", sum, firstnum);
+            for(int num = firstnum + 1, i = 1; i < length; i++, num ++ )
+            {
+                printf("+%d", num);
+            }
+            printf("\n");    
+        }
+    }
+}
+
+int main()
+{
+    for(int i = 0; i < 10; i++)
+    {
+        getAllContinuousNum();
+    }
+    return 0;
+}
+```

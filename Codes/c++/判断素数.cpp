@@ -1,4 +1,4 @@
-//�ж����� 
+
 //No.1 
 int isPrime(int i)
 {
@@ -14,7 +14,6 @@ int isPrime(int i)
 }
 
 
-//No.2 �Ż�1���ų�2�ı������ж������ߵ�ƽ���� 
 int isPrime(int i)
 {
 	int ret = 1;
@@ -30,8 +29,7 @@ int isPrime(int i)
 	return ret;
 }
 
-//No.3 �Ż�2: �ж��ܷ���֪��������
-//�жϼ����ǰ100������ 
+//No.3 
 #include <stdio.h>
 int main(void){
 	int i,no;
@@ -61,25 +59,3 @@ int main(void){
 
 	return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 

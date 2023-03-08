@@ -276,3 +276,79 @@ public class Solution {
     }
 }
 ```
+
+
+### 3.10 分层遍历二叉树
+
+分层遍历，打印某层次节点
+
+```cpp
+struct Node {
+	int data;
+	Node *left;
+	Node *right;
+};
+```
+
+解法1：用递归方式，搜寻并打印某一层的节点，再打印下一层的节点。这方法简单但时间效率不高(但不需要额外空间)
+
+解法2：使用vector容器来储存n个节点信息，并用一个游标变量last记录前一层的访问结束条件
+
+```cpp
+void PrintNodeByLevel(Node* root) {
+     vector<Node*> vec; // 这里我们使用STL 中的vector来代替数组，可利用到其动态扩展的属性
+     vec.push_back(root);
+     int cur = 0;
+     int last = 1;
+     while(cur < vec.size()) {
+          Last = vec.size(); // 新的一行访问开始，重新定位last于当前行最后一个节点的下一个位置
+          while(cur < last) {
+               cout << vec[cur] -> data << " "; // 访问节点
+               if(vec[cur] -> lChild) // 当前访问节点的左节点不为空则压入
+                   vec.push_back(vec[cur] -> lChild);
+               if(vec[cur] -> rChild) // 当前访问节点的右节点不为空则压入，注意左右节点的访问顺序不能颠倒
+                   vec.push_back(vec[cur] -> rChild);
+               cur++;
+          }
+          cout << endl; // 当cur == last时,说明该层访问结束，输出换行符
+     }
+}
+
+```
+
+
+### 3.11 程序改错
+
+极端情况考虑，循环终止条件检测
+
+二分查找，如果有一样的则返回最大的位置
+
+```cpp
+int biSearch(char** arr, int b, int e, char* v){
+	int minIndex = b, maxIndex = e, midIndex;
+
+	// 循环结束有两种情况，若minIndex为偶数则minIndex == maxIndex;
+	// 若minIndex为奇数则minIndex == maxIndex - 1;
+
+	while (minIndex < maxIndex){
+		midIndex = minIndex + (maxIndex - minIndex) / 2;
+		if (strcmp(arr[midIndex], v) <= 0){
+			minIndex = midIndex;
+		}
+		else{
+			// 不需要midIndex - 1, 防止minIndex == maxIndex
+			maxIndex = midIndex;
+		}
+	}
+
+	if(!strcmp(arr[maxIndex], v)){ // 先判断序号最大的值
+		return maxIndex;
+	}
+	else if(!strcmp(arr[midIndex], v)){
+		return minIndex;
+	}
+	else {
+		return -1;
+	}
+}
+```

@@ -64,3 +64,22 @@ void test01() {
 	Person p4 = 10; // 相当于写了Person p4 = Person(10) 有参构造
 	Person p5 = p4; // 拷贝构造
 }
+
+/*
+# Rule of Zero
+You should never implement a destructor, copy constructor, copy assignment,
+move constructor or move assignment operators in your code
+
+# Rule of Three
+If a class defines any of the following then it should probably explicitly define all three: 
+destructor, copy constructor, copy assignment operator
+
+
+# Rule of Five
+
+If explicitly define(or delete) a copy constructor, copy assignment, 
+move constructor, move assignment, or destructor then you should define(or delete) all 5.
+
+*/
+
+

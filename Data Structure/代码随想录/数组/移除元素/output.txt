@@ -25,9 +25,10 @@ new end iter index = 5
 vec[0] = 2,size = 0, capacity 8
 size = 0, capacity 0
 
----------test remove----------
+---------original vector----------
 20 10 30 20 40 20 10 
 size = 7, capacity 8
+---------test remove----------
 10 30 40 10 40 20 10 
 size = 7, capacity 8
 new end iter index = 4

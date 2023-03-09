@@ -14,7 +14,7 @@ lock_guard<mutex>(databaseLock);
 std::unique_ptr<Node> n(new Node);
 std::unique_ptr<Node> n = std::make_unique<Node>(); // always use this
 
-```
+```cpp
 // Create a unique_ptr to an array of 5 integers.
 auto p = make_unique<int[]>(5);
 
@@ -40,7 +40,7 @@ for (int i = 0; i < 5; ++i)
 
 - weak_ptr: Similar to shared_ptr, but doesn't contribute to the reference count. Used to deal with circular references with shared_ptr.
 
-```
+```cpp
 #include <iostream>
 #include <memory>
 #include <string>

@@ -85,10 +85,12 @@ int main()
     v.push_back(20);
     v.push_back(10);
 
-    cout << "\n---------test remove----------" << endl;
-        for(int i=0;i<v.size(); i++){
+    cout << "\n---------original vector----------" << endl;
+    for(int i=0;i<v.size(); i++){
         cout << v[i] << " ";
     }
+
+    
     cout << "\nsize = " << v.size() << ", capacity " << v.capacity() << endl;
 
     vector<int>::iterator new_end_v;

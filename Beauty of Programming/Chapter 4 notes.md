@@ -158,10 +158,173 @@ bool PointinTriangle(Vector3 A, Vector3 B, Vector3 C, Vector3 P)
 
 ### 4.4扩展 判断点在平面哪侧
 
+You have a triangle defined by the 3D points P1, P2 and P3, and another separate point P4. You do not have access to the normal of the triangle. How do you determine on which side of the triangle point P4 is? (Point traversal order is from 1 to 3)
+
+1. Calculate the normal vector N of the triangle defined by points P1, P2, and P3. You can calculate the normal vector as follows:
+
+N = (P2 - P1) x (P3 - P1)
+
+where "x" denotes the cross product operator.
+
+2. Calculate the vector V from any point on the triangle, for example, P1, to the point P4:
+
+V = P4 - P1
+
+3. Calculate the dot product between the normal vector N and the vector V:
+
+dot = N . V
+
+4. If the dot product is positive, then point P4 is on the same side of the triangle as the normal vector N. If the dot product is negative, then point P4 is on the opposite side of the triangle as the normal vector N.
+
+5. If the dot product is zero, then point P4 is on the plane of the triangle. To determine whether point P4 is inside or outside the triangle, you can perform a barycentric coordinate test.
+
 ### 4.4扩展 判断点在扇形范围内与否
+
+在二维中，检测点是否在扇形(circular sector)内，设扇形的顶点为c，半径为r，从方向u两边展开角度theta平分扇形。
+问题等同于检测p和c的距离小于r，及p-c的方向在u两边theta的角度范围内。
+
+
+```cpp
+// Naive
+bool IsPointInCircularSector(
+    float cx, float cy, float ux, float uy, float r, float theta,
+    float px, float py)
+{
+    assert(cosTheta > -1 && cosTheta < 1);
+    assert(squaredR > 0.0f);
+ 
+    // D = P - C
+    float dx = px - cx;
+    float dy = py - cy;
+ 
+    // |D| = (dx^2 + dy^2)^0.5
+    float length = sqrt(dx * dx + dy * dy);
+ 
+    // |D| > r
+    if (length > r)
+        return false;
+ 
+    // Normalize D
+    dx /= length;
+    dy /= length;
+ 
+    // acos(D dot U) < theta
+    return acos(dx * ux + dy * uy) < theta;
+}
+```
+
+注意优化：
+
+如果r为常数，我们可以预计算r^2。
+
+另外，如果theta是常数，我们可以预计算cos(theta)，然后用dx * ux + dy * uy > cos(Theta)来代替acos(dx * ux + dy * uy) < theta。因为cos(theta)在[0, pai]范围内单调递减
+
+此外，由于除法一般较乘法慢得多，可以把除以|p-c|移到不等式右边，由于其非负所以不用变号
+
+```cpp
+// Basic: use squareR and cosTheta as parameters, defer sqrt(), eliminate division
+bool IsPointInCircularSector1(
+    float cx, float cy, float ux, float uy, float squaredR, float cosTheta,
+    float px, float py)
+{
+    assert(cosTheta > -1 && cosTheta < 1);
+    assert(squaredR > 0.0f);
+ 
+    // D = P - C
+    float dx = px - cx;
+    float dy = py - cy;
+ 
+    // |D|^2 = (dx^2 + dy^2)
+    float squaredLength = dx * dx + dy * dy;
+ 
+    // |D|^2 > r^2
+    if (squaredLength > squaredR)
+        return false;
+ 
+    // |D|
+    float length = sqrt(squaredLength);
+ 
+    // D dot U > |D| cos(theta)
+    return dx * ux + dy * uy > length * cosTheta;
+}
+// 注意，虽然比较长度时不用开平方，在夹角的检测里还是要算一次开平方，但这也比必须算开平方好，因为第一个检测失败就不用算了。
+```
+
+将来优化：
+
+去除开平方，可以分情况讨论不等号左右两侧的正负性 https://www.cnblogs.com/miloyip/archive/2013/04/19/3029852.html
+
+优化浮点比较和分支
 
 ### 4.5 磁带文件存放优化
 
 ### 4.6 桶中取黑白球
 
 ### 4.7 蚂蚁爬杆
+
+碰撞次数 = 所有向右的蚂蚁+所有向左的蚂蚁
+
+### 4.8 三角形测试用例
+
+8 bits
+第0位表示等腰，第1位表示等边，等等。各位取1表示该状态为真，其中第7位表示该状态是否为三角形，是则为1，否则为0。那么便可很方便的表示几种状态同时存在，如10010001则表示这是一个直角等腰三角形。剩余的第6位和第5位可以留作错误编码，比如用于表示两边之和小于第三边等。
+
+
+作为一名测试者，要测试一个程序，具体的工作就是要分析程序可能出现的漏洞，并编制测试用例来有针对性的进行测试，观察程序是否正常工作。通常测试可以分为以下三个方面：程序在正常输入下的功能测试，测试程序在非法输入时的表现，测试程序对边界值附近输入的处理。
+
+### 4.9 数独知多少
+
+### 4.10 数字哑谜和回文
+
+第一题：找出符合条件的九位数，每位数互不相同（1~9的某个排列），满足高n位能被n整除。例如abcdefghi，高两位ab能被2整除，高三位abc能被3整除，以此类推。能不能找出所有的解？
+
+解法1：穷举9^9，然后使用剪枝避免不必要的运算，如b、d、f、h为奇数时就可以直接跳过，大大缩小了要检验的区间。
+
+解法2：https://www.cnblogs.com/Linkabox/p/3361437.html
+
+第二题：有这样一个乘法算式：人过大佛寺*我=寺佛大过人
+这里面每一个汉字代表一个数字，并且不同汉字代表的数字不同，找出这些数字来？
+
+```cpp
+#include <string.h>
+#include <stdio.h>
+
+int main()
+{
+    bool flag;
+    bool IsUsed[10];
+    int number,revert_number,t,v;
+    for (number =0;number < 100000;number++)
+    {
+        flag =true;
+        memset(IsUsed,0,sizeof(IsUsed));
+        t=number;
+        revert_number=0;
+        for (int i=0;i<5;++i)//得到翻转数字
+        {
+            v=t%10;
+            revert_number= revert_number* 10 +v;
+            t/=10;
+            if(IsUsed[v])    //确保没有重复的数字，有重复的下面检验直接跳过
+                flag=false;
+            else
+                IsUsed[v]=1;    
+        }
+        if (flag && (revert_number % number == 0))//没有重复数字且没有余数
+        {
+            v=revert_number /number;
+            if (v<10 && !IsUsed[v])
+            {
+                printf("%d * %d = %d\n",number,v,revert_number);
+            }
+        }
+    }
+    return 0;
+}
+
+//21978 * 4 = 87912
+//请按任意键继续. . .
+```
+
+
+### 4.11 扫雷

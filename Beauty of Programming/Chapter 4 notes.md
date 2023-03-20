@@ -180,22 +180,22 @@ dot = N . V
 
 ### 4.4扩展 判断点在扇形范围内与否
 
-在二维中，检测点是否在扇形(circular sector)内，设扇形的顶点为c，半径为r，从方向u两边展开角度theta平分扇形。
-问题等同于检测p和c的距离小于r，及p-c的方向在u两边theta的角度范围内。
+在二维中，检测点是否在扇形(circular sector)内，设扇形的顶点为p，物品位置为o，半径为r，从方向u两边展开角度theta平分扇形。
+问题等同于检测o和p的距离小于r，及p-p的方向在u两边theta的角度范围内。
 
 
 ```cpp
 // Naive
 bool IsPointInCircularSector(
-    float cx, float cy, float ux, float uy, float r, float theta,
-    float px, float py)
+    float px, float py, float ux, float uy, float r, float theta,
+    float ox, float oy)
 {
     assert(cosTheta > -1 && cosTheta < 1);
     assert(squaredR > 0.0f);
  
-    // D = P - C
-    float dx = px - cx;
-    float dy = py - cy;
+    // D = O - P
+    float dx = ox - px;
+    float dy = oy - py;
  
     // |D| = (dx^2 + dy^2)^0.5
     float length = sqrt(dx * dx + dy * dy);
@@ -219,20 +219,20 @@ bool IsPointInCircularSector(
 
 另外，如果theta是常数，我们可以预计算cos(theta)，然后用dx * ux + dy * uy > cos(Theta)来代替acos(dx * ux + dy * uy) < theta。因为cos(theta)在[0, pai]范围内单调递减
 
-此外，由于除法一般较乘法慢得多，可以把除以|p-c|移到不等式右边，由于其非负所以不用变号
+此外，由于除法一般较乘法慢得多，可以把除以|o-p|移到不等式右边，由于其非负所以不用变号
 
 ```cpp
-// Basic: use squareR and cosTheta as parameters, defer sqrt(), eliminate division
+// Basic: use squareR and cosTheta as parameters, move sqrt() later, eliminate division
 bool IsPointInCircularSector1(
-    float cx, float cy, float ux, float uy, float squaredR, float cosTheta,
-    float px, float py)
+    float px, float py, float ux, float uy, float squaredR, float cosTheta,
+    float ox, float oy)
 {
     assert(cosTheta > -1 && cosTheta < 1);
     assert(squaredR > 0.0f);
  
-    // D = P - C
-    float dx = px - cx;
-    float dy = py - cy;
+    // D = O - P
+    float dx = ox - px;
+    float dy = oy - py;
  
     // |D|^2 = (dx^2 + dy^2)
     float squaredLength = dx * dx + dy * dy;
@@ -242,6 +242,7 @@ bool IsPointInCircularSector1(
         return false;
  
     // |D|
+    // still need to calculate sqrt(), however if return false earlier, no need to calculate
     float length = sqrt(squaredLength);
  
     // D dot U > |D| cos(theta)

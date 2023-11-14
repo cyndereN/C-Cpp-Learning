@@ -29,7 +29,7 @@ void swap(T& a, T&b){
 
 ```cpp
 template <typename T>
-void swap(T& a, T&b){
+void swap(T& a, T& b){
     T temp = std::move(a);  // cast to rvalue, no need to copy
     a = std::move(b);
     b = std::move(temp);

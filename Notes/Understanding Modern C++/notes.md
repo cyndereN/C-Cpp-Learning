@@ -488,3 +488,594 @@ func(foo1);    // #2
 
 ## 4. decltype
 
+decltype 是 C++11 加入的一个重要特性。 它允许求一切合法表达式的类型。从而，让从类型到值，从值到类型形成了一个闭环， 极大的扩展了泛型编程的能力。
+
+若 表达式 的值类别为 速亡值 ，则 decltype 产生 T&& ；
+
+若 表达式 的值类别为 左值 ，则 decltype 产生 T& ；
+
+若 表达式 的值类别为 纯右值 ，则 decltype 产生 T
+
+decltype 有两种表达方法：
+- 有括号：decltype((expr))
+- 无括号：decltype(expr)
+
+### 4.1 有括号语意
+
+- 如果表达式属于 纯右值 ，结果必然是 非引用 类型；
+- 如果表达式属于 泛左值 ，结果必然是 引用 类型；
+  - 如果表达式属于 左值 ，结果必然是 左值引用；
+  - 如果表达式属于 速亡值 ，结果必然是 右值引用；
+
+```cpp
+struct Foo { int a; };
+
+using Func  = Foo& ();
+using Array = char[2];
+
+enum class E { OK, FAIL };
+
+const Foo f_v();
+Foo&      f_ref();
+Foo&&     f_r();
+
+int        a    = 0;
+const int  b    = 1;
+const Foo  foo  = {10};
+Foo&&      rref = Foo{1};
+const Foo& ref  = foo;
+char       c[2] = {1, 2};
+int*       p    = &a;
+const Foo* pFoo = &foo;
+
+// 左值
+decltype((a))       v1;   // int&
+decltype((foo))     v2;   // const Foo&
+decltype((foo.a))   v3;   // const int&
+decltype((f_ref())) v4;   // Foo&
+decltype((f_r))     v5;   // Foo&& (&)()
+decltype((c))       v6;   // char (&)[2]
+decltype((a += 10)) v7;   // int&
+decltype((++a))     v8;   // int&
+decltype((c[1]))    v9;   // char&
+decltype((*p))      v10;  // int&
+decltype((p))       v11;  // int*&
+decltype((pFoo))    v12;  // const Foo*&
+decltype((pFoo->a)) v13;  // const int&
+decltype((Foo::a))  v14;  // int&
+decltype((rref))    v15;  // Foo&
+decltype((ref))     v16;  // const Foo&
+decltype((a > 0 ? a : b))              v;  // int&
+decltype((static_cast<Func&&>(f_ref))) f;  // Foo& (&)()
+
+// 纯右值
+decltype((1+2))         v1;   // int
+decltype((Foo{10}))     v2;   // Foo
+decltype((f_v()))       v3;   // const Foo
+decltype((Array{0, 1})) v4;   // char[2]
+decltype((a++))         v5;   // int
+decltype((&b))          v6;   // const int*
+decltype((OK))          v7;   // E
+decltype((a > 0 ? 10 : Foo{0}.a)) v;  // int
+
+// 速亡值
+decltype((Foo{10}.a))    v1;  // int&&
+decltype((f_r()))        v2;  // Foo&&
+decltype((Array{}[0]))   v3;  // char&&
+decltype((std::move(a))) v4;  // int&&
+decltype((a > 0 ? Foo{1}.a : Foo{0}.a)) v;  // int&&
+```
+
+其中，最有趣的是 decltype((rref)) ，rref 本身的类型是一个右值引用 Foo&& ，但做为左值表达式， 它的类型却是 Foo&
+
+### 4.2 无括号语意
+
+无括号的情况下，除了一种例外，其它情况下，都与有括号场景一致。
+
+这个例外就是对于变量（包括常量）名字的直接求类型。这种情况，会返回变量被定义时的类型。
+
+```cpp
+struct Foo { int a; };
+
+using Func  = Foo& ();
+using Array = char[2];
+
+const Foo f_v();
+Foo&      f_ref();
+Foo&&     f_r();
+
+int a           = 0;
+const int  b    = 1;
+const Foo  foo  = {10};
+Foo&&      rref = Foo{1};
+const Foo& ref  = foo;
+char       c[2] = {1, 2};
+int*       p    = &a;
+const Foo* pFoo = &foo;
+
+decltype(a)        v1;   // int
+decltype(b)        v2;   // const int
+decltype(foo)      v3;   // const Foo
+decltype(ref)      v4;   // const Foo&
+decltype(rref)     v5;   // Foo&&
+decltype(c)        v6;   // char[2]
+decltype(p)        v7;   // int*
+decltype(foo.a)    v8;   // int
+decltype(ref.a)    v9;   // int
+decltype(rref.a)   v10;  // int
+decltype(pFoo)     v11;  // const Foo*
+decltype(pFoo->a)  v12;  // int
+decltype(Foo{1).a) v13;  // int
+decltype(Foo::a)   v14;  // int
+```
+
+所以，之所以会出现有括号，无括号两种用法，正是因为每一个被定义的变量，都面临着两种需求：
+
+它们被定义时的类型
+
+整体做为一个表达式的类型（一定是泛左值）
+
+前者是不关心表达式的，比如 decltype(Foo{1}.a) ，它只关心 a 被定义时的类型：int ； 而不关心整个表达式本身是一个 xvalue ，因而表达式必然应该是一种右值引用类型：int&& 。
+
+## 5. auto 类型推演
+
+auto 类型推演脱胎于模版函数的类型推演，它们的能力几乎等价（除了初始化列表的情况）。 这也就意味着，其实在 C++11 之前，C++ 早就具备了 auto 的能力，只是没有从语法上允许而已。
+
+### 5.1 auto 的语意
+和直觉不同的是，对于任意表达式：auto v = expr ，v 的类型并不总是和 expr 所返回的类型一致。
+
+首先，auto 不可能是一个 引用 ，无论是 左值引用 ，还是 右值引用 ，所以，如果 expr 返回类型里 包含任何引用，都会被舍弃。比如：
+
+```cpp
+Foo foo{1};
+Foo& ref = foo;
+Foo&& rref = Foo{2};
+
+Foo& getRef();
+Foo&& getRref();
+
+auto v1 = ref;        // v1 type: Foo
+auto v2 = rref;       // v2 type: Foo
+auto v3 = getRef();   // v3 type: Foo
+auto v4 = getRref();  // v4 type: Foo
+```
+
+其次，所有对值所修饰的 const 都会被丢弃。 比如：
+
+```cpp
+const Foo foo{1};
+const Foo& ref     = foo;
+const Foo&& rref   = Foo{2};
+const Foo* const p = &foo;
+
+auto v1 = foo;   // Foo
+auto v2 = ref;   // Foo
+auto v3 = rref;  // Foo
+auto v4 = p;     // const Foo*
+```
+
+究其原因，是因为这种直接给出 auto 的写法，是一种 copy/move 语意。因而，等号右边的表达式本身类型是引用，并不影响 等号左侧对象本身不是引用；同样的，等号右边表达式本身的 constness ，copy/move 后，并不会影响新定义变量 的 constness 。
+
+其推演语意，完全等价于：
+```cpp
+template <typename T>
+void f(T value);
+```
+其中 T 就是 auto ，value 就是你用 auto 所定义的变量。
+
+注意，到了 C++17 之后， 并非所有的场景下，都是 copy/move 语意， 比如 auto v = Foo{1} ， 其行为完全等价于： Foo v{1} 。具体可参见 对象？值？。
+
+因而，更准确的说，这不是 copy/move 语意，而属于构造初始化语意。
+
+### 5.2 引用及 const
+
+如果你希望让新定义的变量属于引用类型，或具备 const ，则需要明确指定。
+```cpp
+auto        foo  = Foo{1};
+const auto& ref  = foo;
+auto&&      rref = Foo{2};
+```
+
+
+### 5.3 指针
+
+当你不指定指针的情况下，如果等号右侧的表达式是一个指针类型，那么左侧的变量类型当然也是一个指针。
+
+当你明确指定指针的情况下，则是要求右侧表达式必须是一个指针类型。
+
+```cpp
+Foo foo{1};
+Foo* pFoo = &foo;
+
+auto  v1 = foo;  // v1 type: Foo
+auto  p1 = pFoo; // p1 type: Foo*
+auto* p2 = pFoo; // p2 type: Foo*
+auto* p3 = foo;  // Error: foo is not a pointer
+```
+
+### 5.4 通用引用
+
+更为特殊的是 auto&& v = expr 的表达式。这并不必然导致 v 是一个右值引用。而是取决于 expr 的类别。
+
+- 如果 expr 是一个 左值 表达式，那么 v 将是左值引用类型；
+- 如果 expr 是一个 右值 表达式（参见 对象？值？），那么 v 将会是右值引用类型。
+```cpp
+Foo   foo{1};
+Foo&  ref = foo;
+Foo&& rref = Foo{2};
+Foo&& getRref();
+Foo&  getRef();
+Foo   getFoo();
+
+auto&& v1 = foo;            // v1 type: Foo&
+auto&& v2 = Foo{2};         // v2 type: Foo&&
+auto&& v3 = getRref();      // v3 type: Foo&&
+auto&& v4 = getRef();       // v4 type: Foo&
+auto&& v5 = getFoo();       // v5 type: Foo&&
+auto&& v6 = ref;            // v6 type: Foo&
+auto&& v7 = rref;           // v7 type: Foo&
+```
+
+虽然 ref 和 rref 分别被定义为 左值引用 和 右值引用 ，但它们做为左值来讲，是等价的。都是左值引用。 具体可参考 右值引用变量 。
+
+### 5.5 初始化列表
+
+由于初始化列表不是一个表达式，因而类型也就无从谈起。所以 C++14 对其做了特殊的规定：
+
+- 如果使用 直接初始化 （不用等号）的方式，比如：auto i{1} ，则初始化列表只允许有一个元素，其等价于 auto i = 1； 如果初始化列表超过一个元素，比如 auto j{1,2} ，则编译失败。
+
+- 如果使用 拷贝初始化 （用等号）的方式，比如：auto v = {1, 2} ，则初始化列表允许有多个同一类型的元素。 其等价于 std::initializer_list<int> v = {1, 2} 。而 auto v = {1} 则等价于 std::initializer_list<int> v = {1} 。
+
+### 5.6 decltype(auto)
+
+由于 auto 推演总是会丢弃 引用 及 const 信息，明确给出 引用 又总是得到一个引用。明确给出 const ， 则总是得到一个 const 类型。这对于想精确遵从等号后面类型的情况非常不便，尤其在进行泛型编程时，很难通过 auto 符合通用的情况。
+
+而 decltype 恰恰相反，它总是能准确捕捉右侧表达式的类型（参见 decltype ）。因而，我们可以这样写：
+
+```cpp
+Foo foo{1};
+const Foo& ref = foo;
+Foo&& rref = Foo{2};
+int a = 0;
+
+decltype(foo)    v1 = foo;   // Foo
+decltype((foo))  v2 = foo;   // Foo&
+decltype(ref)    v3 = ref;   // const Foo&
+decltype(rref)   v4 = rref;  // Foo&&
+decltype((rref)) v5 = rref;  // Foo&
+decltype(1+2)    v6 = 1 + 2; // int
+
+decltype((a > 0 ? Foo{0}.a : Foo{1}.a)) v7 = \
+   a > 0 ? Foo{0}.a : Foo{1}.a; // int&&
+```
+
+但这样的写法，总是要把右边的表达式在 decltype 里重复写一遍，才能做到。到了 C++14 ， 推出了一种新的写法：decltype(auto) ， 其中 auto 是一个自动占位符，代表等号右侧的表达式，这就大大简化了程序员的工作：
+
+```cpp
+decltype(auto)   v1 = foo;    // Foo
+decltype(auto)   v2 = (foo);  // Foo&
+decltype(auto)   v7 = (a > 0 ? Foo{0}.a : Foo{1}.a); // int&&
+```
+
+### 5.7 函数返回值类型的自动推演
+
+到了 C++14 之后，对于普通函数的返回值自动推演，可以通过 auto 来完成，比如：
+```cpp
+auto f() { return Foo{1}.a; } // 返回值类型为int
+```
+
+如果希望返回值类型运用 decltype 规则，则可以用 decltype(auto) 。比如：
+
+```cpp
+auto f() -> decltype(auto) { // 返回值为int&&
+  return (Foo{1}.a);
+}
+```
+
+### 5.8 非类型模版参数
+```cpp
+template <auto V>
+struct C
+{
+   // ....
+};
+
+C<10>   a; // C<int>
+C<'c'>  b; // C<char>
+C<true> c; // C<bool>
+```
+
+### 5.9 函数模版的便捷写法
+
+```cpp
+template <typename T1, typename T2>
+auto add(T1 lhs, T2 rhs) {
+   return lhs + rhs;
+}
+```
+
+到了 C++20 ，允许让普通函数可以有更加便捷的写法：
+
+```cpp
+auto add(auto lhs, auto rhs) {
+   return lhs + rhs;
+}
+```
+
+当然，如果你想指明两个参数属于同一种类型，但另外的参数没有这样的约束，则仍然需要写模版头：
+
+```cpp
+template <typename T>
+auto f(T a, auto b, T c, auto d); // a, c 必须同一类型，b, d 各自有各自类型
+```
+
+其等价于：
+
+```cpp
+template <typename T, typename T1, typename T2>
+auto f(T a, T1 b, T c, T2 d);
+```
+
+## 6. 初始化
+
+C++ 的初始化方式之繁多，估计是所有编程语言之最。 我们先通过一个列表来感受一下：
+
+默认初始化
+值初始化
+直接初始化
+拷贝初始化
+零初始化
+聚合初始化
+引用初始化
+常量初始化
+数组初始化
+列表初始化
+
+### 6.1 直接初始化
+
+我们首先定义一个类 Foo :
+
+```cpp
+struct Foo {
+  enum class A {
+    NIL,
+    ANY,
+    ALL
+  };
+
+  Foo(int a) : a{a}, b{true} {}
+  Foo(int a, bool b) : a{a}, b{b} {}
+
+  auto operator==(Foo const& rhs) const -> bool {
+      return a == rhs.a && b == rhs.b;
+  }
+
+private:
+  int a;
+  bool b;
+};
+```
+
+下面均为直接初始化
+```cpp
+Foo object(1);
+
+Foo object(2, false);
+
+Foo object2(object);
+
+Foo(1) == Foo(1, true);
+
+new Foo(1, false);
+
+long long a{10};
+(long long){10} + a;
+
+char b(10);
+char(20) + b;
+
+char* p{&b};
+
+Foo::A e{Foo::A::ANY};
+```
+
+简单说，当初始化参数非空时（至少有一个参数），如果你
+
+1. 使用 圆括号 初始化（构造）一个对象，或者
+
+2. 用 圆括号 或 花括号 来初始化一个 non-class 类型的数据时（基本类型，指针，枚举等，因而只可能是单参）时，
+
+直接初始化 的含义也很明确，就是直接匹配对应的构造函数。 伴随着匹配的过程：
+
+1. 参数允许窄向转换 ( narrowing )；
+
+2. 允许隐式转换；
+
+比如:
+
+```cpp
+long long a = 10;
+
+Foo foo(a); // OK
+
+struct Bar {
+  Bar(int value) : value(value) {}
+  operator int() { return value; }
+private:
+  int value;
+};
+
+
+Foo foo(Bar(10)); // Bar to int, OK
+```
+
+除此之外，还有几种表达式也属于 直接初始化 ：
+
+1. static_cast<T>(value) ;
+
+2. 使用 圆括号 的类成员初始化列表；
+
+3. lambda 的捕获初始化列表
+
+
+### 6.2 列表初始化
+
+不难看出，除了 lambda 的场景，以及用 花括号 初始化 non-class 类型之外， 直接初始化 正是石器时代 ( C++ 11 之前) 的经典初始化方式。
+
+到了摩登时代 ( 自 C++ 11 起）， 引入了被称作 universal 的统一初始化方式：列表初始化 。 之所以被称作 universal ，是因为之前花括号只被用来初始化聚合和数组，现在可以用来初始化一切: 基本类型，枚举，指针，引用，类。
+
+由于列表为空有非常特殊而明确的定义,我们在这里仅仅考虑列表非空的场景。
+
+```cpp
+Foo foo{1, true};
+Foo foo{2};
+
+new Foo{3, false};
+
+Foo{4} == Foo{4, true};
+
+// ---------------------------
+
+Foo foo = {1, true};
+Foo foo = {2};
+
+Foo foo = Foo{3, false};
+Foo foo = Foo{4};
+```
+
+这两组表达式都被称为 列表初始化 。唯一的差别是，后者使用了等号，看起来像赋值一样。前者被称为 列表直接初始化 ，后者则叫做 列表拷贝初始化 。
+
+虽然后者名字里有 拷贝 二字，并不代表其背后真的会进行拷贝操作。仅仅是因为历史的原因，以及为了给出两个名字以区分两种方式。但事实上，对于 class 的场景，两者都是直接匹配并调用类的构造函数，并无根本差异。
+
+其中一点细微的差别是：如果匹配到的构造函数，或者类型转换的 operator T 被声明为 explicit ，一旦你使用等号，则必须明确的进行指明：
+
+```cpp
+struct Bar {
+  explicit Bar(int a) {}
+};
+
+
+Bar bar = {10};    // fail
+Bar bar = Bar{10}; // OK
+Bar bar{10};       // OK
+
+
+struct Thing {
+  explicit operator Bar() {  ...  }
+};
+
+Thing thing;
+
+Bar bar = thing;      // fail
+Bar bar = Bar{thing}; // OK
+Bar bar{thing};       // OK
+```
+
+对于类来说，而列表初始化（使用 花括号 ），相对于直接初始化（使用 圆括号 ），其差异主要体现在两个方面：
+
+1. 如果类存在一个单一参数是 std::initializer_list<T> ，或者第一个参数是 std::initializer_list<T> ，但后续参数都有默认值， 使用 花括号 构造，总是会优先匹配初始化列表版本的构造函数。
+
+2. 花括号 不允许窄向转换。
+
+
+### 6.3 值初始化
+
+值初始化 ，简单来说，就是用户不给出任何参数，直接用 圆括号 或者 花括号 进行的初始化：
+
+```cpp
+int a{};
+
+Bar bar{};
+Bar bar = Bar();
+Bar bar = Bar{};
+Bar bar = {};
+
+Foo() + Bar();
+
+new Bar();
+new Bar{};
+```
+
+而在石器时代，为了能够进行 值初始化 ，只能使用 Bar bar = Bar(); 的形式。而这种形式在当时的语意为：等号右侧实例化了一个临时变量，通过拷贝构造构造了等号左侧的 bar ，但当时编译器基本上都会将这个不必要的拷贝给优化掉。到了 C++ 17 ，这类表达式的拷贝语意被终结。更详细的细节请参照 值与对象 。
+
+值初始化 的最大好处是，无论你是一个对象，还是一个基本类型或指针，你总是可以得到初始化（这也是为何被称作值初始化）：
+
+1. 如果一个类有 自定义默认构造函数 ，则其直接被调用；
+
+2. 如果一个类没有 自定义默认构造 ，但有一个系统自动生成的默认构造函数(或用户明确声明为 default 的默认构造函数)，则系统会先将其对象内存完全清零（包括 padding ) ，随后，如果这个类的任何非静态成员有 非平凡默认构造 的话，在调用这些默认构造；
+
+3. 对于基本类型和指针，直接清零。
+
+### 6.4 默认初始化
+
+相对于程序员会直接给出 () 或者 {} 的 值初始化 ，虽然都是无参数初始化， 默认初始化 什么括号也不给：
+
+```cpp
+int a;
+
+Foo foo;
+
+new Foo;
+```
+
+如果一个类有非平凡的默认构造函数，则会直接调用。否则什么都不做，让那么没有非平凡构造的成员的内存状态留在它们被分配时内存(无论是在堆中还是栈中)的状态。 比如：
+
+```cpp
+struct Foo {
+   int a{};
+   int b;
+};
+
+Foo foo; // foo.a = 0, foo.b 为对象分配时内存的状态。
+```
+
+或许有人会倡导不要使用 默认初始化 ，而是统统使用 值初始化 。这在很多情况下都是正确的，但却并非全无代价。对于可平凡构造的对象而言， 值初始化会导致整个对象清零，如果对象较大，而随后的过程，你肯定会对对象的内容一一赋值（做真正的初始化），那么清零的过程其实是一种不必要的浪费。这对于关注性能的项目，可能是一个 concern 。
+
+
+### 6.5 拷贝初始化
+
+```cpp
+int a = 10; // 拷贝初始化
+int b = a; // 拷贝初始化
+
+Foo foo{10};
+Foo foo1 = foo; // 拷贝初始化
+
+
+auto f(int value) -> int {
+   return value; // 拷贝初始化
+}
+
+
+f(a);   // 对参数进行拷贝初始化
+f(10);  // 对参数进行拷贝初始化
+```
+
+请注意，拷贝初始化并不意味着必然发生拷贝，随着历史的车轮滚滚向前，曾经以为属于拷贝语义的表达式，如今早已面目全非。
+
+
+### 6.6 零初始化
+
+零初始化，并非 C++ 的某种语法形式，而是伴随着其它语法形式的行为定义。比如：
+
+```cpp
+static int a;
+```
+
+这样的数据定义，最终必然会被放入 bss 数据段，从而在程序加载时，被 loader 全部清零。
+
+```cpp
+int a{};
+
+int a = {};
+```
+
+这事实上是 值初始化 的范畴，只不过其结果是清零。
+
+### 6.7 Summary
+
+1. 无参数初始化有两种形式： 值初始化 （带有 () 或 {} ）和 默认初始化 （无 () 或 {} )。前者会保证进行初始化（调用默认构造，或清零，或混合）；后者只会调用默认构造（如果是平凡的，则什么都不做）。
+
+2. 有参数初始化，可以通过 () 或者 {} 的方式进行，两者的差异在于后者更优先匹配初始化列表，以及窄向转换的约束。
+
+3. 在不使用 () 或者 {} 的场景下，使用 = 进行的初始化，属于 拷贝初始化 。如果被初始化对象是一个 class 类型， copy构造 或 move构造 会被调用；在使用 () 或 {} 的场景下，在 C++ 17 之后，除了 explicit 的约束之外，和 直接初始化 没有任何语义上的差异。

@@ -1079,3 +1079,408 @@ int a = {};
 2. 有参数初始化，可以通过 () 或者 {} 的方式进行，两者的差异在于后者更优先匹配初始化列表，以及窄向转换的约束。
 
 3. 在不使用 () 或者 {} 的场景下，使用 = 进行的初始化，属于 拷贝初始化 。如果被初始化对象是一个 class 类型， copy构造 或 move构造 会被调用；在使用 () 或 {} 的场景下，在 C++ 17 之后，除了 explicit 的约束之外，和 直接初始化 没有任何语义上的差异。
+
+## 7. 六大金刚
+
+任何一个 C++ 类，总会面临六大特殊函数的问题：
+
+1. default 构造
+
+2. copy 构造
+
+3. move 构造
+
+4. copy 赋值
+
+5. move 赋值
+
+6. 析构
+
+这六大金刚，有着不同的分类方法。
+
+首先一种分类方法是：
+
+1. 构造三杰 : default/copy/move 构造;
+
+2. 赋值二将 : copy/move 赋值;
+
+3. 析构
+
+另一种分类方法是：
+
+1. 默认构造
+
+2. copy 家族: copy 构造/赋值
+
+3. move 家族: move 构造/赋值
+
+4. 析构
+
+而这六大金刚之间的关系，在如下层面互相影响：
+
+1. 存在性
+
+2. 可操作性
+
+3. 平凡性
+
+### 7.1 存在性
+
+
+所谓 存在性 ，单纯指在一个类中，它的定义是否存在，无论是用户自己定义的还是系统默认生成的。
+
+对于任何一个特殊函数，其声明/定义首先分为两大类别：
+
+  1. 用户显式声明/定义
+
+  - 用户自定义
+
+  - 显式声明/定义为 default
+
+  - 显式声明为 delete
+
+  2. 编译器隐式声明/定义
+
+  - 隐式声明/定义为 default
+
+  - 隐式声明为 delete
+
+在用户显式定义的情况下, 对于任何一个特殊函数：
+
+  1. 如果用户显式定义了它（ 包括 =default )，它都明确地存在。
+
+  2. 如果用户显式删除了它 ( 通过 =delete )， 它都明确地不再存在。
+
+如果用户没有显式定义，编译器根据规则（正是我们后续章节要讨论的），决定隐式的定义或删除它（二者必居其一）。
+
+在我们后续讨论的规则之下，当编译器决定隐式定义某个特殊函数( =defalt )，但此时，依然会面临无法生成的困境。比如，其某个非静态成员变量，或者某个父类将那个特殊函数删除了，或者访问被禁止了，则系统也会放弃对此特殊函数的生成，而隐式的将其声明为 delete
+
+
+#### 7.1.1 默认构造
+
+只要用户 显式声明 了构造函数列表（包括 copy/move 构造 ），系统就不会隐式定义 默认构造 。
+
+注意，用户 显式声明 ，并不是指用户 自定义 : 用户可以明确地声明 T() = default 或者 T() = delete ， 但这些都不是用户自定义默认构造。 但只要用户显式声明了 任何 构造，编译器都不会再隐式生成默认构造。比如：
+
+```cpp
+struct Thing {
+   Thing(Thing&&) = delete;
+};
+```
+
+在这个用户明确声明的构造函数列表中，并不能查到 默认构造 ，因而其并不存在。
+
+如果用户没有 明确声明 任何 构造函数。编译器将会尽力为它生成一个。除非编译器发现完全无法做到。
+
+*注意*:系统隐式定义的默认构造为 T() = default 。 它从行为上与用户亲自定义一个空的默认构造函数： T() {} 没有任何差别: 调用父类 和所有非静态成员的默认构造。所有的基本类型，指针，枚举等，其默认构造什么也不做，其值保持在其被分配出来时，内存中的样子。
+不过，虽然 T() = default 和 T() {} 从自身行为上完全一致。但当用户对 T 类型的对象进行 值初始化 时 ( T value{} )， 过程却完全不同：前者，系统会对首先将 value 的内存清零，然后再调用 默认构造 ；而后者，由于用户提供了默认 构造，系统则会直接调用默认构造。 过程的不同，最终也会导致初始化的结果很可能不同。
+
+
+#### 7.1.2 copy 构造
+
+copy 构造 则在 构造三杰 中，地位最高。
+
+- 如果用户没有显式声明任何构造函数列表，系统会尽力为其生成一个。
+
+- 如果用户显式声明了构造函数列表，即便其中查不到 copy 构造 ，但只要 move 家族 的所有成员都没有被明确声明， 编译器也会尽力生成一个 copy 构造 。
+
+```cpp
+struct Thing {
+   Thing() {}
+   // 隐式生成一个copy构造
+   // Thing(Thing const&) = default;
+};
+```
+
+```cpp
+struct Thing {
+   Thing(Thing&&) = delete;
+   // copy构造被删除
+   // Thing(Thing const&) = delete;
+};
+```
+
+```cpp
+struct Thing {
+   Thing(Thing&&) = default;
+   // copy构造被删除
+   // Thing(Thing const&) = delete;
+};
+```
+
+```cpp
+struct Thing {
+   auto operator=(Thing&&) -> Thing& = default;
+   // copy构造被删除
+   // Thing(Thing const&) = delete;
+};
+```
+
+```cpp
+struct Thing {
+   auto operator=(Thing&&) -> Thing& = delete;
+   // copy构造被删除
+   // Thing(Thing const&) = delete;
+};
+```
+
+所以它的默认存在性，只受 move 家族 的影响。
+
+隐式生成的拷贝构造，会依次调用所有父类和非静态成员的copy构造。
+
+#### 7.1.3 move 构造
+
+move 构造 则在 构造三杰 中，最为脆弱。
+
+如果用户明确声明了如下任何一个，系统都不会自动生成move构造：
+- copy 构造
+
+- copy 赋值
+
+- move 赋值
+
+- 析构函数
+
+copy家族 和 move家族 的这种互斥性，是因为它们从根本上属于同一范畴的问题 (参见 右值引用 )。 一旦程序员打算对于这一范畴的问题做出自己的决定，那么编译器任何自作主张的行为都不能保证是安全的。 因而，move/copy家族 ，编译器奉行的是 nothing or all 的策略：要么完全由编译器自动生成，要么完全由用户自己决定。
+
+
+#### 7.1.4 copy 赋值
+
+copy 赋值 与 copy构造 的处境一致。
+
+事实上，虽然 copy家族 的地位比 move家族 要高： copy家族 不受 析构 的影响，也不会在本家族内自相残杀。 但规范仍然倾向于让 copy家族 的地位降低到与 move家族 一样。也就是说，如果析构函数被程序员自定义，或者删除；或者copy家族内 的另一成员由用户明确声明，那么编译器应该放弃对其提供默认实现。
+
+而按照 C++ 的保守传统，从 废弃 到 禁止 恐怕将是一个非常漫长的过程 (甚至可能永不发生）。 一个典型的例子是：对 bool 的 ++ 演算，在 C++ 98 里就被明确废弃了。但这么一个简单的，很少有人使用 (误用）的特性，直到 C++ 17 才被彻底禁止。 对于 copy 构造/赋值 这种使用广泛，波及面极大的特性，我很怀疑其最终会被禁止。
+
+所以，规范的这种倾向性，更多的是建议程序员遵从 The Rule Of All or Nothing : 对于 copy/move 家族 + 析构 ，要么全靠编译器默认生成，要么一旦对一个类考虑了其中一个，就应该同时考虑其它四个。
+
+#### 7.1.5 move 赋值
+
+move 赋值 与 move构造 的处境一致。差别只在于家族内自相残杀的对手。
+
+```cpp
+struct Thing {
+   Thing(Thing&&) = default;
+   // move赋值被删除
+   // auto operator=(Thing&&) -> Thing& = delete;
+};
+```
+
+
+#### 7.1.6 析构
+
+析构 在 六大金刚 中，处于食物链的顶端: 它只可能影响别人的存在性，而其它五位的存在性对其毫无影响。
+
+一旦用户明确自定义了 析构 ，则 move家族 就丧失了被编译器隐式生成的权利。除非程序员显式声明，否则， move家族 的两个成员都被标记为删除。
+
+事实上，这背后的逻辑非常简单： move 的典型应用场景为：将 速亡值 的内容移动给另外一个对象之后，自身很快就会被销毁，因而move操作与析构行为是高度相关的。如果 析构 是自定义的，那么 move 也应该由程序员自定义；编译器自作主张的默认生成是不负责任的。而如果析构函数被程序员明确声明为删除， move 却继续存在，这很明显违背了 move 本身的意义。
+
+析构 对于 copy家族 与 默认构造 的存在性没有影响, 即便 析构 被明确标记为删除。因为只创建不删除的对象，通过拷贝构造，或者通过拷贝复制进行修改，从语义和操作上并无问题。
+
+但正如之前提到的，用户自定义 析构 对于 copy家族 没有影响，这纯粹是历史原因所导致的，规范现阶段将其定义为 废弃 。因为在很多场景下，如果程序员自定义了析构，如果编译器仍然自动生成 copy 家族的默认实现，会带来非预期的潜在风险。比如，一个对象持有一个指向另一个动态分配的对象的指针，程序员自定义的析构函数里，会释放掉指针所指向的内存。但程序员忘记自定义相关的 copy 构造， 而编译器默认生成的浅拷贝实现，最终会导致内存的重复释放，最终会引发系统的崩溃。
+
+### 7.2 可操作性
+
+而 可操作性 ，指的是，一个类的对象，是否可以执行某种操作。其与 存在性 高度相关，但又不完全相同。
+
+#### 7.2.1 并不move的move
+
+首先， 一个类，move 构造 可以不存在，却是 可 move 构造 的（即 `Foo foo2{std::move(foo1)}` 是合法的表达式）。
+
+这背后的原因不难理解。因为 std::move 操作仅仅是将一个表达式无条件变为右值引用。只要有一个构造函数能够匹配右值引用，那么这个类就是 可 move 构造 的。 毫无疑问 operator=(Foo const&) 形式的拷贝构造可以匹配右值引用，因而即便没有右值引用的构造函数，它依然是 可 move 构造 的。
+
+```cpp
+struct Foo {
+   auto operator=(Foo const&) -> Foo& = default;
+};
+
+static_assert(std::is_copy_constructible_v<Foo>);
+static_assert(std::is_move_constructible_v<Foo>);
+```
+
+其次，一个类的拷贝构造可以是 operator=(Foo&) 的形式，但这样的拷贝构造，即无法接受 Foo const& ，也无法接受 Foo&& ，因而, 如果这个类仅仅提供了这种形式的拷贝构造函数，那么它既不是 copy constructible 的，也不是 move constructible 的。
+
+```cpp
+struct Foo {
+   Foo() = default;
+   auto operator=(Foo&) -> Foo& = default;
+};
+
+static_assert(!std::is_copy_constructible_v<Foo>);
+static_assert(!std::is_move_constructible_v<Foo>);
+```
+
+注意，这个 copy 构造 函数，依然可以匹配 non-const 左值引用。因而依然可以进行 copy 构造 操作。
+
+```cpp
+Foo foo{};
+Foo foo2{foo};
+```
+
+因而,
+
+std::is_copy_constructible_v<T> 测试 T(T const&) 是否是合法的; 
+
+std::is_move_constructible_v<T> 测试的则是 T(T&&) 表达式的合法性。
+
+由于 可 move 构造 的条件并不意味着 T(std::move(t)) 必然匹配的是 move 构造 ，这就会在某些情况下，由于程序员的疏忽而导致非期望的行为。比如：
+
+```cpp
+struct Foo {
+   Foo(int a) : p{new int(a)} {}
+
+   Foo(Foo const& rhs) : p{new int(*rhs.p)} {}
+   auto operator=(Foo const& rhs) -> Foo& {
+     delete p; p = new int{*rhs.p};
+     return *this;
+   }
+
+   Foo(Foo&& rhs) : p{rhs.p} { rhs.p = nullptr; }
+   auto operator=(Foo&& rhs) -> Foo& {
+     delete p; p = rhs.p; rhs.p = nullptr;
+     return *this;
+   }
+
+   ~Foo() { delete p; }
+
+private:
+   int* p;
+};
+
+
+struct Bar : Foo {
+  using Foo::Foo;
+
+  ~Bar() { /* do something */ }
+};
+```
+
+在这个例子中，子类 Bar 由于自定了 析构 函数，按照之前在 存在性 里所讨论的，编译器将不会自动为 Bar 生成 move 家族 的任何函数，但却会自动为 Bar 生成 copy 家族 的函数：
+
+```cpp
+struct Bar : Foo {
+  using Foo::Foo;
+
+  // copy家族的默认存在性不受影响
+  // Bar(Bar const&) = default;
+  // auto operator(Bar const&) -> Bar& = default;
+
+  // 由于~Bar()被明确定义，因而move家族不再存在
+  // Bar(Bar&&) = delete;
+  // auto operator(Bar&&) -> Bar& = delete;
+
+  ~Bar() { /* do something */ }
+};
+```
+在这样的情况下，如下代码将会十分完美的通过编译：
+```cpp
+Bar bar{10};
+Bar bar2{std::move(bar)};
+```
+但系统的行为却不是我们所期待的。
+
+
+#### 7.2.2 析构 = delete
+
+```cpp
+struct Bar : Foo {
+  Bar() : Foo{10} {}
+
+  // copy家族的默认存在性不受影响
+  // Bar(Bar const&) = default;
+  // auto operator(Bar const&) -> Bar& = default;
+
+  // 由于~Bar()被明确声明为delete，因而move家族也不再存在
+  // Bar(Bar&&) = delete;
+  // auto operator(Bar&&) -> Bar& = delete;
+
+  ~Bar() = delete;
+};
+```
+此时，我们依然可以合法地编写如下代码：
+
+```cpp
+Bar* bar  = new Bar{};
+Bar* bar2 = new Bar{*bar};
+Bar* bar3 = new Bar{std::move(*bar2)};
+*bar2     = *bar3;
+*bar3     = std::move(*bar);
+```
+
+但此时，所有构造相关的可操作性检验统统失败。
+```cpp
+static_assert(!std::is_default_constructible_v<Bar>);
+static_assert(!std::is_copy_constructible_v<Bar>);
+static_assert(!std::is_move_constructible_v<Bar>);
+```
+
+这是因为，虽然对于动态分配的对象而言，可以只创建，不销毁；但对于一个非动态分配的值对象而言，销毁是个必然会经历的过程，一旦无法销毁，也就意味着不能创建。
+
+但 赋值二将 的 可操作性 检验依然是成功的：
+
+```cpp
+static_assert(std::is_copy_assignable_v<Bar>);
+static_assert(std::is_move_assignable_v<Bar>);
+```
+
+### 7.3 平凡性
+
+```cpp
+struct Thing {
+   Thing() = default;
+
+   Thing(Thing const&) = default;
+   auto operator=(Thing const&) -> Thing& = default;
+
+   Thing(Thing&&) = default;
+   auto operator=(Thing&&) -> Thing& = default;
+
+   ~Thing() = default;
+};
+```
+而 析构 函数，继续在 平凡性 领域表现其王者气质。
+一旦我们将其变为 明确定义 的：
+
+```cpp
+ ~Thing() {} // 明确定义
+```
+
+则所有的构造，马上变为非平凡的：
+
+```cpp
+static_assert(!std::is_trivially_default_constructible_v<Thing>);
+static_assert(!std::is_trivially_copy_constructible_v<Thing>);
+static_assert(!std::is_trivially_move_constructible_v<Thing>);
+```
+
+## 8. SFINAE
+
+### 8.1 函数重载
+
+之所以会存在 SFINAE ，关键在于两点：
+
+1. C++ 允许函数重载；
+2. C++ 有函数模版；
+
+而允许 函数重载 ，就意味着，同一个函数名，可能存在多个版本的定义。
+
+因而，当你的代码中出现 函数调用 时，编译器需要弄明白，此 函数调用 究竟调用的是那个版本。而这个弄明白的过程， 被称作 Overload Resolution ( 重载决议 ) 。
+
+1. 编译器首先会根据 C++ 规范所定义的 名字查找 规则，找到所有符合名字查找规则的同名函数，作为 候选集 。如果 候选集 为空，编译器直接报错。
+
+2. 将明确不匹配的版本（比如参数个数不匹配）踢出 候选集 。
+
+3. 如果剩余的 候选集 里存在 函数模版 ，则需要对 模版参数 进行推演（如果调用时用户没有全部明确指定的话）。 如果类型推演失败，则将此函数模版移出 候选集 。 如果类型推演成功，则将指定的，或推演出的类型，对模版参数进行 替换 （ Substitution ）。 SFINAE 正是发生在这个环节：如果替换失败，编译器不会给出任何诊断信息，只是简单的将这个 函数模版 踢出 候选集 。如果替换成功，此模版函数 就被实例化为一个普通函数。( 函数模版 自身并不是 函数 )
+
+4. 到这一步依然还剩下的 候选集 ，被称作 viable candidates （ 可行候选集 ）。编译器下一步的任务是从 可行候选集 中 找到 最佳匹配 的版本。而这可能会导致三种结局：
+
+- 找到了 最佳匹配 版本。编译器将选择这个版本。
+
+- 可行候选集 为空。这将导致编译错误，编译器会抱怨找不到合适的定义。
+
+- 存在超过一个 最佳匹配 版本。这会导致 二义性 ，也会造成编译错误。
+
+5. 如果找到了 最佳匹配 版本，编译器还会进行其它检查（可见性，是否被声明为 =delete 等等）。
+
+从这个过程我们就可以明确 SFINAE 的含义：某个函数调用的 候选集 中，如果存在 模版函数 ，则会对模版参数进行推演并替换， 而 替换失败 不会直接导致 编译错误 ，只会导致编译静悄悄地将此 模版函数 从 候选集 中移出。
+

@@ -49,6 +49,17 @@ int main()
 
 ```
 
+```cpp
+int &&rr1 = 42; //正确：字面常量的右值
+int &&rr2 = rr1; //错误：表达式rr1是左值
+```
+
+为了能避免此类错误，标准库引入std::move()
+
+```cpp
+int &&rr2 = std::move(rr1); //正确
+```
+
 那么什么是移动语义呢？其实就是std::move()的用法，一句话就可以概括：它能把一个任意值（包括左值、有值、左值引用），转换成右值引用。仅此而已。
 
 我们来举一个例子，右值引用是如何帮我们“偷”资源的。
@@ -175,3 +186,262 @@ int main()
 引用是指针的一个语法糖，能用引用实现的功能基本上都能用引用实现。引用可以让代码更简洁，我们的使用原则是，如果可以用引用，那就用引用，不能用引用的地方才用指针。
 
 另外就是一些小的区别了，比如指针可能为空(nullptr)，而引用不会；指针可以变，而引用不能。
+
+
+---
+
+另一个例子
+
+```cpp
+#include <string>
+#include <vector>
+#include <iostream>
+#include <variant>
+using namespace std;
+
+class A {
+public:
+	int x;
+	A(int x) : x(x)
+	{
+		cout << "Constructor" << endl;
+	}
+	A(A& a) : x(a.x)
+	{
+		cout << "Copy Constructor" << endl;
+	}
+	A& operator=(A& a)
+	{
+		x = a.x;
+		cout << "Copy Assignment operator" << endl;
+		return *this;
+	}
+	A(A&& a) : x(a.x)
+	{
+		//这里没有做a.x = 0;操作，不是很规范，具体看下一段代码
+		cout << "Move Constructor" << endl;
+	}
+	A& operator=(A&& a)
+	{
+		x = a.x;
+		cout << "Move Assignment operator" << endl;
+		return *this;
+	}
+};
+
+int main()
+{
+	A a(1);//调用构造
+	A e(2);//调用构造
+	e = A(a);//先调用拷贝构造 在调用移动赋值运算符 
+	A d = move(e);//这等价于A d(move(e)); 调用Move Constructor 
+	system("pause");
+	return 0;
+}
+
+/*
+Constructor
+Constructor
+Copy Constructor
+Move Assignment operator
+Move Constructor
+*/
+```
+
+例子2
+```cpp
+#include <string>
+#include <vector>
+#include <iostream>
+#include <variant>
+using namespace std;
+
+class A {
+public:
+	int x;
+	A(int x) : x(x)
+	{
+		cout << "Constructor" << endl;
+	}
+	A(A& a) : x(a.x)
+	{
+		cout << "Copy Constructor" << endl;
+	}
+	A& operator=(A& a)
+	{
+		x = a.x;
+		cout << "Copy Assignment operator" << endl;
+		return *this;
+	}
+	A(A&& a) : x(a.x)
+	{
+		a.x = 0;
+		cout << "Move Constructor" << endl;
+	}
+	A& operator=(A&& a)
+	{
+		x = a.x;
+		cout << "Move Assignment operator" << endl;
+		return *this;
+	}
+};
+
+int main()
+{
+	A* a = new A(1);
+	A* b = new A(1);
+	A* c = new A(1);
+
+	shared_ptr<A> p1(a);
+	shared_ptr<A> p2(b);
+	shared_ptr<A> p3(c);
+
+
+	
+	cout << "before move " << p1.get() << endl;
+	A res1 = std::move(*p1);
+	cout << "after move " << p1.get() << endl;
+
+	// shared_ptr&& res2 = std::move(p2);执行后，res2本身是一个右值，当你赋值的时候，res2本身就是p2的别名。
+	cout << "before move " << p2.get() << endl;
+	shared_ptr<A>&& res2 = std::move(p2);
+	cout << "after move " << p2.get() << endl;
+
+    // shared_ptr res3= std::move(p3);执行后，res3以右值构造函数接收参数，所以stl根据右值规则，拿走了p3的值，并且制空p3. 这个置空 是因为这个智能指针类在右值构造函数自己实现了资源的转移操作 所以才置空的。
+	cout << "before move " << p3.get() << endl;
+	shared_ptr<A> res3= std::move(p3);
+	cout << "after move " << p3.get() << endl;
+	
+	system("pause");
+	return 0;
+
+}
+
+/*
+Constructor
+Constructor
+Constructor
+before move 009ED6B0
+Move Constructor
+after move 009ED6B0
+before move 009ED7C8
+after move 009ED7C8
+before move 009ED7F8
+after move 00000000
+
+*/
+```
+
+例子3
+```cpp
+#include <iostream>
+#include <string>
+#include <cstring>
+using namespace std;
+ 
+class String
+{
+public:
+	char* str;
+	String() : str(new char[1])
+	{
+		str[0] = 0;
+	}
+ 
+	// 构造函数
+	String(const char* s)
+	{
+		cout << "调用构造函数" << endl;
+		int len = strlen(s) + 1;
+		str = new char[len];
+		strcpy_s(str, len, s);
+	}
+ 
+	// 复制构造函数
+	String(const String & s)
+	{
+		cout << "调用复制构造函数" << endl;
+		int len = strlen(s.str) + 1;
+		str = new char[len];
+		strcpy_s(str, len, s.str);
+	}
+ 
+	// 复制赋值运算符
+	String & operator = (const String & s)
+	{
+		cout << "调用复制赋值运算符" << endl;
+		if (str != s.str)
+		{
+			delete[] str;
+			int len = strlen(s.str) + 1;
+			str = new char[len];
+			strcpy_s(str, len, s.str);
+		}
+		return *this;
+	}
+ 
+	// 移动构造函数
+	// 和复制构造函数的区别在于，其参数是右值引用
+	String(String && s) : str(s.str)
+	{
+		cout << "调用移动构造函数" << endl;
+		s.str = new char[1];
+		s.str[0] = 0;
+	}
+ 
+	// 移动赋值运算符
+	// 和复制赋值运算符的区别在于，其参数是右值引用
+	String & operator = (String && s)
+	{
+		cout << "调用移动赋值运算符" << endl;
+		if (str != s.str)
+		{
+			// 在移动赋值运算符函数中没有执行深复制操作，
+			// 而是直接将对象的 str 指向了参数 s 的成员变量 str 指向的地方，
+			// 然后修改 s.str 让它指向别处，以免 s.str 原来指向的空间被释放两次。
+			str = s.str;
+			s.str = new char[1];
+			s.str[0] = 0;
+		}
+		return *this;
+	}
+ 
+	// 析构函数
+	~String()
+	{
+		delete[] str;
+	}
+};
+ 
+template <class T>
+void MoveSwap(T & a, T & b)
+{
+	T tmp = move(a);  //std::move(a) 为右值，这里会调用移动构造函数
+	a = move(b);  //move(b) 为右值，因此这里会调用移动赋值运算符
+	b = move(tmp);  //move(tmp) 为右值，因此这里会调用移动赋值运算符
+}
+ 
+template <class T>
+void Swap(T & a, T & b) 
+{
+	T tmp = a;  //调用复制构造函数
+	a = b;  //调用复制赋值运算符
+	b = tmp;  //调用复制赋值运算符
+}
+ 
+int main()
+{
+	String s;
+	// 如果没有定义移动赋值运算符，则会导致复制赋值运算符被调用，引发深复制操作。
+	s = String("this");  //调用移动赋值运算符
+	cout << "print " << s.str << endl;
+	String s1 = "hello", s2 = "world";
+	//MoveSwap(s1, s2);  //调用一次移动构造函数和两次移动赋值运算符
+	Swap(s1, s2);//调用一次复制构造函数，两次复制赋值运算符
+	cout << "print " << s2.str << endl;
+ 
+	system("pause");
+	return 0;
+}
+
+```

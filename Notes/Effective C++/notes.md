@@ -189,3 +189,86 @@ Foo foo{10} 是 定义 和 初始化。
 
 
 ## 1. 让自己更习惯C++
+
+### 1.1 Item 01: 视C++为一个语言联邦
+
+- C语言：C++的基础，区块、语句、预处理器、内置数据类型、数组和指针等特性都来自C；
+- Object-Oriented C++：面向对象编程的特性，主要包括类、封装、继承、多态和virtual函数（动态绑定）等；
+- Template C++：泛型编程（generic programing）的特性，带来了模板元编程（template metaprogramming，TMP）
+- STL（Standard Template Library，标准模板库）：template程序库，其封装了容器（containers）、迭代器（iterators）、算法（algorithms）和函数对象（function objects）等
+
+
+### 1.2 Item02：尽量以const，enum，inline替换 #define
+
+- 或者说，尽量多用编译器，少用预处理器 "Prefer the compiler to the preprocessor"
+
+	尽量减少 preprocessor（预处理器）（特别是 #define）的使用，但还不能完全消除。#include 依然是基本要素，而 #ifdef/#ifndef 也继续扮演着重要的角色。现在还不是让 preprocessor（预处理器）完全退休的时间，但你应该给它漫长而频繁的假期。
+
+	```cpp
+	#define A 1.653   
+	```
+	在上面这个语句中，字符串'A'是不会被编译器看到的，而编译器看到的是'1.653'，这就会导致在调试过程中，编译器的错误信息只显示'1.653'而不是'A'，让你不知从何下手。
+
+	解决方法：定义全局常量
+
+- 当定义或声明全局变量时，常数指针和类的常数需要另加考虑
+	
+	- 对于指针
+
+		`const char* const myWord = "Hello";`  =>  `const std::string myWord("Hello");`
+
+	
+	- 对于类的常数
+
+		声明为类的私有静态成员，这样既保证变量只能被这个类的对象接触到，又不会生成多个拷贝
+
+		```cpp
+		class Player{
+		private:
+			static const int NumTurns = 5;      // constant declaration
+			int scores[NumTurns];               // use of constant
+		}
+		```
+
+		因为此处是类的成员声明范围内，所以上面只是变量的声明和初始化，而并非定义，因此如果想获取变量的地址，需要在别处另加定义。这个定义不能有任何赋值语句，因为在类内已经规定为const:
+
+		```const int Player::NumTurns;```
+
+	- 枚举技巧(the enum hack)
+
+		试想当你在一个类内声明某变量，但你的编译器不允许在声明时赋值初始化，同时接下来的某个语句却需要用到这个变量的具体数值，例如:
+
+		```cpp
+		int noPlayer;
+		int scores[noPlayer];
+		```
+
+		此时编译器便会报错，需要在编译期间noPlayer有具体数值，这个时候就需要使用如下技巧:
+
+		```cpp
+		enum {noPlayer = 5};
+		int scores[noPlayer];
+		```
+
+		这样编译器就能顺利通过，因为enum可以被当成int类型来使用
+
+		但注意enum类型在内存中没有实体，无法取得enum类型的地址，因此这个方法更相当于取一个本地的#define数值
+
+	- 对于#define的宏函数，尽量使用inline修饰的函数来代替#define
+
+		```cpp
+		#define CALL_MAX(a,b) f((a) > (b) ? (a) : (b))
+
+		int a=5, b=0;
+		CALL_MAX(++a, b);              //a增加了2次
+		CALL_MAX(++a, b+10);           //a增加了1次 
+		```
+
+		解决方法：
+
+		```cpp
+		template<typename T>
+		inline void callMax(const T& a, const T& b){
+			f(a>b ? a:b);
+		}
+		```

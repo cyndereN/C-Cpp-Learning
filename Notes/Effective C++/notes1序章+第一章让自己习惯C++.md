@@ -200,7 +200,7 @@ Foo foo{10} 是 定义 和 初始化。
 
 ### 1.2 Item02：尽量以const，enum，inline替换 #define
 
-- 或者说，尽量多用编译器，少用预处理器 "Prefer the compiler to the preprocessor"
+1. 或者说，尽量多用编译器，少用预处理器 "Prefer the compiler to the preprocessor"
 
 	尽量减少 preprocessor（预处理器）（特别是 #define）的使用，但还不能完全消除。#include 依然是基本要素，而 #ifdef/#ifndef 也继续扮演着重要的角色。现在还不是让 preprocessor（预处理器）完全退休的时间，但你应该给它漫长而频繁的假期。
 
@@ -211,7 +211,7 @@ Foo foo{10} 是 定义 和 初始化。
 
 	解决方法：定义全局常量
 
-- 当定义或声明全局变量时，常数指针和类的常数需要另加考虑
+2. 当定义或声明全局变量时，常数指针和类的常数需要另加考虑
 	
 	- 对于指针
 
@@ -272,3 +272,131 @@ Foo foo{10} 是 定义 和 初始化。
 			f(a>b ? a:b);
 		}
 		```
+
+### 1.3 Item03: Use const whenever possible
+
+1. 指针常量、常量指针
+
+2. 迭代器与const
+
+	迭代器在功能上相当于指向某类型T的指针 T*。因此，如果想定义某迭代器指向一个常数，使用const iterator是不可以的，这样只相当于定义一个迭代器为一个常量(T* const)，例如:
+
+	```cpp
+	const std::vector<int>::iterator it = v.begin(); //注意，此声明只表示迭代器本身是常量        
+	*it = 10;                                        //编译通过，迭代器是常量，但数据可以被修改
+	++it;                                            //编译失败！因为const迭代器不允许被改变！
+	```
+
+	解决方法，使用const_iterator:
+
+	```cpp
+	std::vector<int>::const_iterator it = v.begin();  //使用了const_iterator类型
+	*it = 10;                                         //编译失败，数据不允许被改变！
+	++it;                                             //编译通过，迭代器本身可以被改变
+	```
+
+3. 尽量使用const可以帮助调试
+
+	```cpp
+	class Rational{....};
+	Rational operator*(const Rational& lhs, const Rational& rhs){...}
+	```
+
+	在某处使用此乘法操作符时，误把比较操作符"=="打成了赋值操作符"="：
+
+	```cpp
+	Rational a,b,c;
+	if(a*b = c){......}      
+	```
+
+	但编译器在此并不会报错，因为只有当a,b,c是C++自有类型(比如int)才会报错，对于用户自定义的类，编译器会认为此操作是将一个Rational赋值给另一个Rational
+
+	这就会导致不正确的结果却没有任何编译器错误信息，给调试增加麻烦
+
+	解决方法: 将该操作符定义为返回const，这样对其赋值将会是非法操作
+
+	```cpp
+	const Rational operator*(const Rational& lhs, const Rational& rhs){...}
+	```
+
+4. 类的成员函数与const
+
+	用const修饰的对象只能调用const修饰的成员函数
+
+	```cpp
+	const char& operator[](size_t pos) const;
+	char& operator[](size_t pos);
+
+	Text t("Hello");
+	const Text ct("Hello");
+
+	std::cout<<t[0];            //调用了不加const修饰的索引操作符
+	std::cout<<ct[0];           //调用了const版本, 但如果只有不加const的操作符，将会报错discard qualifier
+	t[0] = 'x';                 //成立，但注意此索引操作符必须声明为引用才可以支持赋值操作
+	ct[0] = 'x';                //错误！常量不能被修改
+
+	```
+
+5. 成员变量的常量性
+
+	bitwise constness v.s. logical constness
+
+	```cpp
+	const Text ct("Hello");        //构造某常量对象
+	char* pc = &ct[0];             //取其指针
+	*pc = 'K';                     //通过指针修改常量对象，编译不会报错，结果为"Kello"
+	```
+
+	bitwise constness还有另一个局限性，例如:
+
+	```cpp
+	class Text{
+	public:
+		std::sizt_t length() const;
+	private:
+		char* pText;
+		std::size_t length;
+		bool lengthValid;
+	....
+	};
+
+	std::size_t Text::length() const{
+	if(!lengthValid){                      //做某些错误检测
+		length = std::strlen(pText);         
+		lengthValid = true;                   
+	}
+
+	return length;                         //这行才是代码核心
+	}
+	```
+
+	在这段代码中，length()函数要做某些错误检测，因此可能会修改成员数据。即使真正的功能核心只是返回字符长度，编译器依然认为你可能会修改某些成员数据而报错。
+
+	因此，更好的方法是逻辑常量性(Logical constness)，即允许某些数据被修改，只要这些改动不会反映在外，例如，以上问题可以用mutable关键字来解决:
+
+	```cpp
+	mutable std::size_t length;
+	mutable bool lengthValid;
+	```
+
+	即使编译器使用数据常量性的标准，我们编程的时候应该采用逻辑常量性，对相关不可避免更改的成员数据加上mutable关键字来修饰。
+
+6. 在定义常量与非常量成员函数时，避免代码重复
+
+	既然两个版本的成员函数都要有，为什么又要避免重复?
+
+	其实在这里指的是函数的实现要避免重复。试想某函数既要检查边界范围，又要记录读取历史，还要检查数据完整性，这样的代码复制一遍，既不显得美观，又增加了代码维护的难度和编译时间。因此，我们可以使用非常量的函数来调用常量函数。
+
+	```cpp
+	const char& operator[](std::size_t pos) const{
+		....
+		return text[position];
+	};
+
+	char& operator[](std::size_t pos){
+	return
+		const_cast<char&>(                              //const_cast去掉const关键字，并转换为char&
+			static_cast<const Text&>(*this)[position];    //给当前变量加上const关键字，才可以调用const操作符
+		);
+	}
+	```

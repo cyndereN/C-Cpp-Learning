@@ -400,3 +400,128 @@ Foo foo{10} 是 定义 和 初始化。
 		);
 	}
 	```
+
+### 1.4 Item04: Make sure objects are initialized before used
+
+1. 自有类型(built-in type)的初始化
+
+	C++的自有类型继承于C，因此不能保证此类型的变量在定义时被初始化。使用未初始化的数据可能会导致程序不正常运作，因此在定义变量的时候，需要对其进行初始化，例如将如下代码:
+
+	```cpp
+	int x;
+	double d;
+
+	// 改为:
+
+	int x=0;
+	double d;
+	std::cin>>d;
+	```
+
+2. 类的初始化
+
+	赋值 v.s. 初始化
+
+	对于用户自定义的类，我们需要构造函数（constructor）来完成类的初始化，例如：
+
+	```cpp
+	class Coordinate{
+	private:
+		int x;
+		double y;
+		const std::list<double>& num;
+
+	public:
+		Coordinate(const int& _x, const int& _y, const std::list<double>& _num);
+	};
+
+	//以下构造函数为成员x, y, num赋值来完成对象的初始化
+	Coordinate::Coordinate(const int& _x, const int& _y, const std::list<double>& _num){
+		x = _x;
+		y = _y;
+		num = _num;
+	}
+	```
+
+	此构造函数并没有真正完成“初始化”，只不过是做了“赋值”的操作。而C++规定，在进入构造函数之前，如果用户没有规定初始化过程，C++将自动调用各成员对应类型的默认构造函数。
+
+	这样一来，此构造函数就相当于先调用了C++的默认构造函数，又做了一次赋值操作覆盖掉了先前的结果，造成了浪费。
+
+	解决方法：使用初始化列表(initialization list)，C++就不必额外调用默认构造函数了
+
+	```cpp
+	Coordinate::Coordinate(const int& _x, const int& _y, const std::list<double>& _num):
+	x(_x), y(_y), num(_num) {}
+	```
+
+	构造函数是可以被重载(overload)的，对于这个我们自己定义的类，还需要一个没有参数输入的默认构造函数，因此我们可以定义:
+	
+	```cpp
+	Coordinate::Coordinate():x(0), y(0), num() {}
+	//num()调用了std::list<double>类型的默认构造函数
+	```
+
+3. 某些初始化语法是必要的
+
+	例如在定义引用(reference)和常量(const)时，不将其初始化会导致编译器报错
+
+	```cpp
+	const int a;                //报错，需要初始化！
+	int& b;                     //报错，需要初始化！
+
+	//现在对其进行初始化：
+
+	const int a = 3;            //编译通过
+
+	int c = 3;
+	int& b = c;                 //编译通过！
+	```
+
+4. 数据初始化的顺序
+
+	在继承关系中，基类(base class)总是先被初始化。
+
+	在同一类中，成员数据的初始化顺序与其声明顺序是一致的，而不是初始化列表的顺序。因此，为了代码一致性，要保证初始化列表的顺序与成员数据声明的顺序是一样的。
+
+	```cpp
+	class myClass{
+	private:
+		int a;
+		int b;
+		int c;
+	public:
+		myClass(int _a, int _b, int _c);
+	};
+
+	//注意，即使初始化列表是c->b->a的顺序，真正的初始化顺序还是按照a->b->c
+	myClass::myClass(int _a, int _b, int _c): c(_c), a(_a), b(_b) {}
+	```
+
+5. 初始化非本地静态对象
+
+还有一种特殊情况，尤其是在大型项目中比较普遍：在两个编译单元中，分别包含至少一个非本地静态对象，当这些对象发生互动时，它们的初始化顺序是不确定的，所以直接使用这些变量，就会给程序的运行带来风险。
+
+先简要解释一下概念，
+
+编译单元(translation unit): 可以让编译器生成代码的基本单元，一般一个源代码文件就是一个编译单元。
+
+非本地静态对象(non-local static object): 静态对象可以是在全局范围定义的变量，在名空间范围定义的变量，函数范围内定义为static的变量，类的范围内定义为static的变量，而除了函数中的静态对象是本地的，其他都是非本地的。
+
+此外注意，静态对象存在于程序的开始到结束，所以它不是基于堆(heap)或者栈(stack)的。初始化的静态对象存在于.data中，未初始化的则存在于.bss中。
+
+回到问题，现有以下服务器代码:
+
+```cpp
+class Server{...};     
+extern Server server;                 //在全局范围声明外部对象server，供外部使用
+```
+
+又有某客户端：
+```cpp
+class Client{...};
+Client::Client(...){
+    number = server.number;
+}
+
+Client client;                       //在全局范围定义client对象，自动调用了Client类的构造函数
+```

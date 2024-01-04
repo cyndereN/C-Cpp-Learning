@@ -499,29 +499,57 @@ Foo foo{10} 是 定义 和 初始化。
 
 5. 初始化非本地静态对象
 
-还有一种特殊情况，尤其是在大型项目中比较普遍：在两个编译单元中，分别包含至少一个非本地静态对象，当这些对象发生互动时，它们的初始化顺序是不确定的，所以直接使用这些变量，就会给程序的运行带来风险。
+	还有一种特殊情况，尤其是在大型项目中比较普遍：在两个编译单元中，分别包含至少一个非本地静态对象，当这些对象发生互动时，它们的初始化顺序是不确定的，所以直接使用这些变量，就会给程序的运行带来风险。
 
-先简要解释一下概念，
+	先简要解释一下概念，
 
-编译单元(translation unit): 可以让编译器生成代码的基本单元，一般一个源代码文件就是一个编译单元。
+	编译单元(translation unit): 可以让编译器生成代码的基本单元，一般一个源代码文件就是一个编译单元。
 
-非本地静态对象(non-local static object): 静态对象可以是在全局范围定义的变量，在名空间范围定义的变量，函数范围内定义为static的变量，类的范围内定义为static的变量，而除了函数中的静态对象是本地的，其他都是非本地的。
+	非本地静态对象(non-local static object): 静态对象可以是在全局范围定义的变量，在名空间范围定义的变量，函数范围内定义为static的变量，类的范围内定义为static的变量，而除了函数中的静态对象是本地的，其他都是非本地的。
 
-此外注意，静态对象存在于程序的开始到结束，所以它不是基于堆(heap)或者栈(stack)的。初始化的静态对象存在于.data中，未初始化的则存在于.bss中。
+	此外注意，静态对象存在于程序的开始到结束，所以它不是基于堆(heap)或者栈(stack)的。初始化的静态对象存在于.data中，未初始化的则存在于.bss中。
 
-回到问题，现有以下服务器代码:
+	回到问题，现有以下服务器代码:
 
-```cpp
-class Server{...};     
-extern Server server;                 //在全局范围声明外部对象server，供外部使用
-```
+	```cpp
+	class Server{...};     
+	extern Server server;                 //在全局范围声明外部对象server，供外部使用
+	```
 
-又有某客户端：
-```cpp
-class Client{...};
-Client::Client(...){
-    number = server.number;
-}
+	又有某客户端：
+	```cpp
+	class Client{...};
+	Client::Client(...){
+		number = server.number;
+	}
 
-Client client;                       //在全局范围定义client对象，自动调用了Client类的构造函数
-```
+	Client client;                       //在全局范围定义client对象，自动调用了Client类的构造函数
+	```
+
+	以上问题在于，定义对象client自动调用了Client类的构造函数，此时需要读取对象server的数据，但全局变量的不可控性让我们不能保证对象server在此时被读取时是初始化的。试想如果还有对象client1, client2等等不同的用户读写，我们不能保证当前server的数据是我们想要的。
+
+	解决方法: 将全局变量变为本地静态变量
+
+	使用一个函数，只用来定义一个本地静态变量并返回它的引用。因为C++规定在本地范围(函数范围)内定义某静态对象时，当此函数被调用，该静态变量一定会被初始化。
+
+	```cpp
+	class Server{...};
+
+	Server& server(){                         //将直接的声明改为一个函数
+		static Server server;
+		return server;
+	}
+	```
+
+	```cpp
+	class Client{...};
+
+	Client::client(){                        //客户端构造函数通过函数访问服务器数据
+		number = server().number;
+	}
+
+	Client& client(){                        //同样将客户端的声明改为一个函数
+		static Client client;
+		return client;
+	}
+	```

@@ -371,3 +371,80 @@ private:
 SlowHealthLoser shl;
 GameCharacter gc1(&shl);
 ```
+
+
+### 6.5 Item36 Never redefine an inherited non-virtual function
+
+### 6.6 Item37 Never redefine a function's inherited default parameter value
+
+```cpp
+enum class ShapeColor 
+{ 
+    Red = 0,
+ 	Green,
+ 	Blue
+};
+
+class Shape {
+public:
+    void draw(ShapeColor color = ShapeColor::Red) const {	// non-virtual，不可重新定义
+        doDraw();	// 调用一个virtual
+    }
+    ...
+private:
+    virtual void doDraw(ShapeColor color) const = 0;	// 可被重新定义
+};
+
+class Rectangle: public Shape {
+public:
+    ...
+private:
+    virtual void doDraw(ShapeColor color) const;		// 注意，不须指定缺省参数值
+};
+```
+
+### 6.7 Item38 Model "has-a" or "is-implemented-in-terms-of through composition
+
+- has-a（有一个） 关系：
+
+    对象属于应用域（application domain），即对象相当于塑造现实世界中的某些事物。例如Person类有Address、PhoneNumber等类型的成员变量。
+
+- is-implemented-in-terms-of（根据某物实现出）关系：
+
+    对象属于实现域（implementation domain），即其他对象纯粹是实现细节的人工设计。例如缓冲区（Buffers）、互斥器（Mutexes）等。
+
+### 6.8 Item39 Use private inheritance judiciously
+
+首先需要明确的是private继承的两个规则：
+
+1. 如果类之间的继承关系是private，则编译器不会自动地将一个派生类对象隐式转换成一个基类对象；
+2. 由private继承而来的所有成员，在派生类中都会变成private属性；
+
+
+### 6.9 Item40 Use multiple inheritance(MI) judiciously
+
+```cpp
+class B1 {
+public:
+    void foo() {
+        std::cout << "B1" << std::endl;
+    }
+};
+
+class B2 {
+public:
+    void foo() {
+        std::cout << "B2" << std::endl;
+    }
+};
+
+class D:public B1, public B2 {
+};
+
+int main() {
+    D d;
+    d.foo();			// 编译报错，无法判断要调用哪个foo
+  	d.B1::foo();	// 指定B1
+    d.B2::foo();	// 指定B2
+}
+```

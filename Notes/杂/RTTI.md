@@ -207,7 +207,7 @@ void Handle(A *a)
      if (typeid(*a) == typeid(A))
      {
           cout<<"I am a A truly."<<endl;
- }
+     }
      else if (typeid(*a) == typeid(B))
      {
           cout<<"I am a B truly."<<endl;

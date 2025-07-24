@@ -1,15 +1,17 @@
 # R/L Value
+
+An object that is an ***r-value*** is disposable, so you can either copy or move from. While ***l-value*** can only be copied from.
+
 ![RLValue](./rlvalue.png)
 ![RLValueRef](./rlvalueref.png)
 ![Errors](./errors.png)
 
+rvalue ref binds to an rvalue, but the rvalue ref itself is an lvalue bc it has an name and an identity
+
+
 # Move
 
-An object that is an ***r-value*** is disposable, so you can either copy or move from. While ***l-value*** can only be copied from.
-
 ![move](./move.png)
-
-rvalue ref binds to an rvalue, but the rvalue ref itself is an lvalue bc it has an name and an identity
 
 move overrides that and treat this as temporary value
 

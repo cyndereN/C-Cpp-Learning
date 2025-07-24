@@ -1,10 +1,9 @@
 ## Basic Idea
 
-An identifier of which the type is the rvalue reference is still a lvalue, since the identifier can be identified.
+An identifier of which the type is the r-value reference is still a l-value, since the identifier can be identified.
 Note that the value which can be identified must be a lvalue([Stroustrup 2013] / Part II Basic Facilities / 6 Types and Declarations / 6.4.1 Lvalues and Rvalues).
 
 ## Example without Perfect Forwarding
-
 
 For example, the following code will fail when compiled.
 

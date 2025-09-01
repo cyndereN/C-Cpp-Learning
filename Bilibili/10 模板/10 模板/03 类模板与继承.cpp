@@ -9,7 +9,7 @@ class Base {
 class Son :public Base<int> {
 
 };
-// classic Son:public Base // 错误
+// class Son:public Base // 错误
 template<class T1, class T2>
 class Son2 :public Base<T2> {
 public:

@@ -10,7 +10,7 @@ Max<>(static_cast<double>(1), 2.0);
 Max<double>(1, 2.0);
 ```
 
-# 2 类末班与操作符重载
+# 2 类模板与操作符重载
 
 ```cpp
 const std::size_t DefaultStackSize = 1024;

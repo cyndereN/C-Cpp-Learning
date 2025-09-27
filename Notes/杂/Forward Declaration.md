@@ -12,9 +12,9 @@ Offers a technique to "hide" the implementation from the client code - whenever 
 // my_class.h
 class my_class
 {
-     //  ... all public and protected stuff goes here ...
+    //  ... all public and protected stuff goes here ...
 private:
-     class impl;             ///< 类内前向声明
+    class impl;             ///< 类内前向声明
     unique_ptr<impl> pimpl;  // opaque type here 智能指针
 };
 ```
